@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "Permiso";
+}
+
+@{
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Title -->
+    <title>RUMP Perú::Login</title>
+    <!-- Favicon -->
+    <link rel="icon" href="templatePage/img/core-img/favicon.png">
+    <!-- Custom fonts for this template-->
+    @Styles.Render("~/Content/templateSoft/vendor/fontawesome-free/css/all.min.css")
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    @Styles.Render("~/Content/css/stylePropio.css")
+    <!-- Custom styles for this template-->
+    @Styles.Render("~/Content/templateSoft/css/sb-admin-2.css")
+</head>
+<body style="background-repeat: no-repeat; background-position: top center;">
+    <div id="page-loader">
+        <div id="loader"></div>
+    </div>
+    <div class="container">
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5" style="background: #eeeeee;">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 mb-4" style="color:#2e6da4; font-weight: bold;">¡Bienvenido a <span class="nom-empresa"></span>!</h1>
+                                    </div>
+                                    <form class="user" id="frmPermiso">
+                                        <div class="alert alert-block alert-info">
+                                            <i class="icon-info-sign"></i> Seleccione la Empresa y Local al que desea acceder.
+                                        </div>
+                                        <div id="msg"></div>
+                                        <div class="form-group">
+                                            <label class="control-label">Empresa</label>
+                                            <select id="empresa" name="local" class="form-control input-sm m-bot15"></select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Local</label>
+                                            <select id="local" name="local" class="form-control input-sm m-bot15"></select>
+                                        </div>
+                                        <a href="#" id="btnAceptar" class="btn btn-3-primary btn-user btn-block" style="color: #fff;background-color: #337ab7;border-color: #2e6da4;">
+                                            Aceptar
+                                        </a>
+                                        <div class="text-center" style="margin-top: 15px;">
+                                            <a href="http://charpetechnology.com/"><img src="~/Content/img/charpe.png" alt="Logo Charpe Enterprise"> Charpe Techonology</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="~/Content/templateSoft/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Content/templateSoft/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="~/Content/templateSoft/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="~/Content/templateSoft/js/sb-admin-2.min.js"></script>
+    <!-- Facebook -->
+    <script src="~/Content/templateSoft/vendor/facebook/all.js"></script>
+    <!-- Select 2 filtro-->
+    <script src="~/Content/assets/select2/js/select2.full.js"></script>
+    <script src="~/Content/js/general.js?v=@DateTime.Now.ToString("yyyyMMddHHmm")"></script>
+    <script src="~/Scripts/Seguridad/permiso.js"></script>
+
+</body>
+</html>
