@@ -1,6 +1,6 @@
 ﻿var prov_id, dis_id;
 var txh_clinica;
-var txh_idConfirm = "";
+var txh_idConfirm = "qqqqq";
 var valRND = Math.floor(Math.random() * 100);
 /*Inicializar Script*/
 $(function () {
