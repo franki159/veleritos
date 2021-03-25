@@ -108,6 +108,7 @@ function listar_tipo_documento() {
                 return;
             }
 
+
             var html_body = "";
             for (var i = 0; i < data.Resultado.length; i++) {
                 html_body += "<li class='list-group-item'>";
