@@ -12,9 +12,9 @@ $(document).ready(function () {
 
     //$("div").remove(":contains('2147483647')");
     
-    $(".nom-empresa").html("Botica");
-    $(".nom-empresa-small").html("Botica");
-    $("title").text('HLeyva');
+    $(".nom-empresa").html("Veleritos");
+    $(".nom-empresa-small").html("Veleritos");
+    $("title").text('HVelerito');
 });
 
 $(function () {
@@ -28,6 +28,18 @@ $(function () {
     //INPUT DECIMAL
     $(".decimalFCP").keypress(function (event) {
         return event.charCode === 46 || (event.charCode >= 48 && event.charCode <= 57);
+    });
+    //SELECT2
+    $(".sel_autocomplete").select2({
+        containerCssClass: "btn btn-circle green",
+        placeholder: "Seleccione",
+        language: "es"
+    });
+
+    $(".sel_autocomplete_bus").select2({
+        containerCssClass: "btn btn-circle green",
+        placeholder: "TODOS",
+        language: "es"
     });
 
     //HORA FCP
@@ -222,17 +234,55 @@ function msg_OpenDay(tipo, contenido) {
 
     $('body').append(
         '<div class= "modal fade" style = "z-index: 1051;" id = "modalAlert" role = "dialog" > ' +
-        '<div class= "modal-dialog">' +
+        '<div class= "modal-dialog modal-confirm-fcp flipInX animated">' +
         '   <div class="modal-content">' +
-        '       <div class="modal-' + cssClas + '">' +
-        '           <button type="button" class="close" data-dismiss="modal">&times;</button>' +
-        '           <h4 class="modal-title"><i class="' + icono + '"></i> ' + heading + '</h4>' +
-        '       </div>' +
+        '       <div class="icon-box btn-' + cssClas + '" data-dismiss="modal">' +
+		'			<i class="material-icons ' + icono + '"></i>' +
+		'		</div>'+
+        '       <h4 class="modal-title w-100">' + heading + '</h4>' +
+        //'       <div class="modal-' + cssClas + '">' +
+        //'           <button type="button" class="close" data-dismiss="modal">&times;</button>' +
+        //'           <h4 class="modal-title"><i class="' + icono + '"></i> ' + heading + '</h4>' +
+        //'       </div>' +
         '       <div class="modal-body">' +
-        '           <p>' + contenido + '</p>' +
+        '           <p class="text-center">' + contenido + '</p>' +
         '       </div>' +
         '       <div class="modal-footer">' +
-        '           <button type="button" class="btn btn-' + cssClas + ' btn-sm" data-dismiss="modal">Aceptar</button>' +
+        '           <button class="btn btn-' + cssClas + ' btn-block" data-dismiss="modal">Aceptar</button>' +
+        '       </div>' +
+        '   </div>' +
+        '</div> ' +
+        '</div >');
+
+    $("#modalAlert").modal();
+}
+function img_OpenDay(tipo) {
+    var heading, cssClas, icono = '';
+    switch (tipo) {
+        case 'c':
+            heading = 'Correcto';
+            icono = 'far fa-check-circle';
+            cssClas = 'success'; break;
+        case 'a':
+            heading = 'Alerta';
+            icono = 'fas fa-exclamation-circle';
+            cssClas = 'warning'; break;
+        case 'e':
+            heading = 'Error';
+            icono = 'fas fa-times-circle';
+            cssClas = 'danger'; break;
+        default:
+    }
+
+    $('#modalAlert').remove();
+
+    $('body').append(
+        '<div class= "modal modal-scroll fade" style="z-index: 1051;" id="modalAlert" aria-hidden="true" aria-labelledby="myModalLabel" role = "dialog"> ' +
+        '<div class= "modal-dialog">' +
+        '   <div class="modal-content">' +
+        '       <div class="modal-body">' +
+        '           <button aria-hidden="true" data-dismiss="modal" class="close text-right" type="button"><span style="color: #000;font-size: 1.5rem;" aria-hidden="true">&times;</span></button> ' +
+        '           <img class="w-100" alt=""> ' +
         '       </div>' +
         '   </div>' +
         '</div> ' +
@@ -303,7 +353,76 @@ $(function () {
         return o;
     };
 });
+//**********************************FUNCIONES DE CADENA************************************/
+function MaysPrimera(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
 
+String.prototype.format = function () {
+    var a = this;
+    for (var k in arguments) {
+        a = a.replace(new RegExp("\\{" + k + "\\}", 'g'), arguments[k]);
+    }
+    return a;
+};
+
+function nwformatNumber(number, dec) {
+    var num;
+    if (number % 1 === 0)
+        dec = 0;
+
+    if (dec > 0) {
+        num = formatNumber(number, dec);
+    } else {
+        number = roundNumber(number, dec);
+        num = Math.floor(number).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    }
+
+    return num;
+}
+
+function formatNumber(number, dig) {
+    var n1 = roundNumber(number, dig);
+    var n = n1.toString();
+
+    var parts = (+n).toFixed(dig).split(".");
+    var num = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? "." + parts[1] : "");
+
+    return num;
+}
+
+function roundNumber(num, scale) {
+    if (("" + num).indexOf("e") === -1) {
+        return +(Math.round(num + "e+" + scale) + "e-" + scale);
+    } else {
+        var arr = ("" + num).split("e");
+        var sig = "";
+        if (+arr[1] + scale > 0) {
+            sig = "+";
+        }
+        return +(Math.round(+arr[0] + "e" + sig + (+arr[1] + scale)) + "e-" + scale);
+    }
+}
+//**********************************Validator Controler************************************/
+function val_required_FCP(p_control, name){
+    if (p_control.val() === "0" || p_control.val() === null || p_control.val().trim() === ""){
+        //Input
+        if (p_control.is("input")) 
+            p_control.after("<div class='validator-error'>Ingrese " + name + "</div>");
+        //Select
+        if (p_control.is("select")) 
+            p_control.after("<div class='validator-error'>Seleccione " + name + "</div>");
+        p_control.focus();
+        return false;
+    }
+}
+function val_maxlenght_FCP(p_control, maximo){
+    if (p_control.length > maximo) {
+        p_control.after("<div class='validator-error'>Solo " + maximo + " caracteres como máximo</div>");
+        p_control.focus();
+        return false;
+    }
+}
 //**********************************FUNCIONES DE VALIDACION************************************/
 function isEmail(email) {
     var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
@@ -312,10 +431,16 @@ function isEmail(email) {
 }
 
 function validIdInput(valor) {
-    if (valor === "" || valor === "0" || valor === null)
+    if (valor === "0" || valor === null || valor.trim() === "")
         return true;
     else
         return false;
+}
+
+function validPasswordInput(valor) {
+    var regex = /^[a-zA-Z0-9]*$/;
+
+    return !regex.test(valor);
 }
 
 function validate_hour(inputStr) {
@@ -329,6 +454,19 @@ function validate_hour(inputStr) {
     } else {
         return false;
     }
+}
+
+function validaTableMobile(valor) {
+    var lvalor = valor.split('<font style="vertical-align: inherit;">');
+    var lvalorF;
+
+    if (lvalor.length > 1) {
+        lvalorF = lvalor[2].split("</font>");
+    } else {
+        lvalorF = lvalor;
+    }
+
+    return lvalorF[0];
 }
 
 //**********************************INICIO FUNCIONES DE FORMATO************************************/
@@ -364,7 +502,7 @@ function toURLParam(strParamName) {
 }
 
 //********************************** EXPORTAR TABLE ************************************/
-function exportGridToExcel(tableID, filename = '') {
+function exportGridToExcel(tableID, filename) {
     //window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#' + tblExport).html()));
     var downloadLink;
     var dataType = 'application/vnd.ms-excel;base64';
@@ -376,14 +514,18 @@ function exportGridToExcel(tableID, filename = '') {
     document.body.appendChild(copyTable);
 
     $("#copyTable thead tr th").each(function () {
-        if ($(this).context.style.display === "none" || $(this).context.outerText.trim() === "") {
-            $(this).remove();
+        if ($(this).context !== undefined) {
+            if ($(this).context.style.display === "none" || $(this).context.outerText.trim() === "") {
+                $(this).remove();
+            }
         }
     });
 
     $("#copyTable tbody tr td").each(function () {
-        if ($(this).context.style.display === "none" || $(this).context.outerHTML.includes("button")) {
-            $(this).remove();
+        if ($(this).context !== undefined) {
+            if ($(this).context.style.display === "none" || $(this).context.outerHTML.includes("button")) {
+                $(this).remove();
+            }
         }
     });
 
@@ -419,4 +561,41 @@ function exportGridToExcel(tableID, filename = '') {
 //********************************** FIN EXPORTAR TABLE ************************************/
 function retornaEmpresa() {
     return "Leyva";
+}
+    //*********************************** IMAGEN *****************************************************
+function getExtension(filename) {
+    var idx = filename.lastIndexOf('.');
+    // handle cases like, .htaccess, filename
+    return (idx < 1) ? "" : filename.substr(idx + 1);
+}
+
+function readURLImage(input, image) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#' + image).attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function validateSize(file) {
+    var FileSize = file.files[0].size / 1024 / 1024; // in MB
+    if (FileSize > 2) {
+        $(file).val(''); //for clearing with Jquery
+        return false;
+    } else {
+        return true;
+    }
+}
+    //*********************************** Efectos BS 4 *****************************************************
+    //Button spinner
+function loadingControl(id, msg) {
+    $('#' + id).html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>' + msg).addClass('disabled');
+}
+
+function resetControl(id) {
+    $('#' + id).html('').removeClass('disabled');
 }

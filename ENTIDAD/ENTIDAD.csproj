@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EConfiguracion.cs" />
+    <Compile Include="EDocumento.cs" />
     <Compile Include="EEmpleado.cs" />
     <Compile Include="EGeneral.cs" />
     <Compile Include="ELocal.cs" />

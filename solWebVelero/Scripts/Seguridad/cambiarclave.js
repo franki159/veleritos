@@ -23,7 +23,7 @@
 
         $.ajax({
             type: "POST",
-            url: "/Seguridad/CambiarWM",
+            url: "/Seguridad/CambiarClave",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: JSON.stringify({ clave: $("#clave").val() }),

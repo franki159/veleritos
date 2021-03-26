@@ -53,7 +53,7 @@ namespace solWebVelero.Controllers
                 }
                 else
                 {
-                    Session["UserData"] = eUsuario;
+                    Session["ssUserVelero"] = eUsuario;
                     objRespuesta.Mensaje = Session.Timeout.ToString();
                     if (eUsuario.ESTADO == 3)
                         objRespuesta.Resultado = "CambioClave";
@@ -73,11 +73,12 @@ namespace solWebVelero.Controllers
             ERespuestaJson objRespuesta = new ERespuestaJson();
             try
             {
-                if (Session["UserData"] == null)
+                if (Session["ssUserVelero"] == null)
                 {
                     objRespuesta.Error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+                    return Json(objRespuesta);
                 }
-                EUsuario eSession = (EUsuario)Session["UserData"];
+                EUsuario eSession = (EUsuario)Session["ssUserVelero"];
 
                 objRespuesta.Resultado = NUsuario.PermisoLocal(eSession.ID_USUARIO);
             }
@@ -93,11 +94,12 @@ namespace solWebVelero.Controllers
             ERespuestaJson objRespuesta = new ERespuestaJson();
             try
             {
-                if (Session["UserData"] == null)
+                if (Session["ssUserVelero"] == null)
                 {
                     objRespuesta.Error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+                    return Json(objRespuesta);
                 }
-                EUsuario eSession = (EUsuario)Session["UserData"];
+                EUsuario eSession = (EUsuario)Session["ssUserVelero"];
 
                 eSession.LOCAL = new ELocal()
                 {
@@ -105,7 +107,7 @@ namespace solWebVelero.Controllers
                     DESCRIPCION = local
                 };
 
-                Session["UserData"] = eSession;
+                Session["ssUserVelero"] = eSession;
 
                 objRespuesta.Resultado = "../";
             }
@@ -116,6 +118,29 @@ namespace solWebVelero.Controllers
             
             return Json(objRespuesta);
         }
-        
+        public JsonResult CambiarClave(string clave)
+        {
+            ERespuestaJson objRespuesta = new ERespuestaJson();
+            try
+            {
+                if (Session["ssUserVelero"] == null)
+                {
+                    objRespuesta.Error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+                    return Json(objRespuesta);
+                }
+                EUsuario eSession = (EUsuario)Session["UserData"];
+
+                eSession.PASSWORD = clave;
+                NUsuario.CambiarClave(eSession);
+
+                objRespuesta.Resultado = "permiso.aspx";
+            }
+            catch (Exception ex)
+            {
+                objRespuesta.Error(String.IsNullOrEmpty(ex.Message) ? ex.InnerException.Message : ex.Message);
+            }
+            return Json(objRespuesta);
+        }
+
     }
 }

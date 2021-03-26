@@ -11,6 +11,9 @@ namespace ENTIDAD
         public string ID_ENCRIP { get; set; }
         public string CODIGO { get; set; }
         public string DESCRIPCION { get; set; }
+        public DateTime FECHA_REG { get; set; }
+        public int ESTADO { get; set; }
         public int OPCION { get; set; }
+        public EUsuario USUARIO { get; set; }
     }
 }

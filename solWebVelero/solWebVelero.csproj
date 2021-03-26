@@ -419,6 +419,7 @@
     <Content Include="Content\js\all\respond.min.js" />
     <Content Include="Content\js\general.js" />
     <Content Include="Content\templateSoft\.gitignore" />
+    <Content Include="Content\templateSoft\css\animated.min.css" />
     <Content Include="Content\templateSoft\css\sb-admin-2.css" />
     <Content Include="Content\templateSoft\css\sb-admin-2.min.css" />
     <Content Include="Content\templateSoft\gulpfile.js" />
@@ -2316,6 +2317,7 @@
     <Content Include="Views\Seguridad\CambiarClave.cshtml" />
     <Content Include="Views\Seguridad\Permiso.cshtml" />
     <Content Include="Views\Mantenimiento\Empleado.cshtml" />
+    <Content Include="Views\Mantenimiento\Embarcacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

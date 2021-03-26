@@ -14,7 +14,7 @@ namespace solWebVelero.Controllers
     {
         public ActionResult Index()
         {
-            if (Session["UserData"] == null) 
+            if (Session["ssUserVelero"] == null) 
                 return Redirect("~/Seguridad/Login");
             
 
@@ -37,11 +37,12 @@ namespace solWebVelero.Controllers
 
             try
             {
-                if (Session["UserData"] == null)
+                if (Session["ssUserVelero"] == null)
                 {
                     objRespuesta.Error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+                    return Json(objRespuesta);
                 }
-                EUsuario eSession = (EUsuario)Session["UserData"];
+                EUsuario eSession = (EUsuario)Session["ssUserVelero"];
 
 
                 List<EMenu> listaMenu = NUsuario.PerfilUsuario(eSession.ID_USUARIO).ToList();
@@ -73,9 +74,10 @@ namespace solWebVelero.Controllers
 
             try
             {
-                if (Session["UserData"] == null)
+                if (Session["ssUserVelero"] == null)
                 {
                     objRespuesta.Error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+                    return Json(objRespuesta);
                 }
                 
                 objRespuesta.Resultado = NUsuario.ListarParametro(opcion).ToList();
@@ -93,12 +95,13 @@ namespace solWebVelero.Controllers
 
             try
             {
-                if (Session["UserData"] == null)
+                if (Session["ssUserVelero"] == null)
                 {
                     objRespuesta.Error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+                    return Json(objRespuesta);
                 }
 
-                EUsuario eSession = (EUsuario)Session["UserData"];
+                EUsuario eSession = (EUsuario)Session["ssUserVelero"];
 
                 List<EConfiguracion> listaConfig = NUsuario.ConfiguracionHotel(eSession.LOCAL.ID_LOCAL, cod_grupo).ToList();
 

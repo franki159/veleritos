@@ -1,5 +1,5 @@
 ﻿var prov_id, dis_id;
-var txh_clinica;
+var txh_empleado;
 var txh_idConfirm = "";
 var valRND = Math.floor(Math.random() * 100);
 /*Inicializar Script*/
@@ -13,42 +13,40 @@ $(function () {
 
     $("#bus_txt_nombre").focus();
 });
-
 function aceptarConfirm() {
     switch (txh_idConfirm) {
         case "ANULAR":
             openLoading();
-            $("#errorDiv").html('');
 
             var objE = {
-                ID_ENCRIP: txh_clinica
+                ID_ENCRIP: txh_empleado
             };
 
             $.ajax({
                 type: "POST",
-                url: "page/mantenimiento/clinica.aspx/AnularClinicaWM",
+                url: "/Mantenimiento/AnularEmpleado",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 data: JSON.stringify({ objE: objE }),
                 async: true,
                 beforeSend: function () {
-                    $("#tbl_clinica button").attr("disabled", true);
+                    $("#tbl_empleado button").attr("disabled", true);
                 },
                 success: function (data) {
-                    $("#tbl_clinica button").removeAttr("disabled");
+                    $("#tbl_empleado button").removeAttr("disabled");
 
                     if (!data.Activo) {
-                        $("#errorDiv").html(GenerarAlertaError(data.Mensaje));
+                        msg_OpenDay("e", data.Mensaje)
                         closeLoading();
                         return;
                     }
-
-                    $("#errorDiv").html(GenerarAlertaSuccess(data.Mensaje));
-                    fc_listar_clinica();
+                    
+                    listar_empleado(false);
+                    msg_OpenDay("c", "Se anuló correctamente");
                 },
                 error: function (data) {
-                    $("#errorDiv").html(GenerarAlertaError("Inconveniente en la operación"));
-                    $("#tbl_clinica button").removeAttr("disabled");
+                    msg_OpenDay("e", "Inconveniente en la operación");
+                    $("#tbl_empleado button").removeAttr("disabled");
                     $("#pleaseWaitDialog").modal('hide');
                 }
             });
@@ -71,11 +69,11 @@ function listar_tipo_cargo() {
         },
         success: function (data) {
             if (!data.Activo) {
-                $("#errorDiv").html(GenerarAlertaError(data.Mensaje));
+                msg_OpenDay("e", data.Mensaje);
                 closeLoading();
                 return;
             }
-            ;
+            
             $('#bus_sel_cargo').append("<option value='0'>TODOS</option>");
             $('#sel_cargo').append("<option></option>");
             for (var i = 0; i < data.Resultado.length; i++) {
@@ -84,13 +82,12 @@ function listar_tipo_cargo() {
             }
         },
         error: function (data) {
-            $("#errorDiv").html(GenerarAlertaError("Inconveniente en la operación"));
+            msg_OpenDay("e", "Inconveniente en la operación");
             closeLoading();
         }
     });
 }
 function listar_tipo_documento() {
-    debugger;
     $.ajax({
         type: "POST",
         url: "/Home/GetParametros",
@@ -103,11 +100,10 @@ function listar_tipo_documento() {
         },
         success: function (data) {
             if (!data.Activo) {
-                $("#errorDiv").html(GenerarAlertaError(data.Mensaje));
+                msg_OpenDay("e", data.Mensaje);
                 closeLoading();
                 return;
             }
-
 
             var html_body = "";
             for (var i = 0; i < data.Resultado.length; i++) {
@@ -116,7 +112,7 @@ function listar_tipo_documento() {
                 html_body += "      <div class='input-group-prepend'>";
                 html_body += "          <div class='input-group-text'>" + data.Resultado[i].DESCRIPCION + ":</div>";
                 html_body += "      </div>";
-                html_body += "      <input type='text' class='form-control' placeholder='Ingrese " + data.Resultado[i].DESCRIPCION + "'>";
+                html_body += "      <input type='text' class='form-control val-input-dinamic'  cod-tipo-doc='" + data.Resultado[i].CODIGO + "' placeholder='Ingrese " + data.Resultado[i].DESCRIPCION + "'>";
                 html_body += "  </div>";
                 html_body += "</li>";
 
@@ -124,7 +120,7 @@ function listar_tipo_documento() {
             $("#bodyDocumentos").html(html_body);
         },
         error: function (data) {
-            $("#errorDiv").html(GenerarAlertaError("Inconveniente en la operación"));
+            msg_OpenDay("e", "Inconveniente en la operación");
             closeLoading();
         }
     });
@@ -134,11 +130,10 @@ function listar_inicio() {
     listar_tipo_documento();
     closeLoading();
 }
-function listar_empleado() {
+function listar_empleado(p_sync) {
     openLoading();
-
     var objE = {
-        CARGO: $("#bus_sel_tipo").val(),
+        CARGO: $("#bus_sel_cargo").val(),
         NOMBRES: $("#bus_txt_nombre").val()
     };
 
@@ -150,7 +145,7 @@ function listar_empleado() {
         data: JSON.stringify({
             objE: objE
         }),
-        async: true,
+        async: p_sync,
         beforeSend: function () {
             $("#btn_buscar").attr("disabled", true);
             $('#tbl_empleado tbody').empty();
@@ -159,7 +154,7 @@ function listar_empleado() {
             $("#btn_buscar").removeAttr("disabled");
 
             if (!data.Activo) {
-                $("#errorDiv").html(GenerarAlertaError(data.Mensaje));
+                msg_OpenDay("e", data.Mensaje)
                 closeLoading();
                 return;
             }
@@ -177,65 +172,65 @@ function listar_empleado() {
                 html += '<td>' + data.Resultado[i].SUELDO + '</td></tr>';
             }
 
-            $("#tbl_clinica tbody").append(html);
+            $("#tbl_empleado tbody").append(html);
             $("#lblTotalReg").html("Total registros: " + data.Resultado.length);
 
-            $("#tbl_clinica button").click(function () {
+            $("#tbl_empleado button").click(function () {
                 if ($(this).attr("name") === "editar") {
-                    $('#pnl_clinica .modal-title').html('Editar Convenio');
-
-                    txh_clinica = $(this).parent().parent().find("td").eq(1).html();
-                    txh_clinica = validaTableMobile(txh_clinica);
+                    $('#pnl_empleado .modal-title').html('Editar Empleado');
+                    limpiar_empleado();
+                    txh_empleado = $(this).parent().parent().find("td").eq(1).html();
+                    txh_empleado = validaTableMobile(txh_empleado);
 
                     objE = {
-                        ID_ENCRIP: txh_clinica
+                        ID_ENCRIP: txh_empleado
                     };
 
                     $.ajax({
                         type: "POST",
-                        url: "page/mantenimiento/clinica.aspx/ObtenerClinicaWM",
+                        url: "/Mantenimiento/ObtenerEmpleadoxId",
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         data: JSON.stringify({ objE: objE }),
                         async: true,
                         beforeSend: function () {
-                            $("#errorClinica").html('');
-                            $("#tbl_clinica button").attr("disabled", true);
+                            $("#errorEmpleado").html('');
+                            $("#tbl_empleado button").attr("disabled", true);
                         },
                         success: function (data) {
-                            $("#tbl_clinica button").removeAttr("disabled");
+                            $("#tbl_empleado button").removeAttr("disabled");
 
                             if (data.error) {
-                                $("#errorDiv").html(GenerarAlertaError(data.error));
+                                msg_OpenDay("e", data.Mensaje);
                                 return;
                             }
+                            $("#txt_nombre").val(data.Resultado.NOMBRES);
+                            $("#txt_ape_pat").val(data.Resultado.APE_PAT);
+                            $("#txt_ape_mat").val(data.Resultado.APE_MAT);
+                            $("#sel_cargo").val(data.Resultado.CARGO);
+                            $("#txt_sueldo").val(data.Resultado.SUELDO);
 
-                            $("#sel_tipo").val(data.Resultado.CONVENIO_TIPO_ID).change();
-                            $("#txt_nombre").val(data.Resultado.NOMBRE);
-                            $("#txt_telefono").val(data.Resultado.TELEFONO);
-                            $("#chk_pto_autorizado").val(data.Resultado.PUNTO_AUTORIZADO);
-                            $("#txt_beneficio").val(data.Resultado.BENEFICIO);
-                            //Domicilio
-                            $("#sel_departamento").val(data.Resultado.DEPARTAMENTO).change();
-                            prov_id = data.Resultado.PROVINCIA;
-                            dis_id = data.Resultado.GEOGRAFIA_ID;
-                            $("#txt_direccion").val(data.Resultado.DIRECCION);
-                            $("#txt_latitud").val(data.Resultado.LATITUD);
-                            $("#txt_longitud").val(data.Resultado.LONGITUD);
+                            $("#bodyDocumentos .val-input-dinamic").each(function () {
+                                for (var i = 0; i < data.Resultado.LDOCUMENTOS.length; i++) {
+                                    var input = $(this);
+                                    if (input.attr("cod-tipo-doc").trim() === data.Resultado.LDOCUMENTOS[i].TIPO_DOC) {
+                                        input.val(data.Resultado.LDOCUMENTOS[i].NUMERO);
+                                    }
+                                }
+                            });
 
-                            activaTab('dato');
-                            $("#pnl_clinica").modal('show');
+                            $("#pnl_empleado").modal('show');
                         },
                         error: function (data) {
-                            $("#errorDiv").html(GenerarAlertaError("Inconveniente en la operación"));
-                            $("#tbl_clinica button").removeAttr("disabled");
+                            msg_OpenDay("e", "Inconveniente en la operación");
+                            $("#tbl_empleado button").removeAttr("disabled");
                         }
                     });
                     event.preventDefault();
                 } else if ($(this).attr("name") === "anular") {
                     txh_idConfirm = 'ANULAR';
-                    txh_clinica = $(this).parent().parent().find("td").eq(1).html();
-                    txh_clinica = validaTableMobile(txh_clinica);
+                    txh_empleado = $(this).parent().parent().find("td").eq(1).html();
+                    txh_empleado = validaTableMobile(txh_empleado);
                     window.parent.fc_mostrar_confirmacion("¿Esta seguro de <strong>ELIMINAR</strong> el Convenio?");
                 }
             });
@@ -243,27 +238,22 @@ function listar_empleado() {
             closeLoading();
         },
         error: function (data) {
-            $("#errorDiv").html(GenerarAlertaError("Inconveniente en la operación"));
+            msg_OpenDay("e", "Inconveniente en la operación");
             $("#btn_buscar").removeAttr("disabled");
             closeLoading();
         }
     });
 }
-function limpiarEmpleado() {
-    $("#errorDiv").html('');
-    $("#errorClinica").html('');
+function limpiar_empleado() {
+    $("#errorEmpleado").html('');
 
-    $("#pnl_clinica input").val('');
-    $("#pnl_clinica textarea").val('');
-    $("#chk_pto_autorizado").prop('checked', false);
-    $('#sel_tipo').val(null).change();
-    $('#sel_departamento').val(null).change();
-    $("#sel_provincia").empty();
-    $("#sel_distrito").empty();
-
+    $("#pnl_empleado input").val('');
+    $("#pnl_empleado textarea").val('');
+    $("#sel_cargo").val(0);
+    $("#pnl_empleado .validator-error").remove();
     prov_id = 0;
     dis_id = 0;
-    txh_clinica = "";
+    txh_empleado = "";
 }
 /*Eventos por Control*/
 $(document).on('keypress', function (evt) {
@@ -276,182 +266,51 @@ $(document).on('keypress', function (evt) {
             break;
     }
 });
-$("#sel_departamento").on('change', function () {
-    /************************ Listado de Provincia ****************************/
-    var objE = {
-        CODIGO: "PROVINCIA",
-        vPARAM1: $("#sel_departamento").val()
-    };
-
-    if ($("#sel_departamento").val() === '') {
-        return false;
-    }
-
-    $.ajax({
-        type: "POST",
-        url: "page/mantenimiento/mascota.aspx/listarParametro",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify({ objE: objE }),
-        async: true,
-        beforeSend: function () {
-            openLoading();
-            $('#sel_provincia').empty();
-            $("#sel_distrito").empty();
-        },
-        success: function (data) {
-            if (!data.Activo) {
-                $("#errorMascota").html(GenerarAlertaError(data.Mensaje));
-                closeLoading();
-                return;
-            }
-
-            $('#sel_provincia').append("<option></option>");
-            for (var i = 0; i < data.Resultado.length; i++) {
-                $('#sel_provincia').append("<option value='" + data.Resultado[i].CODIGO + "'>" + data.Resultado[i].DESCRIPCION + "</option>");
-            }
-
-            if (prov_id !== 0) {
-                $("#sel_provincia").val(prov_id).change();
-                prov_id = 0;
-            }
-            closeLoading();
-        },
-        error: function (data) {
-            $("#errorMascota").html(GenerarAlertaError("Inconveniente en la operación"));
-            closeLoading();
-        }
-    });
-});
-$("#sel_provincia").on('change', function () {
-    /************************ Listado de Distrito ****************************/
-    var objE = {
-        CODIGO: "DISTRITO",
-        vPARAM1: $("#sel_departamento").val(),
-        vPARAM2: $("#sel_provincia").val()
-    };
-
-    if ($("#sel_provincia").val() === '') {
-        return false;
-    }
-
-    $.ajax({
-        type: "POST",
-        url: "page/mantenimiento/mascota.aspx/listarParametro",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify({ objE: objE }),
-        async: true,
-        beforeSend: function () {
-            openLoading();
-            $('#sel_distrito').empty();
-        },
-        success: function (data) {
-            if (!data.Activo) {
-                $("#errorMascota").html(GenerarAlertaError(data.Mensaje));
-                closeLoading();
-                return;
-            }
-
-            $('#sel_distrito').append("<option></option>");
-            for (var i = 0; i < data.Resultado.length; i++) {
-                $('#sel_distrito').append("<option value='" + data.Resultado[i].CODIGO + "'>" + data.Resultado[i].DESCRIPCION + "</option>");
-            }
-
-            if (dis_id !== 0) {
-                $("#sel_distrito").val(dis_id).change();
-            }
-
-            closeLoading();
-        },
-        error: function (data) {
-            $("#errorMascota").html(GenerarAlertaError("Inconveniente en la operación"));
-            closeLoading();
-        }
-    });
-});
 $("#btn_buscar").click(function () {
-    listar_empleado();
+    listar_empleado(true);
 });
 $("#btn_nuevo").click(function () {
-    limpiarEmpleado();
+    limpiar_empleado();
     $('#pnl_empleado .modal-title').html('Registrar Empleado');
     $("#pnl_empleado").modal('show');
 
     //$("#sel_tipo").focus();
 });
 $("#btn_guardar").click(function (evt) {
-    $("#errorClinica").html('');
-    if (validIdInput($("#sel_tipo").val())) {
-        $("#errorClinica").html(GenerarAlertaWarning("Tipo: seleccione un tipo"));
-        activaTab('dato');
-        $("#sel_tipo").focus();
-        return;
-    } else if (validIdInput($("#txt_nombre").val())) {
-        $("#errorClinica").html(GenerarAlertaWarning("Nombre: Ingrese un nombre"));
-        activaTab('dato');
-        $("#txt_nombre").focus();
-        return;
-    } else if (validIdInput($("#txt_telefono").val())) {
-        $("#errorClinica").html(GenerarAlertaWarning("Telefono: Ingrese un telefono"));
-        activaTab('dato');
-        $("#txt_telefono").focus();
-        return;
-    } else if (validIdInput($("#txt_beneficio").val())) {
-        $("#errorClinica").html(GenerarAlertaWarning("Beneficio: Ingrese el beneficio del convenio"));
-        activaTab('dato');
-        $("#txt_beneficio").focus();
-        return;
-    } else if (validIdInput($("#sel_departamento").val())) {
-        $("#errorClinica").html(GenerarAlertaWarning("Departamento: seleccione un Departamento"));
-        activaTab('domicilio');
-        $("#sel_departamento").focus();
-        return;
-    } else if (validIdInput($("#sel_provincia").val())) {
-        $("#errorClinica").html(GenerarAlertaWarning("Provincia: seleccione una Provincia"));
-        activaTab('domicilio');
-        $("#sel_provincia").focus();
-        return;
-    } else if (validIdInput($("#sel_distrito").val())) {
-        $("#errorClinica").html(GenerarAlertaWarning("Distrito: seleccione un Distrito"));
-        activaTab('domicilio');
-        $("#sel_distrito").focus();
-        return;
-    } else if (validIdInput($("#txt_direccion").val())) {
-        $("#errorClinica").html(GenerarAlertaWarning("Dirección: seleccione una Dirección"));
-        activaTab('domicilio');
-        $("#txt_direccion").focus();
-        return;
-    } else if (validIdInput($("#txt_latitud").val())) {
-        $("#errorClinica").html(GenerarAlertaWarning("Latitud: ingrese la latitud"));
-        activaTab('domicilio');
-        $("#txt_latitud").focus();
-        return;
-    } else if (validIdInput($("#txt_longitud").val())) {
-        $("#errorClinica").html(GenerarAlertaWarning("Longitud: ingrese la longitud"));
-        activaTab('domicilio');
-        $("#txt_longitud").focus();
-        return;
-    }
+    $("#pnl_empleado .validator-error").remove();
+    if (val_required_FCP($("#txt_nombre"), "nombre") === false) return;
+    if (val_required_FCP($("#txt_ape_pat"), "apellido paterno") === false) return;
+    if (val_required_FCP($("#txt_ape_mat"), "apellido materno") === false) return;
 
     openLoading();
 
+    var ldocumentos = "";
+    $("#bodyDocumentos .val-input-dinamic").each(function () {
+        var input = $(this);
+        var valor = input.val();
+        if (validIdInput(valor) === false) {
+            var codigo = input.attr("cod-tipo-doc");
+            ldocumentos += codigo.trim() + "|" + valor.trim() + ",";
+        }
+    });
+
+    if (ldocumentos.length > 0) {
+        ldocumentos = ldocumentos.substring(0, ldocumentos.length - 1)
+    }
+
     var objE = {
-        ID_ENCRIP: txh_clinica,
-        NOMBRE: $("#txt_nombre").val(),
-        TELEFONO: $("#txt_telefono").val(),
-        BENEFICIO: $("#txt_beneficio").val(),
-        PUNTO_AUTORIZADO: $("#chk_pto_autorizado").attr("checked") ? 1 : 0,
-        CONVENIO_TIPO_ID: $("#sel_tipo").val(),
-        DIRECCION: $("#txt_direccion").val(),
-        LATITUD: $("#txt_latitud").val(),
-        LONGITUD: $("#txt_longitud").val(),
-        GEOGRAFIA_ID: $("#sel_distrito").val()
+        ID_ENCRIP: txh_empleado,
+        NOMBRES: $("#txt_nombre").val(),
+        APE_PAT: $("#txt_ape_pat").val(),
+        APE_MAT: $("#txt_ape_mat").val(),
+        CARGO: $("#sel_cargo").val(),
+        SUELDO: $("#txt_sueldo").val(),
+        DOCUMENTO: ldocumentos
     };
 
     $.ajax({
         type: "POST",
-        url: "page/mantenimiento/clinica.aspx/ActualizarClinicaWM",
+        url: "/Mantenimiento/ActualizarEmpleado",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify({ objE: objE }),
@@ -460,20 +319,21 @@ $("#btn_guardar").click(function (evt) {
             $("#btn_guardar").attr("disabled", true);
         },
         success: function (data) {
+            debugger;
             if (!data.Activo) {
-                $("#errorClinica").html(GenerarAlertaError(data.Mensaje));
+                msg_OpenDay("e", data.Mensaje);
                 $("#btn_guardar").attr("disabled", false);
                 closeLoading();
                 return;
             }
 
-            $("#errorDiv").html(GenerarAlertaSuccess(data.Mensaje));
-            $("#pnl_clinica").modal('hide');
+            $("#pnl_empleado").modal('hide');
             $("#btn_guardar").attr("disabled", false);
-            fc_listar_clinica();
+            listar_empleado(false);
+            msg_OpenDay("c", "Se guardó correctamente");
         },
         error: function (data) {
-            $("#errorClinica").html(GenerarAlertaError("Inconveniente en la operación"));
+            msg_OpenDay("e", "Inconveniente en la operación");
             $("#btn_guardar").attr("disabled", false);
             closeLoading();
         }
