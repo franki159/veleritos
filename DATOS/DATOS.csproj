@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DConexion.cs" />
+    <Compile Include="DEmbarcacion.cs" />
     <Compile Include="DEmpleado.cs" />
     <Compile Include="DUsuario.cs" />
     <Compile Include="DUtil.cs" />

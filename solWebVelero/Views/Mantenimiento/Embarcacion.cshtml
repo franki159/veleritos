@@ -11,13 +11,7 @@
             </div>
             <div class="card-body" id="pnl_busqueda">
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Cargo </label>
-                            <select id="bus_sel_cargo" class="form-control sel_autocomplete_bus"></select>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label>Nombre</label>
                             <input type="text" id="bus_txt_nombre" class="form-control">
@@ -54,10 +48,10 @@
                         <tr>
                             <th style="display: none"></th>
                             <th style="width:90px;"></th>
-                            <th>NOMBRES</th>
-                            <th>APELLIDOS</th>
-                            <th>CARGO</th>
-                            <th>SUELDO</th>
+                            <th>NOMBRE</th>
+                            <th>COMBUSTIBLE</th>
+                            <th>N° ASIENTOS</th>
+                            <th>COLOR</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -79,46 +73,68 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Nombres&nbsp;<strong class="text-danger">(*)</strong></label>
+                            <label>Nombre&nbsp;<strong class="text-danger">(*)</strong></label>
                             <input id="txt_nombre" placeholder="Ingrese nombre" class="form-control" type="text" maxlength="100" />
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label>Apellido Paterno&nbsp;<strong class="text-danger">(*)</strong></label>
-                            <input id="txt_ape_pat" placeholder="Ingrese apellido paterno" class="form-control" type="text" maxlength="100" />
+                            <label>Tipo de combustible</label>
+                            <select id="sel_tip_comb" class="form-control sel_autocomplete" style="width: 100%;"></select>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label>Apellido Materno&nbsp;<strong class="text-danger">(*)</strong></label>
-                            <input id="txt_ape_mat" placeholder="Ingrese apellido materno" class="form-control" type="text" maxlength="100" />
+                            <label>N° Asientos&nbsp;<strong class="text-danger">(*)</strong></label>
+                            <input id="txt_num_asiento" placeholder="Ingrese cantidad de asientos" class="form-control integerFCP" type="text" maxlength="100" />
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <div class="form-group">
-                            <label>Cargo</label>
-                            <select id="sel_cargo" class="form-control sel_autocomplete" style="width: 100%;"></select>
+                            <label>Color</label>
+                            <select id="sel_color" class="form-control sel_autocomplete" style="width: 100%;"></select>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <div class="form-group">
-                            <label>Sueldo</label>
-                            <input id="txt_sueldo" class="form-control decimalFCP" type="text" />
+                            <label>Id Nave</label>
+                            <input id="txt_nave" class="form-control" type="text" />
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-3">
                         <div class="form-group">
-                            <ul class="list-group" id="bodyDocumentos">
-                                <li class="list-group-item">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">ssss:</div>
-                                        </div>
-                                        <input type="text" class="form-control" placeholder="Ingrese dni">
-                                    </div>
-                                </li>
-                            </ul>
+                            <label>Cod. Inter Llam.</label>
+                            <input id="txt_cod_inter" class="form-control" type="text" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>N° Omi.</label>
+                            <input id="txt_num_omi" class="form-control" type="text" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Ambito</label>
+                            <select id="sel_ambito" class="form-control sel_autocomplete" style="width: 100%;"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Tipo Nav.</label>
+                            <select id="sel_tipo_nav" class="form-control sel_autocomplete" style="width: 100%;"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Tipo Serv.</label>
+                            <select id="sel_tipo_serv" class="form-control sel_autocomplete" style="width: 100%;"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Constructora</label>
+                            <select id="sel_constructora" class="form-control sel_autocomplete" style="width: 100%;"></select>
                         </div>
                     </div>
                 </div>
