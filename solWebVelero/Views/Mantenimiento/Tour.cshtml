@@ -1,0 +1,127 @@
+﻿
+@{
+    ViewBag.Title = "Tour";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Mantenimiento de Tour</h6>
+            </div>
+            <div class="card-body" id="pnl_busqueda">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" id="bus_txt_nombre" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <button id="btn_buscar" class="btn btn-3-info btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <span class="text">Buscar</span>
+                        </button>
+                        <button id="btn_nuevo" class="btn btn-3-default btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-file"></i>
+                            </span>
+                            <span class="text">Nuevo</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow mb-4">
+            <div class="panel pre-scrollable">
+                <table id="tbl_tour" class="table table-striped table-hover table-fcp">
+                    <thead>
+                        <tr>
+                            <th style="display: none"></th>
+                            <th style="width:90px;"></th>
+                            <th>NOMBRE</th>
+                            <th>PRECIO</th>
+                            <th>DESCRIPCION</th>
+                            <th>DETALLE</th>
+                            <th>CONDICION</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div id="lblTotalReg" class="footer-table-fcp"></div>
+        </div>
+    </div>
+</div>
+<!--*********************** TOUR **************************-->
+<div class='modal modal-scroll fade' id='pnl_tour' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+    <div class="modal-dialog modal-extend-fgp">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Registro de Tour</h4>
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label>Nombre&nbsp;<strong class="text-danger">(*)</strong></label>
+                            <input id="txt_nombre" placeholder="Ingrese nombre" class="form-control" type="text" maxlength="200" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Precio</label>
+                            <input id="txt_precio" rows="4" class="form-control decimalFCP" type="text" />
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Descripción</label>
+                            <textarea id="txt_descripcion" rows="4" placeholder="Ingrese descripción" class="form-control" type="text"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Detalle</label>
+                            <textarea id="txt_detalle" rows="4" placeholder="Ingrese detalle" class="form-control" type="text"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Condición</label>
+                            <textarea id="txt_condicion" rows="4" placeholder="Ingrese condición" class="form-control" type="text"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="card">
+                                <div class="card-header">Caracteristicas</div>
+                                <div class="card-body" id="bodyCaracteristicas" style="height: 200px; overflow: auto;">Content</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="push"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn_guardar" type="button" class="btn btn-info btn-sm">&nbsp;Guardar</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Content/templateSoft/vendor/jquery/jquery.min.js"></script>
+<script src="~/Scripts/Mantenimiento/tour.js"></script>
+
+
+

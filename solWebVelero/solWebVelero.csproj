@@ -2291,6 +2291,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Content\js\layout.js" />
+    <Content Include="Scripts\Mantenimiento\tour.js" />
     <Content Include="Scripts\Mantenimiento\embarcacion.js" />
     <Content Include="Scripts\Mantenimiento\empleado.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
@@ -2319,6 +2320,7 @@
     <Content Include="Views\Seguridad\Permiso.cshtml" />
     <Content Include="Views\Mantenimiento\Empleado.cshtml" />
     <Content Include="Views\Mantenimiento\Embarcacion.cshtml" />
+    <Content Include="Views\Mantenimiento\Tour.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="EConfiguracion.cs" />
     <Compile Include="EDocumento.cs" />
+    <Compile Include="ETour.cs" />
     <Compile Include="EEmbarcacion.cs" />
     <Compile Include="EEmpleado.cs" />
     <Compile Include="EGeneral.cs" />

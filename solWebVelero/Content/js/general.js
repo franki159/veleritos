@@ -319,7 +319,36 @@ function pad(num, size) {
 function reloadPage() {
     location.reload();
 }
+//funciones ajax
+function listar_parametros_select(p_control, tipo, p_async) {
+    $.ajax({
+        type: "POST",
+        url: "/Home/GetParametros",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify({ opcion: tipo }),
+        async: p_async,
+        beforeSend: function () {
+            openLoading();
+        },
+        success: function (data) {
+            if (!data.Activo) {
+                msg_OpenDay("e", data.Mensaje);
+                closeLoading();
+                return;
+            }
 
+            $('#' + p_control).append("<option></option>");
+            for (var i = 0; i < data.Resultado.length; i++) {
+                $('#' + p_control).append("<option value='" + data.Resultado[i].CODIGO + "'>" + data.Resultado[i].DESCRIPCION + "</option>");
+            }
+        },
+        error: function (data) {
+            msg_OpenDay("e", "Inconveniente en la operación");
+            closeLoading();
+        }
+    });
+}
 $(function () {
     $.ajaxSetup({ cache: false });
 

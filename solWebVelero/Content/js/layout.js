@@ -32,6 +32,7 @@ function InfoSesion() {
                 window.location = "Login";
                 return;
             }
+            
             $(".name_user").text(data.Resultado.Usuario);
             $(".img-user-rump").attr("src", "~/Content/img/usuario/" + data.Resultado.FOTO);
             $(".name_perfil").html('<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400 name_perfil"></i>' + MaysPrimera(data.Resultado.Perfil));
