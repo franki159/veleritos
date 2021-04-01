@@ -14,5 +14,14 @@ namespace ENTIDAD
         public string condicion { get; set; }
         public string caracteristicas { get; set; }
         public decimal precio { get; set; }
+
+        public List<EFoto>listFoto { get; set; }
+    }
+
+    public class EFoto : EGeneral
+    {
+        public int id_foto_tour { get; set; }
+        public int orden { get; set; }
+        public string ruta { get; set; }
     }
 }

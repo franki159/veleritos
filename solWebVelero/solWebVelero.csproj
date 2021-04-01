@@ -59,6 +59,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
@@ -208,6 +209,9 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Generico\hh_imageServ.ashx.cs">
+      <DependentUpon>hh_imageServ.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MantenimientoController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
@@ -222,6 +226,7 @@
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Util\clsUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -361,6 +366,8 @@
     <Content Include="Content\assets\select2\js\i18n\zh-CN.js" />
     <Content Include="Content\assets\select2\js\i18n\zh-TW.js" />
     <Content Include="Content\assets\select2\js\select2.full.js" />
+    <Content Include="Content\assets\upGalleryFCP\upGalleryFCP.css" />
+    <Content Include="Content\assets\upGalleryFCP\upGalleryFCP.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\bootstrap-reset.css" />
@@ -2282,6 +2289,7 @@
     <Content Include="Content\img\checkbox\Thumbs.db" />
     <Content Include="Content\img\icons\Thumbs.db" />
     <Content Include="Content\img\Thumbs.db" />
+    <Content Include="Controllers\Generico\hh_imageServ.ashx" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -2291,6 +2299,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Content\js\layout.js" />
+    <Content Include="Scripts\Mantenimiento\viaje.js" />
     <Content Include="Scripts\Mantenimiento\tour.js" />
     <Content Include="Scripts\Mantenimiento\embarcacion.js" />
     <Content Include="Scripts\Mantenimiento\empleado.js" />
@@ -2321,9 +2330,11 @@
     <Content Include="Views\Mantenimiento\Empleado.cshtml" />
     <Content Include="Views\Mantenimiento\Embarcacion.cshtml" />
     <Content Include="Views\Mantenimiento\Tour.cshtml" />
+    <Content Include="Views\Mantenimiento\Viaje.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\img\tour\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -18,13 +18,21 @@ namespace NEGOCIOS
         {
             return DTour.ListarTourxId(objE);
         }
-        public static int actualizarTour(ETour ent)
+        public static string actualizarTour(ETour ent)
         {
             return DTour.actualizarTour(ent);
         }
         public static int anularTour(ETour ent)
         {
             return DTour.anularTour(ent);
+        }
+        public static string insertarFotoTour(EFoto ent)
+        {
+            return DTour.insertarFotoTour(ent);
+        }
+        public static string actualizarFotoTour(EFoto ent)
+        {
+            return DTour.actualizarFotoTour(ent);
         }
     }
 }

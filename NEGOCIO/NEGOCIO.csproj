@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NViaje.cs" />
     <Compile Include="NTour.cs" />
     <Compile Include="NEmbarcacion.cs" />
     <Compile Include="NEmpleado.cs" />

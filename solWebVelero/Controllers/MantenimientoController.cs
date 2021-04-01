@@ -2,6 +2,8 @@
 using NEGOCIOS;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -322,11 +324,14 @@ namespace solWebVelero.Controllers
                     objE.OPCION = 2;
                 }
 
-                objResultado = NTour.actualizarTour(objE).ToString();
+                objResultado = NTour.actualizarTour(objE);
 
                 if (objResultado == "")
                 {
                     objRespuesta.Error("No se pudo actualizar.");
+                }
+                else {
+                    objRespuesta.Resultado = objResultado;
                 }
             }
             catch (Exception ex)
@@ -352,6 +357,182 @@ namespace solWebVelero.Controllers
                 objE.USUARIO.ID_USUARIO = eSession.ID_USUARIO;
 
                 objResultado = NTour.anularTour(objE);
+
+                if (objResultado == 0)
+                {
+                    objRespuesta.Error("No se pudo eliminar.");
+                }
+            }
+            catch (Exception ex)
+            {
+                objRespuesta.Error(String.IsNullOrEmpty(ex.Message) ? ex.InnerException.Message : ex.Message);
+            }
+            return Json(objRespuesta);
+        }
+        public JsonResult InsertarFotoTour(EFoto objE)
+        {
+            ERespuestaJson objRespuesta = new ERespuestaJson();
+            try
+            {
+                if (Session["ssUserVelero"] == null)
+                {
+                    objRespuesta.Error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+                    return Json(objRespuesta);
+                }
+
+                string objResultado = "";
+         
+                objResultado = NTour.insertarFotoTour(objE);
+
+                if (objResultado == "")
+                {
+                    objRespuesta.Error("No se pudo eliminar.");
+                }else {
+                    objRespuesta.Resultado = objResultado;
+                }
+            }
+            catch (Exception ex)
+            {
+                objRespuesta.Error(String.IsNullOrEmpty(ex.Message) ? ex.InnerException.Message : ex.Message);
+            }
+            return Json(objRespuesta);
+        }
+        public JsonResult AcualizarFotoTour(EFoto objE)
+        {
+            ERespuestaJson objRespuesta = new ERespuestaJson();
+            try
+            {
+                if (Session["ssUserVelero"] == null)
+                {
+                    objRespuesta.Error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+                    return Json(objRespuesta);
+                }
+
+                string objResultado = "";
+
+                objResultado = NTour.actualizarFotoTour(objE);
+
+                if (objResultado == "")
+                {
+                    objRespuesta.Error("No se pudo eliminar.");
+                }
+                else
+                {
+                    objRespuesta.Resultado = objResultado;
+                }
+            }
+            catch (Exception ex)
+            {
+                objRespuesta.Error(String.IsNullOrEmpty(ex.Message) ? ex.InnerException.Message : ex.Message);
+            }
+            return Json(objRespuesta);
+        }
+        #endregion
+        #region "VIAJE"
+        public ActionResult Viaje()
+        {
+            if (Session["ssUserVelero"] == null)
+                return Redirect("~/Seguridad/Login");
+
+            return View();
+        }
+        public JsonResult ListaViaje(EViaje objE)
+        {
+            ERespuestaJson objRespuesta = new ERespuestaJson();
+            try
+            {
+                if (Session["ssUserVelero"] == null)
+                {
+                    objRespuesta.Error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+                    return Json(objRespuesta);
+                }
+                EUsuario eSession = (EUsuario)Session["ssUserVelero"];
+
+                objRespuesta.Resultado = NViaje.ListarViaje(objE);
+            }
+            catch (Exception ex)
+            {
+                objRespuesta.Error(string.IsNullOrEmpty(ex.Message) ? ex.InnerException.Message : ex.Message);
+            }
+
+            return Json(objRespuesta);
+        }
+        public JsonResult ObtenerViajexId(EViaje objE)
+        {
+            ERespuestaJson objRespuesta = new ERespuestaJson();
+            try
+            {
+                if (Session["ssUserVelero"] == null)
+                {
+                    objRespuesta.Error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+                    return Json(objRespuesta);
+                }
+                EUsuario eSession = (EUsuario)Session["ssUserVelero"];
+
+                objRespuesta.Resultado = NViaje.ListarViajexId(objE);
+            }
+            catch (Exception ex)
+            {
+                objRespuesta.Error(string.IsNullOrEmpty(ex.Message) ? ex.InnerException.Message : ex.Message);
+            }
+
+            return Json(objRespuesta);
+        }
+        public JsonResult ActualizarViaje(EViaje objE)
+        {
+            ERespuestaJson objRespuesta = new ERespuestaJson();
+            try
+            {
+                if (Session["ssUserVelero"] == null)
+                {
+                    objRespuesta.Error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+                    return Json(objRespuesta);
+                }
+
+                string objResultado = "";
+                EUsuario eSession = (EUsuario)Session["ssUserVelero"];
+                objE.USUARIO = new EUsuario();
+                objE.USUARIO.ID_USUARIO = eSession.ID_USUARIO;
+                if (objE.ID_ENCRIP == null || objE.ID_ENCRIP == "")
+                {
+                    objE.ID_ENCRIP = "";
+                    objE.OPCION = 1;
+                }
+                else
+                {
+                    objE.OPCION = 2;
+                }
+
+                objResultado = NViaje.actualizarViaje(objE).ToString();
+
+                if (objResultado == "")
+                {
+                    objRespuesta.Error("No se pudo actualizar.");
+                }
+            }
+            catch (Exception ex)
+            {
+                objRespuesta.Error(String.IsNullOrEmpty(ex.Message) ? ex.InnerException.Message : ex.Message);
+            }
+            return Json(objRespuesta);
+        }
+        public JsonResult AnularViaje(EViaje objE)
+        {
+            ERespuestaJson objRespuesta = new ERespuestaJson();
+            try
+            {
+                if (Session["ssUserVelero"] == null)
+                {
+                    objRespuesta.Error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+                    return Json(objRespuesta);
+                }
+
+                int objResultado = 0;
+                EUsuario eSession = (EUsuario)Session["ssUserVelero"];
+                objE.USUARIO = new EUsuario();
+                objE.USUARIO.ID_USUARIO = eSession.ID_USUARIO;
+
+                objResultado = NViaje.anularViaje(objE);
 
                 if (objResultado == 0)
                 {

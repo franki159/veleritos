@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Tour";
 }
-
+<link href="~/Content/assets/upGalleryFCP/upGalleryFCP.css" rel="stylesheet" />
 <div class="row">
     <div class="col-md-12">
         <div class="card shadow mb-4">
@@ -71,44 +71,82 @@
                 <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="form-group">
-                            <label>Nombre&nbsp;<strong class="text-danger">(*)</strong></label>
-                            <input id="txt_nombre" placeholder="Ingrese nombre" class="form-control" type="text" maxlength="200" />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Precio</label>
-                            <input id="txt_precio" rows="4" class="form-control decimalFCP" type="text" />
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Descripción</label>
-                            <textarea id="txt_descripcion" rows="4" placeholder="Ingrese descripción" class="form-control" type="text"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Detalle</label>
-                            <textarea id="txt_detalle" rows="4" placeholder="Ingrese detalle" class="form-control" type="text"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Condición</label>
-                            <textarea id="txt_condicion" rows="4" placeholder="Ingrese condición" class="form-control" type="text"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <div class="card">
-                                <div class="card-header">Caracteristicas</div>
-                                <div class="card-body" id="bodyCaracteristicas" style="height: 200px; overflow: auto;">Content</div>
+                <div>
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="nav-item">
+                            <a class="nav-link active" id="dato-tab" data-toggle="tab" href="#dato" role="tab" aria-controls="dato" aria-selected="true">Datos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="foto-tab" data-toggle="tab" href="#foto" role="tab" aria-controls="foto" aria-selected="false">Foto</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade show active" id="dato" aria-labelledby="dato-tab">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label>Nombre&nbsp;<strong class="text-danger">(*)</strong></label>
+                                        <input id="txt_nombre" placeholder="Ingrese nombre" class="form-control" type="text" maxlength="200" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Precio</label>
+                                        <input id="txt_precio" rows="4" class="form-control decimalFCP" type="text" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Descripción</label>
+                                        <textarea id="txt_descripcion" rows="4" placeholder="Ingrese descripción" class="form-control" type="text"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Detalle</label>
+                                        <textarea id="txt_detalle" rows="4" placeholder="Ingrese detalle" class="form-control" type="text"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Condición</label>
+                                        <textarea id="txt_condicion" rows="4" placeholder="Ingrese condición" class="form-control" type="text"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="card">
+                                            <div class="card-header">Caracteristicas</div>
+                                            <div class="card-body" id="bodyCaracteristicas" style="height: 200px; overflow: auto;">Content</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <div role="tabpanel" class="tab-pane fade panel-body" id="foto" aria-labelledby="foto-tab">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="container container-file">
+                                        <div class="row">
+                                            <div class="col-sm-2 imgUp">
+                                                <div class="imagePreview"></div>
+                                                <label class="btn btn-primary btn-upload">
+                                                    Subir<input type="file" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;">
+                                                </label>
+                                                <span><label class="lblPortada">Portada</label></span>
+                                            </div><!-- col-2 -->
+                                            <i class="fa fa-plus imgAdd"></i>
+                                        </div><!-- row -->
+                                    </div><!-- container -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <button class="btn btn-primary btn-sm back"><i class="fas fa-angle-double-left"></i>&nbsp;Atras</button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <div id="push"></div>
@@ -122,6 +160,6 @@
 </div>
 <script src="~/Content/templateSoft/vendor/jquery/jquery.min.js"></script>
 <script src="~/Scripts/Mantenimiento/tour.js"></script>
-
+<script src="~/Content/assets/upGalleryFCP/upGalleryFCP.js"></script>
 
 

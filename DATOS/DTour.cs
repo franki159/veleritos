@@ -30,6 +30,7 @@ namespace DATOS
                     {
                         ETour mItem = new ETour();
                         mItem.ID_ENCRIP = EUtil.getEncriptar((dr.IsDBNull(dr.GetOrdinal("id_tour")) ? 0 : dr.GetInt32(dr.GetOrdinal("id_tour"))).ToString());
+                        mItem.id_tour = dr.IsDBNull(dr.GetOrdinal("id_tour")) ? 0 : dr.GetInt32(dr.GetOrdinal("id_tour"));
                         mItem.nombre = dr.IsDBNull(dr.GetOrdinal("nombre")) ? string.Empty : dr.GetString(dr.GetOrdinal("nombre"));
                         mItem.DESCRIPCION = dr.IsDBNull(dr.GetOrdinal("descripcion")) ? string.Empty : dr.GetString(dr.GetOrdinal("descripcion"));
                         mItem.detalle = dr.IsDBNull(dr.GetOrdinal("detalle")) ? string.Empty : dr.GetString(dr.GetOrdinal("detalle"));
@@ -65,13 +66,30 @@ namespace DATOS
                         mItem.caracteristicas = dr.IsDBNull(dr.GetOrdinal("caracteristicas")) ? string.Empty : dr.GetString(dr.GetOrdinal("caracteristicas"));
                         mItem.precio = dr.IsDBNull(dr.GetOrdinal("precio")) ? 0 : dr.GetDecimal(dr.GetOrdinal("precio"));
                     }
+
+                    dr.NextResult();
+
+                    List<EFoto> listaFoto = new List<EFoto>();
+
+                    while (dr.Read())
+                    {
+                        EFoto mItem2 = new EFoto();
+                        mItem2.id_foto_tour = dr.IsDBNull(dr.GetOrdinal("id_foto_tour")) ? 0 : dr.GetInt32(dr.GetOrdinal("id_foto_tour"));
+                        mItem2.orden = dr.IsDBNull(dr.GetOrdinal("orden")) ? 0 : dr.GetInt32(dr.GetOrdinal("orden"));
+                        mItem2.ruta = dr.IsDBNull(dr.GetOrdinal("ruta")) ? string.Empty : dr.GetString(dr.GetOrdinal("ruta"));
+
+                        listaFoto.Add(mItem2);
+                    }
+
+                    mItem.listFoto = listaFoto;
                 }
             }
             return mItem;
         }
 
-        public static int actualizarTour(ETour objE)
+        public static string actualizarTour(ETour objE)
         {
+            int id_tour = 0;
             using (SqlConnection cn = new SqlConnection(DConexion.Get_Connection(DConexion.DataBase.CnVelero)))
             {
                 SqlCommand cmd = new SqlCommand("sp_tour_actualizar", cn);
@@ -89,7 +107,17 @@ namespace DATOS
                 cmd.Parameters.AddWithValue("@opcion", objE.OPCION);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cn.Open();
-                return cmd.ExecuteNonQuery();
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            id_tour = dr.IsDBNull(dr.GetOrdinal("id_tour")) ? 0 : dr.GetInt32(dr.GetOrdinal("id_tour"));
+                        }
+                    }
+                }
+                return EUtil.getEncriptar(id_tour.ToString());
             }
         }
         public static int anularTour(ETour objE)
@@ -104,5 +132,57 @@ namespace DATOS
                 return cmd.ExecuteNonQuery();
             }
         }
+        public static string insertarFotoTour(EFoto objE)
+        {
+            string ruta = "";
+            using (SqlConnection cn = new SqlConnection(DConexion.Get_Connection(DConexion.DataBase.CnVelero)))
+            {
+                SqlCommand cmd = new SqlCommand("sp_fotoTour_actualizar", cn);
+                cmd.Parameters.AddWithValue("@id_tour", EUtil.getDesencriptar(objE.ID_ENCRIP));
+                cmd.Parameters.AddWithValue("@ruta", objE.ruta);
+                cmd.Parameters.AddWithValue("@orden", objE.orden);
+                cmd.Parameters.AddWithValue("@opcion", 1);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cn.Open();
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            ruta = dr.IsDBNull(dr.GetOrdinal("ruta")) ? string.Empty : dr.GetString(dr.GetOrdinal("ruta"));
+                        }
+                    }
+                }
+
+                return ruta;
+            }
+        }
+        public static string actualizarFotoTour(EFoto objE)
+        {
+            string ruta = "";
+            using (SqlConnection cn = new SqlConnection(DConexion.Get_Connection(DConexion.DataBase.CnVelero)))
+            {
+                SqlCommand cmd = new SqlCommand("sp_fotoTour_actualizar", cn);
+                cmd.Parameters.AddWithValue("@id_foto_tour", EUtil.getDesencriptar(objE.ID_ENCRIP));
+                cmd.Parameters.AddWithValue("@ruta", objE.ruta);
+                cmd.Parameters.AddWithValue("@opcion", 2);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cn.Open();
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            ruta = dr.IsDBNull(dr.GetOrdinal("ruta")) ? string.Empty : dr.GetString(dr.GetOrdinal("ruta"));
+                        }
+                    }
+                }
+
+                return ruta;
+            }
+        }
+
     }
 }

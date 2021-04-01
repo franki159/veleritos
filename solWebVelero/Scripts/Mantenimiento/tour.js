@@ -77,10 +77,10 @@ function listar_caracteristicas() {
             var html_body = "";
             for (var i = 0; i < data.Resultado.length; i++) {
                 html_body += "<div class='checkbox'>";
-                html_body += "    <label> <input type='checkbox' value='" + data.Resultado[i].CODIGO + "'>" + data.Resultado[i].DESCRIPCION + "</label>";
+                html_body += "    <label> <input type='checkbox' value='" + data.Resultado[i].CODIGO + "'>&nbsp;" + data.Resultado[i].DESCRIPCION + "</label>";
                 html_body += "</div>";
             }
-            debugger;
+
             $("#bodyCaracteristicas").html(html_body);
         },
         error: function (data) {
@@ -173,7 +173,6 @@ function listar_tour(p_sync) {
                             $("#txt_condicion").val(data.Resultado.condicion);
                             $("#txt_precio").val(data.Resultado.precio);
                             //CARACTERISTICAS
-                            debugger;
                             var lista_detalles = data.Resultado.caracteristicas.split("|");
 
                             $("#bodyCaracteristicas input:checkbox").each(function () {
@@ -183,7 +182,6 @@ function listar_tour(p_sync) {
                                     }
                                 }
                             });
-
                             $("#pnl_tour").modal('show');
                         },
                         error: function (data) {
@@ -219,6 +217,16 @@ function limpiar_tour() {
         $(this).prop('checked', false);
     });
 
+    //Limpiando imagenes
+    $(".container-file").find($(".imgSecond")).each(function () {
+        $(this).remove();
+    });
+
+    $(".container-file .imagePreview").removeAttr("id");
+    $(".container-file .imagePreview").removeAttr("img-fcp-url");
+
+    $(".container-file").find($(".imagePreview")).css("background-image", "url(../../img/noPets.png)");
+
     $("#pnl_tour .validator-error").remove();
     txh_tour = "";
 }
@@ -248,6 +256,15 @@ $("#btn_guardar").click(function (evt) {
     if (val_required_FCP($("#txt_nombre"), "nombre") === false) return;
 
     openLoading();
+    if (txh_tour === "") {//Nuevo
+        //Validando las fotos seleccionadas
+        var error_img = 0;
+        $(".container-file").find($("input")).each(function () {
+            if ($(this).get(0).files.length === 0) {
+                error_img++;
+            }
+        });
+    }
     var strCaract = "";
     $("#bodyCaracteristicas input:checkbox:checked").each(function () {
         strCaract += $(this).val() + "|";
@@ -276,7 +293,6 @@ $("#btn_guardar").click(function (evt) {
             $("#btn_guardar").attr("disabled", true);
         },
         success: function (data) {
-            debugger;
             if (!data.Activo) {
                 msg_OpenDay("e", data.Mensaje);
                 $("#btn_guardar").attr("disabled", false);
@@ -284,10 +300,152 @@ $("#btn_guardar").click(function (evt) {
                 return;
             }
 
-            $("#pnl_tour").modal('hide');
-            $("#btn_guardar").attr("disabled", false);
-            listar_tour(false);
-            msg_OpenDay("c", "Se guardó correctamente");
+            valRND = Math.floor(Math.random() * 1000);
+
+            if (txh_tour === "") {//Solo para nuevos
+                //Guardando todas las imagenes BD
+                var error_img = 0;
+                $(".container-file").find($("input")).each(function () {
+                    if ($(this).get(0).files.length !== 0) {
+                        var imgTemp = $(this)[0].files[0];
+
+                        objE = {
+                            ID_ENCRIP: data.Resultado,
+                            ruta: getExtension(imgTemp.name),
+                            id_foto_tour: 0
+                        };
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/Mantenimiento/InsertarFotoTour", 
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            data: JSON.stringify({ objE: objE }),
+                            async: false,
+                            success: function (dataImg) {
+                                if (!dataImg.Activo) {
+                                    msg_OpenDay("e", dataImg.Mensaje);
+                                    closeLoading();
+                                    return;
+                                }
+
+                                error_img += guardarImagen(evt, dataImg.Resultado, imgTemp);
+                            },
+                            error: function (data) {
+                                msg_OpenDay("e", "Inconveniente en la operación");
+                                closeLoading();
+                            }
+                        });
+
+                        evt.preventDefault();
+                    }
+                });
+
+                if (error_img > 0) {
+                    $("#pnl_tour").modal('hide');
+                    $("#btn_guardar").attr("disabled", false);
+                    closeLoading();
+                    msg_OpenDay("e", "Error al guardar imagen");
+                } else {
+                    $("#pnl_tour").modal('hide');
+                    $("#btn_guardar").attr("disabled", false);
+                    listar_tour(false);
+                    msg_OpenDay("c", "Se guardó correctamente");
+                }
+            } else if (txh_tour !== "") {//Modificar
+                //Guardando todas las imagenes BD
+                error_img = 0;
+                var inxImg = 0;
+                //Las imagenes cambiadas (solo actualiza las imagenes en el servidor no BD)
+                $(".container-file").find($("input")).each(function () {
+                    if ($(this).get(0).files.length !== 0) {
+                        if ($(this).parent().parent().children(0)[0].id !== "") {//Solo los que tiene id
+                            var imgTemp = $(this)[0].files[0];
+                            var nameAct = $(this).parent().parent().children(0).attr("img-fcp-url");
+                            var gal_id = $(this).parent().parent().children(0)[0].id.split("_")[1];
+                            //Actualizando el nombre en la base de datos
+                            obE = {
+                                ID_ENCRIP: txh_tour,
+                                ruta: getExtension(imgTemp.name),
+                                id_foto_tour: gal_id,
+                                orden: inxImg
+                            };
+
+                            $.ajax({
+                                type: "POST",
+                                url: "/Mantenimiento/ActualizarFotoTour",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                data: JSON.stringify({ objE: objE }),
+                                async: false,
+                                success: function (dataImg) {
+                                    if (!dataImg.Activo) {
+                                        msg_OpenDay("e", dataImg.Mensaje);
+                                        closeLoading();
+                                        return;
+                                    }
+
+                                    error_img += guardarImagen(evt, dataImg.Resultado, imgTemp);
+                                },
+                                error: function (data) {
+                                    msg_OpenDay("e", "Inconveniente en la operación");
+                                    closeLoading();
+                                }
+                            });
+
+                            evt.preventDefault();
+                        }
+                    }
+                    inxImg++;
+                });
+                //Si agrego mas imagenes (los que no tienen id, insertan en la bd)
+                $(".container-file").find($("input")).each(function () {
+                    if ($(this).get(0).files.length !== 0) {
+                        if ($(this).parent().parent().children(0)[0].id === "") {//Solo los que no tiene id
+                            var imgTemp = $(this)[0].files[0];
+                            objE = {
+                                ID_ENCRIP: txh_tour,
+                                ruta: getExtension(imgTemp.name),
+                                id_foto_tour: 0
+                            };
+
+                            $.ajax({
+                                type: "POST",
+                                url: "/Mantenimiento/InsertarFotoTour",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                data: JSON.stringify({ objE: objE }),
+                                async: false,
+                                success: function (dataImg) {
+                                    if (!dataImg.Activo) {
+                                        msg_OpenDay("e", dataImg.Mensaje);
+                                        closeLoading();
+                                        error_img++;
+                                        return;
+                                    }
+
+                                    error_img += guardarImagen(evt, dataImg.Resultado, imgTemp);
+                                },
+                                error: function (data) {
+                                    msg_OpenDay("e", "Inconveniente en la operación");
+                                    closeLoading();
+                                }
+                            });
+                        }
+                    }
+                });
+
+                if (error_img > 0) {
+                    $("#pnl_tour").modal('hide');
+                    $("#btn_guardar").attr("disabled", false);
+                    msg_OpenDay("e", "Error al guardar imagen");
+                } else {
+                    $("#pnl_tour").modal('hide');
+                    $("#btn_guardar").attr("disabled", false);
+                    listar_tour(false);
+                    msg_OpenDay("c", "Se guardó correctamente");
+                }
+            }
         },
         error: function (data) {
             msg_OpenDay("e", "Inconveniente en la operación");
@@ -296,3 +454,27 @@ $("#btn_guardar").click(function (evt) {
         }
     });
 });
+function guardarImagen(evt, nameId, file) {
+    var objResp = 0;
+    var dataImagen = new FormData();
+    dataImagen.append('file', file);
+    dataImagen.append('name', nameId);
+    dataImagen.append('carpeta', "~/Content/img/tour/");
+    debugger;
+    $.ajax({
+        type: "POST",
+        url: "/Controllers/Generico/hh_imageServ.ashx",
+        data: dataImagen,
+        async: false,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            objResp = 0;
+        },
+        error: function (err) {
+            objResp = 1;
+        }
+    });
+
+    return objResp;
+}

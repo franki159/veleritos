@@ -1,5 +1,4 @@
-﻿var prov_id, dis_id;
-var txh_embarcacion;
+﻿var txh_viaje;
 var txh_idConfirm = "";
 var valRND = Math.floor(Math.random() * 100);
 /*Inicializar Script*/
@@ -7,7 +6,15 @@ $(function () {
     $(document).unbind("keydown");
     openLoading();
 
-    $("#pnl_embarcacion").modal({ show: false, backdrop: 'static' });
+    $("#pnl_viaje").modal({ show: false, backdrop: 'static' });
+
+    //Fecha actual
+    var fullDate = new Date();
+    var primerDia = new Date(fullDate.getFullYear(), fullDate.getMonth(), 1);
+    var ultimoDia = new Date(fullDate.getFullYear(), fullDate.getMonth() + 1, 0);
+
+    $("#bus_txt_fec_ini").val(formatDate(primerDia, "yyyy-MM-dd"));
+    $("#bus_txt_fec_fin").val(formatDate(fullDate, "yyyy-MM-dd"));
 
     listar_inicio();
 
@@ -19,21 +26,21 @@ function aceptarConfirm() {
             openLoading();
 
             var objE = {
-                ID_ENCRIP: txh_embarcacion
+                ID_ENCRIP: txh_viaje
             };
 
             $.ajax({
                 type: "POST",
-                url: "/Mantenimiento/AnularEmbarcacion",
+                url: "/Mantenimiento/AnularViaje",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 data: JSON.stringify({ objE: objE }),
                 async: true,
                 beforeSend: function () {
-                    $("#tbl_embarcacion button").attr("disabled", true);
+                    $("#tbl_viaje button").attr("disabled", true);
                 },
                 success: function (data) {
-                    $("#tbl_embarcacion button").removeAttr("disabled");
+                    $("#tbl_viaje button").removeAttr("disabled");
 
                     if (!data.Activo) {
                         msg_OpenDay("e", data.Mensaje)
@@ -41,12 +48,12 @@ function aceptarConfirm() {
                         return;
                     }
                     
-                    listar_embarcacion(false);
+                    listar_viaje(false);
                     msg_OpenDay("c", "Se anuló correctamente");
                 },
                 error: function (data) {
                     msg_OpenDay("e", "Inconveniente en la operación");
-                    $("#tbl_embarcacion button").removeAttr("disabled");
+                    $("#tbl_viaje button").removeAttr("disabled");
                     $("#pleaseWaitDialog").modal('hide');
                 }
             });
@@ -57,24 +64,100 @@ function aceptarConfirm() {
     }
 }
 
-function listar_inicio() {
-    listar_parametros_select("sel_tip_comb", "TIP_COMBUS", false);
-    listar_parametros_select("sel_color", "COL_EMB", false);
-    listar_parametros_select("sel_ambito", "AMBITO", false);
-    listar_parametros_select("sel_tipo_nav", "TIP_NAV", false);
-    listar_parametros_select("sel_tipo_serv", "TIP_SERV", false);
-    listar_parametros_select("sel_constructora", "CONSTRUCTORA", false);
-    closeLoading();
-}
-function listar_embarcacion(p_sync) {
-    openLoading();
+function listar_tour() {
     var objE = {
-        nombre: $("#bus_txt_nombre").val()
+        nombre: ""
     };
 
     $.ajax({
         type: "POST",
-        url: "/Mantenimiento/ListaEmbarcacion",
+        url: "/Mantenimiento/ListaTour",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify({
+            objE: objE
+        }),
+        async: false,
+        beforeSend: function () {
+            $('#sel_tour').empty();
+        },
+        success: function (data) {
+            if (!data.Activo) {
+                msg_OpenDay("e", data.Mensaje)
+                closeLoading();
+                return;
+            }
+
+            $('#bus_sel_tour').append("<option value='0'>TODOS</option>");
+            $('#sel_tour').append("<option></option>");
+            for (var i = 0; i < data.Resultado.length; i++) {
+                $('#bus_sel_tour').append("<option value='" + data.Resultado[i].id_tour + "'>" + data.Resultado[i].nombre + "</option>");
+                $('#sel_tour').append("<option value='" + data.Resultado[i].id_tour + "'>" + data.Resultado[i].nombre + "</option>");
+            }
+        },
+        error: function (data) {
+            msg_OpenDay("e", "Inconveniente en la operación");
+            closeLoading();
+        }
+    });
+}
+function listar_empleado(cargo, nom_control) {
+    var objE = {
+        CARGO: cargo,
+        NOMBRES: ""
+    };
+    debugger;
+    $.ajax({
+        type: "POST",
+        url: "/Mantenimiento/ListaEmpleados",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify({
+            objE: objE
+        }),
+        async: false,
+        beforeSend: function () {
+            $("#btn_buscar").attr("disabled", true);
+            $('#tbl_empleado tbody').empty();
+        },
+        success: function (data) {
+            $("#btn_buscar").removeAttr("disabled");
+
+            if (!data.Activo) {
+                msg_OpenDay("e", data.Mensaje)
+                closeLoading();
+                return;
+            }
+
+            $('#' + nom_control).append("<option></option>");
+            for (var i = 0; i < data.Resultado.length; i++) {
+                $('#' + nom_control).append("<option value='" + data.Resultado[i].id_tour + "'>" + data.Resultado[i].NOMBRES + ' ' + data.Resultado[i].APELLIDOS + "</option>");
+            }
+        },
+        error: function (data) {
+            msg_OpenDay("e", "Inconveniente en la operación");
+            closeLoading();
+        }
+    });
+}
+function listar_inicio() {
+    listar_tour();
+    listar_empleado("001", "sel_piloto");
+    listar_empleado("002", "sel_copiloto");
+    listar_viaje(false);
+    closeLoading();
+}
+function listar_viaje(p_sync) {
+    openLoading();
+    var objE = {
+        id_tour: $("#bus_sel_tour").val(),
+        fecha_ini: $("#bus_txt_fec_ini").val() === "" ? null : getDateFromFormat($("#bus_txt_fec_ini").val(), 'yyyy-MM-dd'),
+        fecha_fin: $("#bus_txt_fec_fin").val() === "" ? null : getDateFromFormat($("#bus_txt_fec_fin").val(), 'yyyy-MM-dd'),
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/Mantenimiento/ListaViaje",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify({
@@ -83,7 +166,7 @@ function listar_embarcacion(p_sync) {
         async: p_sync,
         beforeSend: function () {
             $("#btn_buscar").attr("disabled", true);
-            $('#tbl_embarcacion tbody').empty();
+            $('#tbl_viaje tbody').empty();
         },
         success: function (data) {
             $("#btn_buscar").removeAttr("disabled");
@@ -102,45 +185,50 @@ function listar_embarcacion(p_sync) {
                 html += '<tr><td>' + htmlBotones + '</td>';
                 html += '<td style="display:none">' + data.Resultado[i].ID_ENCRIP + '</td>';
                 html += '<td>' + data.Resultado[i].nombre + '</td>';
-                html += '<td>' + data.Resultado[i].tipo_combustible + '</td>';
-                html += '<td>' + data.Resultado[i].num_asiento + '</td>';
-                html += '<td>' + data.Resultado[i].color + '</td></tr>';
+                html += '<td>' + formatDate(parseDateServer(data.Resultado[i].fecha_ini), "dd-MM-yyyy") + '</td>';
+                html += '<td>' + formatDate(parseDateServer(data.Resultado[i].fecha_ini), "hh:mm") + '</td>';
+                html += '<td>' + formatDate(parseDateServer(data.Resultado[i].fecha_fin), "hh:mm") + '</td>';
+                html += '<td>' + data.Resultado[i].precio + '</td>';
+                html += '<td>' + data.Resultado[i].descuento + '</td></tr>';
             }
 
-            $("#tbl_embarcacion tbody").append(html);
+            $("#tbl_viaje tbody").append(html);
             $("#lblTotalReg").html("Total registros: " + data.Resultado.length);
 
-            $("#tbl_embarcacion button").click(function () {
+            $("#tbl_viaje button").click(function () {
                 if ($(this).attr("name") === "editar") {
-                    $('#pnl_embarcacion .modal-title').html('Editar Embarcacion');
-                    limpiar_embarcacion();
-                    txh_embarcacion = $(this).parent().parent().find("td").eq(1).html();
-                    txh_embarcacion = validaTableMobile(txh_embarcacion);
+                    $('#pnl_viaje .modal-title').html('Editar Viaje');
+                    limpiar_viaje();
+                    txh_viaje = $(this).parent().parent().find("td").eq(1).html();
+                    txh_viaje = validaTableMobile(txh_viaje);
 
                     objE = {
-                        ID_ENCRIP: txh_embarcacion
+                        ID_ENCRIP: txh_viaje
                     };
 
                     $.ajax({
                         type: "POST",
-                        url: "/Mantenimiento/ObtenerEmbarcacionxId",
+                        url: "/Mantenimiento/ObtenerViajexId",
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         data: JSON.stringify({ objE: objE }),
                         async: true,
                         beforeSend: function () {
-                            $("#errorEmbarcacion").html('');
-                            $("#tbl_embarcacion button").attr("disabled", true);
+                            $("#errorViaje").html('');
+                            $("#tbl_viaje button").attr("disabled", true);
                         },
                         success: function (data) {
-                            $("#tbl_embarcacion button").removeAttr("disabled");
+                            $("#tbl_viaje button").removeAttr("disabled");
 
                             if (data.error) {
                                 msg_OpenDay("e", data.Mensaje);
                                 return;
                             }
+                            $("#sel_tour").val(data.Resultado.id_tour);
+                            $("#sel_piloto").val(data.Resultado.piloto);
+                            $("#sel_copiloto").val(data.Resultado.copiloto);
                             $("#txt_nombre").val(data.Resultado.nombre);
-                            $("#sel_tip_comb").val(data.Resultado.tipo_combustible);
+                            
                             $("#txt_num_asiento").val(data.Resultado.num_asiento);
                             $("#sel_color").val(data.Resultado.color);
                             $("#txt_nave").val(data.Resultado.id_nave);
@@ -151,18 +239,18 @@ function listar_embarcacion(p_sync) {
                             $("#sel_tipo_serv").val(data.Resultado.tipo_serv);
                             $("#sel_constructora").val(data.Resultado.constructora);
 
-                            $("#pnl_embarcacion").modal('show');
+                            $("#pnl_viaje").modal('show');
                         },
                         error: function (data) {
                             msg_OpenDay("e", "Inconveniente en la operación");
-                            $("#tbl_embarcacion button").removeAttr("disabled");
+                            $("#tbl_viaje button").removeAttr("disabled");
                         }
                     });
                     event.preventDefault();
                 } else if ($(this).attr("name") === "anular") {
                     txh_idConfirm = 'ANULAR';
-                    txh_embarcacion = $(this).parent().parent().find("td").eq(1).html();
-                    txh_embarcacion = validaTableMobile(txh_embarcacion);
+                    txh_viaje = $(this).parent().parent().find("td").eq(1).html();
+                    txh_viaje = validaTableMobile(txh_viaje);
                     window.parent.fc_mostrar_confirmacion("¿Esta seguro de <strong>ELIMINAR</strong> el Convenio?");
                 }
             });
@@ -176,15 +264,15 @@ function listar_embarcacion(p_sync) {
         }
     });
 }
-function limpiar_embarcacion() {
-    $("#errorEmbarcacion").html('');
+function limpiar_viaje() {
+    $("#errorViaje").html('');
 
-    $("#pnl_embarcacion input").val('');
-    $("#pnl_embarcacion textarea").val('');
-    $("#pnl_embarcacion sel_cargo").val(0);
+    $("#pnl_viaje input").val('');
+    $("#pnl_viaje textarea").val('');
+    $("#pnl_viaje sel_cargo").val(0);
 
-    $("#pnl_embarcacion .validator-error").remove();
-    txh_embarcacion = "";
+    $("#pnl_viaje .validator-error").remove();
+    txh_viaje = "";
 }
 /*Eventos por Control*/
 $(document).on('keypress', function (evt) {
@@ -198,24 +286,24 @@ $(document).on('keypress', function (evt) {
     }
 });
 $("#btn_buscar").click(function () {
-    listar_embarcacion(true);
+    listar_viaje(true);
 });
 $("#btn_nuevo").click(function () {
-    limpiar_embarcacion();
-    $('#pnl_embarcacion .modal-title').html('Registrar Embarcacion');
-    $("#pnl_embarcacion").modal('show');
+    limpiar_viaje();
+    $('#pnl_viaje .modal-title').html('Registrar Viaje');
+    $("#pnl_viaje").modal('show');
 
     //$("#sel_tipo").focus();
 });
 $("#btn_guardar").click(function (evt) {
-    $("#pnl_embarcacion .validator-error").remove();
+    $("#pnl_viaje .validator-error").remove();
     if (val_required_FCP($("#txt_nombre"), "nombre") === false) return;
     if (val_required_FCP($("#txt_num_asiento"), "Número de asientos") === false) return;
 
     openLoading();
     
     var objE = {
-        ID_ENCRIP: txh_embarcacion,
+        ID_ENCRIP: txh_viaje,
         nombre: $("#txt_nombre").val(),
         tipo_combustible: $("#sel_tip_comb").val(),
         num_asiento: $("#txt_num_asiento").val(),
@@ -231,7 +319,7 @@ $("#btn_guardar").click(function (evt) {
 
     $.ajax({
         type: "POST",
-        url: "/Mantenimiento/ActualizarEmbarcacion",
+        url: "/Mantenimiento/ActualizarViaje",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify({ objE: objE }),
@@ -248,9 +336,9 @@ $("#btn_guardar").click(function (evt) {
                 return;
             }
 
-            $("#pnl_embarcacion").modal('hide');
+            $("#pnl_viaje").modal('hide');
             $("#btn_guardar").attr("disabled", false);
-            listar_embarcacion(false);
+            listar_viaje(false);
             msg_OpenDay("c", "Se guardó correctamente");
         },
         error: function (data) {
