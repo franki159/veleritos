@@ -27,6 +27,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -214,6 +215,7 @@
     </Compile>
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MantenimientoController.cs" />
+    <Compile Include="Controllers\ProcesoController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -2304,6 +2306,7 @@
     <Content Include="Scripts\Mantenimiento\embarcacion.js" />
     <Content Include="Scripts\Mantenimiento\empleado.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Proceso\entrada.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\Seguridad\cambiarclave.js" />
@@ -2331,6 +2334,7 @@
     <Content Include="Views\Mantenimiento\Embarcacion.cshtml" />
     <Content Include="Views\Mantenimiento\Tour.cshtml" />
     <Content Include="Views\Mantenimiento\Viaje.cshtml" />
+    <Content Include="Views\Proceso\Entrada.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

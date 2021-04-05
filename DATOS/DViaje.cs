@@ -62,7 +62,7 @@ namespace DATOS
                         mItem.piloto = dr.IsDBNull(dr.GetOrdinal("piloto")) ? 0 : dr.GetInt32(dr.GetOrdinal("piloto"));
                         mItem.copiloto = dr.IsDBNull(dr.GetOrdinal("copiloto")) ? 0 : dr.GetInt32(dr.GetOrdinal("copiloto"));
                         mItem.nombre = dr.IsDBNull(dr.GetOrdinal("nombre")) ? string.Empty : dr.GetString(dr.GetOrdinal("nombre"));
-                        mItem.descripcion = dr.IsDBNull(dr.GetOrdinal("descripcion")) ? string.Empty : dr.GetString(dr.GetOrdinal("descripcion"));
+                        mItem.DESCRIPCION = dr.IsDBNull(dr.GetOrdinal("descripcion")) ? string.Empty : dr.GetString(dr.GetOrdinal("descripcion"));
                         mItem.observacion = dr.IsDBNull(dr.GetOrdinal("observacion")) ? string.Empty : dr.GetString(dr.GetOrdinal("observacion"));
                         mItem.fecha_ini = dr.IsDBNull(dr.GetOrdinal("fecha_ini")) ? DateTime.MinValue : dr.GetDateTime(dr.GetOrdinal("fecha_ini"));
                         mItem.fecha_fin = dr.IsDBNull(dr.GetOrdinal("fecha_fin")) ? DateTime.MinValue : dr.GetDateTime(dr.GetOrdinal("fecha_fin"));
@@ -87,12 +87,13 @@ namespace DATOS
                 cmd.Parameters.AddWithValue("@piloto", objE.piloto);
                 cmd.Parameters.AddWithValue("@copiloto", objE.copiloto);
                 cmd.Parameters.AddWithValue("@nombre", objE.nombre);
-                cmd.Parameters.AddWithValue("@descripcion", objE.descripcion);
+                cmd.Parameters.AddWithValue("@descripcion", objE.DESCRIPCION);
                 cmd.Parameters.AddWithValue("@observacion", objE.observacion);
                 cmd.Parameters.AddWithValue("@precio", objE.precio);
                 cmd.Parameters.AddWithValue("@descuento", objE.descuento);
                 cmd.Parameters.AddWithValue("@fecha_ini", objE.fecha_ini);
                 cmd.Parameters.AddWithValue("@fecha_fin", objE.fecha_fin);
+                cmd.Parameters.AddWithValue("@dia_semana", objE.dia_semana);
                 cmd.Parameters.AddWithValue("@usuario", objE.USUARIO.ID_USUARIO);
                 cmd.Parameters.AddWithValue("@opcion", objE.OPCION);
                 cmd.CommandType = CommandType.StoredProcedure;

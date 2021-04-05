@@ -1,0 +1,454 @@
+﻿
+@{
+    ViewBag.Title = "Entrada";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Búsqueda de viajes disponibles</h6>
+                    </div>
+                    <div class="card-body" id="pnl_busqueda">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Tour</label>
+                                    <select id="bus_sel_tour" class="form-control sel_autocomplete" style="width: 100%;"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Inicio</label>
+                                    <input id="bus_txt_fec_ini" class="form-control" type="date">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Fin</label>
+                                    <input id="bus_txt_fec_fin" class="form-control" type="date">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button id="btn_buscar" class="btn btn-3-info btn-icon-split">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                    <span class="text">Buscar</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div id="body_viajes_disp"></div>
+
+        @*<div class="row">
+                <div class="col-md-12">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Earnings (Monthly)</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-ship fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+    </div>
+
+    <div class="col-md-6" id="divAsiento">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary" id="titulo_asiento"></h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table>
+                            <tr>
+                                <td>Copiloto</td>
+                                <td>
+                                    <div style="position:relative">
+                                        <div name="editar" style="font-size: 30px;" class="btn btn-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">40</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 21px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">1</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 21px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">2</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <div style="position:relative">
+                                        <div name="editar" style="font-size: 30px;" class="btn btn-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">41</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Piloto</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 21px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">3</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 21px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">4</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 21px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">5</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 21px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">6</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 21px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">7</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 21px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">8</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 21px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">9</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">10</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">11</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">12</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">13</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">14</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">15</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">16</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">17</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">18</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">19</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">20</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">21</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">22</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">23</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">24</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">25</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">26</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">27</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">28</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">29</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">30</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">31</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">32</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">33</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">34</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">35</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">36</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">37</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">38</span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="position:relative">
+                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                            <i class="fas fa-couch"></i>
+                                            <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">39</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Content/templateSoft/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Scripts/Proceso/entrada.js"></script>
+</div>
+

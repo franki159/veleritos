@@ -31,6 +31,7 @@ namespace DATOS
                     {
                         EEmpleado mItem = new EEmpleado();
                         mItem.ID_ENCRIP = EUtil.getEncriptar((dr.IsDBNull(dr.GetOrdinal("ID_EMPLEADO")) ? 0 : dr.GetInt32(dr.GetOrdinal("ID_EMPLEADO"))).ToString());
+                        mItem.ID_EMPLEADO = dr.IsDBNull(dr.GetOrdinal("ID_EMPLEADO")) ? 0 : dr.GetInt32(dr.GetOrdinal("ID_EMPLEADO"));
                         mItem.NOMBRES = dr.IsDBNull(dr.GetOrdinal("NOMBRES")) ? string.Empty : dr.GetString(dr.GetOrdinal("NOMBRES"));
                         mItem.APELLIDOS = dr.IsDBNull(dr.GetOrdinal("APELLIDOS")) ? string.Empty : dr.GetString(dr.GetOrdinal("APELLIDOS"));
                         mItem.CARGO = dr.IsDBNull(dr.GetOrdinal("CARGO")) ? string.Empty : dr.GetString(dr.GetOrdinal("CARGO"));

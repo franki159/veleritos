@@ -130,7 +130,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Precio real</label>
-                            <input id="txt_precio" placeholder="Ingrese precio" class="form-control decimalFCP" type="text" maxlength="100" />
+                            <input id="txt_precio_real" placeholder="Ingrese precio" class="form-control decimalFCP" type="text" maxlength="100" />
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -145,7 +145,7 @@
                             <input id="txt_fec_ini" class="form-control" type="date">
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" id="div_fec_ini">
                         <div class="form-group">
                             <label>Hasta&nbsp;<strong class="text-danger">(*)</strong></label>
                             <input id="txt_fec_fin" class="form-control" type="date">
@@ -154,27 +154,37 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Hora inicio&nbsp;<strong class="text-danger">(*)</strong></label>
-                            <input id="txt_fec_ini" class="form-control" type="date">
+                            <input id="txt_hor_ini" class="form-control" type="time">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Hasta fin&nbsp;<strong class="text-danger">(*)</strong></label>
-                            <input id="txt_fec_fin" class="form-control" type="date">
+                            <input id="txt_hor_fin" class="form-control" type="time">
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-12"  id="bodyDias">
                         <div class="form-group">
                             <div class="card">
-                                <div class="card-header">Caracteristicas</div>
-                                <div class="card-body" style="height: 200px; overflow: auto;">
-                                    <div class='checkbox'>
-                                        <label> <input type='checkbox' value='1'>&nbsp;L</label>
-                                        <label> <input type='checkbox' value='1'>&nbsp;M</label>
-                                        <label> <input type='checkbox' value='1'>&nbsp;M</label>
-                                        <label> <input type='checkbox' value='1'>&nbsp;Lunes</label>
-                                        <label> <input type='checkbox' value='1'>&nbsp;Lunes</label>
-                                        <label> <input type='checkbox' value='1'>&nbsp;Lunes</label>
+                                <div class="card-header">Días del tour</div>
+                                <div class="card-body">
+                                    <div>
+                                        <h4>
+                                            <input type='checkbox' class="val-input-dinamic" checked="checked" value='1'>
+                                            <label class="form-check-label" for="exampleCheck1">Do</label>
+                                            <input type='checkbox' class="val-input-dinamic" checked="checked" value='2'>
+                                            <label class="form-check-label" for="exampleCheck1">Lu</label>
+                                            <input type='checkbox' class="val-input-dinamic" checked="checked" value='3'>
+                                            <label class="form-check-label" for="exampleCheck1">Ma</label>
+                                            <input type='checkbox' class="val-input-dinamic" checked="checked" value='4'>
+                                            <label class="form-check-label" for="exampleCheck1">Mi</label>
+                                            <input type='checkbox' class="val-input-dinamic" checked="checked" value='5'>
+                                            <label class="form-check-label" for="exampleCheck1">Ju</label>
+                                            <input type='checkbox' class="val-input-dinamic" checked="checked" value='6'>
+                                            <label class="form-check-label" for="exampleCheck1">Vi</label>
+                                            <input type='checkbox' class="val-input-dinamic" checked="checked" value='7'>
+                                            <label class="form-check-label" for="exampleCheck1">Sa</label>
+                                        </h4>
                                     </div>
                                 </div>
                             </div>

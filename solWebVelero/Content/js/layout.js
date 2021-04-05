@@ -57,10 +57,10 @@ function InfoSesion() {
                         default: break;
                     }
 
-                    htmlMenu += '<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMascot" aria-expanded="true" aria-controls="collapseMascot">';
+                    htmlMenu += '<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse' + data.Resultado.ListaMenu[i].DESCRIPCION + '" aria-expanded="true" aria-controls="collapse' + data.Resultado.ListaMenu[i].DESCRIPCION + '">';
                     htmlMenu += '   <i class="' + icoMenu + '"></i><span>' + data.Resultado.ListaMenu[i].DESCRIPCION + '</span>';
                     htmlMenu += '</a>';
-                    htmlMenu += '<div id="collapseMascot" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">';
+                    htmlMenu += '<div id="collapse' + data.Resultado.ListaMenu[i].DESCRIPCION + '" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">';
                     htmlMenu += '   <div class="bg-white py-2 collapse-inner rounded">';
 
                     for (var k = 0; k < data.Resultado.ListaMenu.length; k++) {

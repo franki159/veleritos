@@ -182,6 +182,18 @@ function listar_tour(p_sync) {
                                     }
                                 }
                             });
+                            //Fotos de TOUR
+                            for (var masc = 0; masc < data.Resultado.listFoto.length; masc++) {
+                                if (masc === 0) {
+                                    $('.imagePreview').css("background-image", "url(../../Content/img/tour/" + data.Resultado.listFoto[0].ruta + "?v=" + valRND + ")");
+                                    $('.imagePreview').attr('img-fcp-url', data.Resultado.listFoto[0].ruta);
+                                    $('.imagePreview').attr('id', 'imgGal_' + + data.Resultado.listFoto[0].id_tour);
+                                } else {
+                                    $(".container-file").closest(".row").find('.imgAdd').before('<div class="col-sm-2 imgUp imgSecond"><div class="imagePreview" id="imgGal_' + data.Resultado.listFoto[masc].id_tour + '"></div><label class="btn btn-primary btn-upload">Subir<input type="file" class="uploadFile img" value="Upload Photo" style="width:0px;height:0px;overflow:hidden;"></label><i class="fa fa-times del"></i></div>');
+                                    $("#imgGal_" + data.Resultado.listFoto[masc].id_tour).css("background-image", "url(img/mascota/" + data.Resultado.listFoto[masc].ruta + "?v=" + valRND + ")");
+                                    $("#imgGal_" + data.Resultado.listFoto[masc].id_tour).attr('img-fcp-url', data.Resultado.listFoto[masc].ruta);
+                                }
+                            }
                             $("#pnl_tour").modal('show');
                         },
                         error: function (data) {
@@ -228,6 +240,7 @@ function limpiar_tour() {
     $(".container-file").find($(".imagePreview")).css("background-image", "url(../../img/noPets.png)");
 
     $("#pnl_tour .validator-error").remove();
+    activaTab('dato');
     txh_tour = "";
 }
 /*Eventos por Control*/
@@ -253,18 +266,12 @@ $("#btn_nuevo").click(function () {
 });
 $("#btn_guardar").click(function (evt) {
     $("#pnl_tour .validator-error").remove();
-    if (val_required_FCP($("#txt_nombre"), "nombre") === false) return;
+    if (val_required_FCP($("#txt_nombre"), "nombre") === false) {
+        activaTab('dato');
+        return;
+    } 
 
     openLoading();
-    if (txh_tour === "") {//Nuevo
-        //Validando las fotos seleccionadas
-        var error_img = 0;
-        $(".container-file").find($("input")).each(function () {
-            if ($(this).get(0).files.length === 0) {
-                error_img++;
-            }
-        });
-    }
     var strCaract = "";
     $("#bodyCaracteristicas input:checkbox:checked").each(function () {
         strCaract += $(this).val() + "|";
@@ -460,7 +467,7 @@ function guardarImagen(evt, nameId, file) {
     dataImagen.append('file', file);
     dataImagen.append('name', nameId);
     dataImagen.append('carpeta', "~/Content/img/tour/");
-    debugger;
+   
     $.ajax({
         type: "POST",
         url: "/Controllers/Generico/hh_imageServ.ashx",

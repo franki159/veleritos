@@ -15,9 +15,13 @@ $(function () {
 
     $("#bus_txt_fec_ini").val(formatDate(primerDia, "yyyy-MM-dd"));
     $("#bus_txt_fec_fin").val(formatDate(fullDate, "yyyy-MM-dd"));
-
+    $("#sel_tour").on('change', function () {
+        var precio_tour = $('option:selected', this).attr("att-precio");
+        $("#txt_precio").val(precio_tour);
+        $("#txt_precio_real").val(precio_tour);
+    });
     listar_inicio();
-
+    
     $("#bus_txt_nombre").focus();
 });
 function aceptarConfirm() {
@@ -92,7 +96,7 @@ function listar_tour() {
             $('#sel_tour').append("<option></option>");
             for (var i = 0; i < data.Resultado.length; i++) {
                 $('#bus_sel_tour').append("<option value='" + data.Resultado[i].id_tour + "'>" + data.Resultado[i].nombre + "</option>");
-                $('#sel_tour').append("<option value='" + data.Resultado[i].id_tour + "'>" + data.Resultado[i].nombre + "</option>");
+                $('#sel_tour').append("<option value='" + data.Resultado[i].id_tour + "' att-precio='" + data.Resultado[i].precio +"'>" + data.Resultado[i].nombre + "</option>");
             }
         },
         error: function (data) {
@@ -106,7 +110,7 @@ function listar_empleado(cargo, nom_control) {
         CARGO: cargo,
         NOMBRES: ""
     };
-    debugger;
+    
     $.ajax({
         type: "POST",
         url: "/Mantenimiento/ListaEmpleados",
@@ -128,10 +132,10 @@ function listar_empleado(cargo, nom_control) {
                 closeLoading();
                 return;
             }
-
+            
             $('#' + nom_control).append("<option></option>");
             for (var i = 0; i < data.Resultado.length; i++) {
-                $('#' + nom_control).append("<option value='" + data.Resultado[i].id_tour + "'>" + data.Resultado[i].NOMBRES + ' ' + data.Resultado[i].APELLIDOS + "</option>");
+                $('#' + nom_control).append("<option value='" + data.Resultado[i].ID_EMPLEADO + "'>" + data.Resultado[i].NOMBRES + ' ' + data.Resultado[i].APELLIDOS + "</option>");
             }
         },
         error: function (data) {
@@ -141,10 +145,11 @@ function listar_empleado(cargo, nom_control) {
     });
 }
 function listar_inicio() {
+    debugger;
     listar_tour();
     listar_empleado("001", "sel_piloto");
     listar_empleado("002", "sel_copiloto");
-    listar_viaje(false);
+    //listar_viaje(false);
     closeLoading();
 }
 function listar_viaje(p_sync) {
@@ -186,8 +191,8 @@ function listar_viaje(p_sync) {
                 html += '<td style="display:none">' + data.Resultado[i].ID_ENCRIP + '</td>';
                 html += '<td>' + data.Resultado[i].nombre + '</td>';
                 html += '<td>' + formatDate(parseDateServer(data.Resultado[i].fecha_ini), "dd-MM-yyyy") + '</td>';
-                html += '<td>' + formatDate(parseDateServer(data.Resultado[i].fecha_ini), "hh:mm") + '</td>';
-                html += '<td>' + formatDate(parseDateServer(data.Resultado[i].fecha_fin), "hh:mm") + '</td>';
+                html += '<td>' + formatDate(parseDateServer(data.Resultado[i].fecha_ini), "HH:mm") + '</td>';
+                html += '<td>' + formatDate(parseDateServer(data.Resultado[i].fecha_fin), "HH:mm") + '</td>';
                 html += '<td>' + data.Resultado[i].precio + '</td>';
                 html += '<td>' + data.Resultado[i].descuento + '</td></tr>';
             }
@@ -224,21 +229,19 @@ function listar_viaje(p_sync) {
                                 msg_OpenDay("e", data.Mensaje);
                                 return;
                             }
-                            $("#sel_tour").val(data.Resultado.id_tour);
-                            $("#sel_piloto").val(data.Resultado.piloto);
-                            $("#sel_copiloto").val(data.Resultado.copiloto);
+                            $("#sel_tour").val(data.Resultado.id_tour).change();
+                            $("#sel_piloto").val(data.Resultado.piloto).change();
+                            $("#sel_copiloto").val(data.Resultado.copiloto).change();
                             $("#txt_nombre").val(data.Resultado.nombre);
-                            
-                            $("#txt_num_asiento").val(data.Resultado.num_asiento);
-                            $("#sel_color").val(data.Resultado.color);
-                            $("#txt_nave").val(data.Resultado.id_nave);
-                            $("#txt_cod_inter").val(data.Resultado.cod_inter_llam);
-                            $("#txt_num_omi").val(data.Resultado.num_omi);
-                            $("#sel_ambito").val(data.Resultado.ambito);
-                            $("#sel_tipo_nav").val(data.Resultado.tipo_nav);
-                            $("#sel_tipo_serv").val(data.Resultado.tipo_serv);
-                            $("#sel_constructora").val(data.Resultado.constructora);
-
+                            $("#txt_descripcion").val(data.Resultado.DESCRIPCION);
+                            $("#txt_observacion").val(data.Resultado.observacion);
+                            $("#txt_precio_real").val(data.Resultado.precio);
+                            $("#txt_descuento").val(data.Resultado.descuento);
+                            $("#txt_fec_ini").val(formatDate(parseDateServer(data.Resultado.fecha_ini), "yyyy-MM-dd"));
+                            $("#txt_hor_ini").val(formatDate(parseDateServer(data.Resultado.fecha_ini), "HH:mm"));
+                            $("#txt_hor_fin").val(formatDate(parseDateServer(data.Resultado.fecha_fin), "HH:mm"));
+                            $("#div_fec_ini").hide();
+                            $("#bodyDias").hide();
                             $("#pnl_viaje").modal('show');
                         },
                         error: function (data) {
@@ -267,9 +270,11 @@ function listar_viaje(p_sync) {
 function limpiar_viaje() {
     $("#errorViaje").html('');
 
-    $("#pnl_viaje input").val('');
+    $("#pnl_viaje input[type=text]").val('');
     $("#pnl_viaje textarea").val('');
-    $("#pnl_viaje sel_cargo").val(0);
+    $("#pnl_viaje select").val(null).change();
+    $("#sel_piloto").val(0);
+    $("#sel_copiloto").val(0);
 
     $("#pnl_viaje .validator-error").remove();
     txh_viaje = "";
@@ -285,38 +290,70 @@ $(document).on('keypress', function (evt) {
             break;
     }
 });
+
 $("#btn_buscar").click(function () {
     listar_viaje(true);
 });
 $("#btn_nuevo").click(function () {
     limpiar_viaje();
+    $("#div_fec_ini").show();
+    $("#bodyDias").show();
     $('#pnl_viaje .modal-title').html('Registrar Viaje');
     $("#pnl_viaje").modal('show');
 
     //$("#sel_tipo").focus();
 });
 $("#btn_guardar").click(function (evt) {
+    debugger;
     $("#pnl_viaje .validator-error").remove();
-    if (val_required_FCP($("#txt_nombre"), "nombre") === false) return;
-    if (val_required_FCP($("#txt_num_asiento"), "Número de asientos") === false) return;
+    if (val_required_FCP($("#sel_tour"), "tour") === false) return;
+    if (val_required_FCP($("#sel_piloto"), "poloto") === false) return;
+    if (val_required_FCP($("#sel_copiloto"), "poloto") === false) return;
+    if (val_required_FCP($("#txt_fec_ini"), "fecha inicio") === false) return;
+    if (txh_viaje === "") {
+        if (val_required_FCP($("#txt_fec_fin"), "fecha fin") === false) return;
+    }
+    if (val_required_FCP($("#txt_hor_ini"), "fecha fin") === false) return;
+    if (val_required_FCP($("#txt_hor_fin"), "fecha fin") === false) return;
 
     openLoading();
-    
+
+    var ifecInicio = getDateFromFormat($("#txt_fec_ini").val() + ' ' + $("#txt_hor_ini").val(), 'yyyy-MM-dd HH:mm');
+    var ifecFin = getDateFromFormat($("#txt_fec_fin").val() + ' ' + $("#txt_hor_fin").val(), 'yyyy-MM-dd HH:mm');
+
+    if (txh_viaje === "") {
+        ifecInicio = getDateFromFormat($("#txt_fec_ini").val() + ' ' + $("#txt_hor_ini").val(), 'yyyy-MM-dd HH:mm');
+        ifecFin = getDateFromFormat($("#txt_fec_fin").val() + ' ' + $("#txt_hor_fin").val(), 'yyyy-MM-dd HH:mm');
+    } else {
+        ifecInicio = getDateFromFormat($("#txt_fec_ini").val() + ' ' + $("#txt_hor_ini").val(), 'yyyy-MM-dd HH:mm');
+        ifecFin = getDateFromFormat($("#txt_fec_ini").val() + ' ' + $("#txt_hor_fin").val(), 'yyyy-MM-dd HH:mm');
+    }
+
+    //Obteniendo días de la semana 
+    var ldias = "";
+
+    $("#bodyDias .val-input-dinamic").each(function () {
+        var input = $(this);
+        if (input.is(':checked')) {
+            ldias = ldias + input.val() + "," 
+        }
+    });
+   
     var objE = {
         ID_ENCRIP: txh_viaje,
+        id_tour: $("#sel_tour").val(),
+        piloto: $("#sel_piloto").val(),
+        copiloto: $("#sel_copiloto").val(),
         nombre: $("#txt_nombre").val(),
-        tipo_combustible: $("#sel_tip_comb").val(),
-        num_asiento: $("#txt_num_asiento").val(),
-        color: $("#sel_color").val(),
-        id_nave: $("#txt_nave").val(),
-        cod_inter_llam: $("#txt_cod_inter").val(),
-        num_omi: $("#txt_num_omi").val(),
-        ambito: $("#sel_ambito").val(),
-        tipo_nav: $("#sel_tipo_nav").val(),
-        tipo_serv: $("#sel_tipo_serv").val(),
-        constructora: $("#sel_constructora").val(),
+        DESCRIPCION: $("#txt_descripcion").val(),
+        observacion: $("#txt_observacion").val(),
+        precio: $("#txt_precio_real").val(),
+        descuento: $("#txt_descuento").val(),
+        fecha_ini: ifecInicio,
+        fecha_fin: ifecFin,
+        dia_semana: ldias
     };
-
+    
     $.ajax({
         type: "POST",
         url: "/Mantenimiento/ActualizarViaje",
@@ -328,7 +365,6 @@ $("#btn_guardar").click(function (evt) {
             $("#btn_guardar").attr("disabled", true);
         },
         success: function (data) {
-            debugger;
             if (!data.Activo) {
                 msg_OpenDay("e", data.Mensaje);
                 $("#btn_guardar").attr("disabled", false);

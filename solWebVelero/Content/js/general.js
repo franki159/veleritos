@@ -628,3 +628,7 @@ function loadingControl(id, msg) {
 function resetControl(id) {
     $('#' + id).html('').removeClass('disabled');
 }
+
+function activaTab(tab) {
+    $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+}
