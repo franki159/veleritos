@@ -42,6 +42,39 @@ namespace DATOS
             }
             return lista;
         }
+        public static List<EViaje> ListarViajeVigente(EViaje objE)
+        {
+            List<EViaje> lista = new List<EViaje>();
+
+            using (SqlConnection cn = new SqlConnection(DConexion.Get_Connection(DConexion.DataBase.CnVelero)))
+            {
+                SqlCommand cmd = new SqlCommand("sp_viaje_listar_vigente", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id_tour", objE.id_tour);
+                cmd.Parameters.AddWithValue("@fecha_ini", objE.fecha_ini);
+                cmd.Parameters.AddWithValue("@fecha_fin", objE.fecha_fin);
+                cn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        EViaje mItem = new EViaje();
+                        mItem.ID_ENCRIP = EUtil.getEncriptar((dr.IsDBNull(dr.GetOrdinal("id_viaje")) ? 0 : dr.GetInt32(dr.GetOrdinal("id_viaje"))).ToString());
+                        mItem.nombre = dr.IsDBNull(dr.GetOrdinal("nombre")) ? string.Empty : dr.GetString(dr.GetOrdinal("nombre"));
+                        mItem.fecha_ini = dr.IsDBNull(dr.GetOrdinal("fecha_ini")) ? DateTime.MinValue : dr.GetDateTime(dr.GetOrdinal("fecha_ini"));
+                        mItem.fecha_fin = dr.IsDBNull(dr.GetOrdinal("fecha_fin")) ? DateTime.MinValue : dr.GetDateTime(dr.GetOrdinal("fecha_fin"));
+                        mItem.distribucion = dr.IsDBNull(dr.GetOrdinal("distribucion")) ? string.Empty : dr.GetString(dr.GetOrdinal("distribucion"));
+                        mItem.asiento_libre = dr.IsDBNull(dr.GetOrdinal("asiento_libre")) ? 0 : dr.GetInt32(dr.GetOrdinal("asiento_libre"));
+                        mItem.precio = dr.IsDBNull(dr.GetOrdinal("precio")) ? 0 : dr.GetDecimal(dr.GetOrdinal("precio"));
+                        mItem.descuento = dr.IsDBNull(dr.GetOrdinal("descuento")) ? 0 : dr.GetDecimal(dr.GetOrdinal("descuento"));
+                        lista.Add(mItem);
+                    }
+                }
+            }
+            return lista;
+        }
+        
         public static EViaje ListarViajexId(EViaje objE)
         {
             EViaje mItem = new EViaje();
@@ -59,6 +92,7 @@ namespace DATOS
                     while (dr.Read())
                     {
                         mItem.id_tour = dr.IsDBNull(dr.GetOrdinal("id_tour")) ? 0 : dr.GetInt32(dr.GetOrdinal("id_tour"));
+                        mItem.id_embarcacion = dr.IsDBNull(dr.GetOrdinal("id_embarcacion")) ? 0 : dr.GetInt32(dr.GetOrdinal("id_embarcacion"));
                         mItem.piloto = dr.IsDBNull(dr.GetOrdinal("piloto")) ? 0 : dr.GetInt32(dr.GetOrdinal("piloto"));
                         mItem.copiloto = dr.IsDBNull(dr.GetOrdinal("copiloto")) ? 0 : dr.GetInt32(dr.GetOrdinal("copiloto"));
                         mItem.nombre = dr.IsDBNull(dr.GetOrdinal("nombre")) ? string.Empty : dr.GetString(dr.GetOrdinal("nombre"));
@@ -84,6 +118,7 @@ namespace DATOS
                     cmd.Parameters.AddWithValue("@id_viaje", EUtil.getDesencriptar(objE.ID_ENCRIP));
                 }
                 cmd.Parameters.AddWithValue("@id_tour", objE.id_tour);
+                cmd.Parameters.AddWithValue("@id_embarcacion", objE.id_embarcacion);
                 cmd.Parameters.AddWithValue("@piloto", objE.piloto);
                 cmd.Parameters.AddWithValue("@copiloto", objE.copiloto);
                 cmd.Parameters.AddWithValue("@nombre", objE.nombre);

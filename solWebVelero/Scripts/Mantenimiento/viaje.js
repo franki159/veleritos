@@ -4,10 +4,7 @@ var valRND = Math.floor(Math.random() * 100);
 /*Inicializar Script*/
 $(function () {
     $(document).unbind("keydown");
-    openLoading();
-
     $("#pnl_viaje").modal({ show: false, backdrop: 'static' });
-
     //Fecha actual
     var fullDate = new Date();
     var primerDia = new Date(fullDate.getFullYear(), fullDate.getMonth(), 1);
@@ -67,7 +64,41 @@ function aceptarConfirm() {
             break;
     }
 }
+function listar_embarcacion() {
+    var objE = {
+        nombre: ""
+    };
 
+    $.ajax({
+        type: "POST",
+        url: "/Mantenimiento/ListaEmbarcacion",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify({
+            objE: objE
+        }),
+        async: false,
+        beforeSend: function () {
+            $('#sel_embarcacion').empty();
+        },
+        success: function (data) {
+            if (!data.Activo) {
+                msg_OpenDay("e", data.Mensaje)
+                closeLoading();
+                return;
+            }
+
+            $('#sel_embarcacion').append("<option></option>");
+            for (var i = 0; i < data.Resultado.length; i++) {
+                $('#sel_embarcacion').append("<option value='" + data.Resultado[i].id_embarcacion + "'>" + data.Resultado[i].nombre + "</option>");
+            }
+        },
+        error: function (data) {
+            msg_OpenDay("e", "Inconveniente en la operación");
+            closeLoading();
+        }
+    });
+}
 function listar_tour() {
     var objE = {
         nombre: ""
@@ -145,8 +176,8 @@ function listar_empleado(cargo, nom_control) {
     });
 }
 function listar_inicio() {
-    debugger;
     listar_tour();
+    listar_embarcacion();
     listar_empleado("001", "sel_piloto");
     listar_empleado("002", "sel_copiloto");
     //listar_viaje(false);
@@ -230,6 +261,7 @@ function listar_viaje(p_sync) {
                                 return;
                             }
                             $("#sel_tour").val(data.Resultado.id_tour).change();
+                            $("#sel_embarcacion").val(data.Resultado.id_embarcacion).change();
                             $("#sel_piloto").val(data.Resultado.piloto).change();
                             $("#sel_copiloto").val(data.Resultado.copiloto).change();
                             $("#txt_nombre").val(data.Resultado.nombre);
@@ -304,9 +336,9 @@ $("#btn_nuevo").click(function () {
     //$("#sel_tipo").focus();
 });
 $("#btn_guardar").click(function (evt) {
-    debugger;
     $("#pnl_viaje .validator-error").remove();
     if (val_required_FCP($("#sel_tour"), "tour") === false) return;
+    if (val_required_FCP($("#sel_embarcacion"), "embarcación") === false) return;
     if (val_required_FCP($("#sel_piloto"), "poloto") === false) return;
     if (val_required_FCP($("#sel_copiloto"), "poloto") === false) return;
     if (val_required_FCP($("#txt_fec_ini"), "fecha inicio") === false) return;
@@ -342,6 +374,7 @@ $("#btn_guardar").click(function (evt) {
     var objE = {
         ID_ENCRIP: txh_viaje,
         id_tour: $("#sel_tour").val(),
+        id_embarcacion: $("#sel_embarcacion").val(),
         piloto: $("#sel_piloto").val(),
         copiloto: $("#sel_copiloto").val(),
         nombre: $("#txt_nombre").val(),

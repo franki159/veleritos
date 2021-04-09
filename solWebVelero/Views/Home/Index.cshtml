@@ -131,3 +131,11 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    window.addEventListener("load", function (event) {
+        var URLdomain = window.location.origin;
+        var pathname = window.location.pathname;
+        if (pathname.includes("Home/Index"))
+            history.pushState(null, "", URLdomain);
+    });
+</script>

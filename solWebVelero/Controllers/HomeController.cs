@@ -23,6 +23,17 @@ namespace solWebVelero.Controllers
             return View();
         }
 
+        public ActionResult Error()
+        {
+            if (Session["ssUserVelero"] == null)
+                return Redirect("~/Seguridad/Login");
+
+
+            ViewBag.Title = "Home Page";
+
+            return PartialView("Error");
+        }
+
         public JsonResult CerrarSesion()
         {
             Session.Clear();

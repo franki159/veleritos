@@ -395,6 +395,19 @@ String.prototype.format = function () {
     return a;
 };
 
+function convertMoneda(number, fractionDigits) {
+    formatCurrency("es-PE", "PEN", fractionDigits, number);
+}
+
+function formatCurrency(locales, currency, fractionDigits, number) {
+    var formatted = new Intl.NumberFormat(locales, {
+        style: 'currency',
+        currency: currency,
+        minimumFractionDigits: fractionDigits
+    }).format(number);
+    return formatted;
+}
+
 function nwformatNumber(number, dec) {
     var num;
     if (number % 1 === 0)

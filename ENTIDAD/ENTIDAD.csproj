@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ECliente.cs" />
     <Compile Include="EConfiguracion.cs" />
     <Compile Include="EDocumento.cs" />
     <Compile Include="EViaje.cs" />

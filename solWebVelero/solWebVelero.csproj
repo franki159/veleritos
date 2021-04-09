@@ -2335,6 +2335,7 @@
     <Content Include="Views\Mantenimiento\Tour.cshtml" />
     <Content Include="Views\Mantenimiento\Viaje.cshtml" />
     <Content Include="Views\Proceso\Entrada.cshtml" />
+    <Content Include="Views\Home\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

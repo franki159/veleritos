@@ -10,14 +10,17 @@ namespace ENTIDAD
     {
         public int id_viaje { get; set; }
         public int id_tour { get; set; }
+        public int id_embarcacion { get; set; }
         public int piloto { get; set; }
         public int copiloto { get; set; }
         public string nombre { get; set; }
         public string observacion { get; set; }
         public decimal precio { get; set; }
         public decimal descuento { get; set; }
+        public int asiento_libre { get; set; }
         public DateTime fecha_ini { get; set; }
         public DateTime fecha_fin { get; set; }
         public string dia_semana { get; set; }
+        public string distribucion { get; set; }
     }
 }

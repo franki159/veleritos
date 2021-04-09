@@ -131,6 +131,15 @@
         </div>
     </div>
 </div>
-<script src="~/Content/templateSoft/vendor/jquery/jquery.min.js"></script>
-<script src="~/Scripts/Mantenimiento/empleado.js"></script>
-
+<script type="text/javascript">
+    $.getScript("Content/js/general.js")
+   .fail(function (jqxhr, settings, exception) {
+       msg_OpenDay("e", "Error: No se ha cargando un complemento del sistema (general.js), porfavor actualize la pagina para poder cargar el complemento. " + exception);
+       closeLoading();
+   });
+    $.getScript("Scripts/Mantenimiento/empleado.js")
+        .fail(function (jqxhr, settings, exception) {
+            msg_OpenDay("e", "Error: No se ha cargando un complemento del sistema (empleado.js), porfavor actualize la pagina para poder cargar el complemento. " + exception);
+            closeLoading();
+        });
+</script>

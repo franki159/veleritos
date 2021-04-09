@@ -1,5 +1,35 @@
-﻿$(document).ready(function () {
-    //$.history.init(documentLoad);
+﻿function documentLoad() {
+    var url = $(location).attr('href');
+    var elem = url.split("#!/");
+    var get = elem[elem.length - 1];
+    var pathname = window.location.pathname;
+
+    if (url.indexOf("#!") !== -1) {
+        openLoading();
+        $.ajax({
+            //url: '@Url.Action("action", "controller")',
+            // url: "/Mantenimiento/Ejemplo",
+            url: get,
+            type: 'GET',
+            success: function (data) {
+                $('#DestinationLayoutDiv').html(data);
+            },
+            error: function (data) {
+                $.ajax({
+                    url: "Home/Error",
+                    type: 'GET',
+                    success: function (data) {
+                        $('#DestinationLayoutDiv').html(data);
+                        closeLoading();
+                    }
+                });
+            }
+        });
+    }
+}
+
+$(document).ready(function () {
+    $.history.init(documentLoad);
     InfoSesion();
     //fc_listar_total_alertas();
     fc_listar_configuracion();
@@ -17,6 +47,22 @@
             error: function (data) { }
         });
     });
+    //$(".menu-dinamic span").click(function () {
+    //    var url_menu = $(this).attr("att-url-dinamic");
+    //    if ($(this).attr("btn-name") === "item-menu") {
+    //        openLoading();
+    //        $.ajax({
+    //            //url: '@Url.Action("action", "controller")',
+    //            // url: "/Mantenimiento/Ejemplo",
+    //            url: url_menu,
+    //            type: 'GET',
+    //            success: function (data) {
+    //                $('#DestinationLayoutDiv').html(data);
+    //                history.pushState(null, "", url_menu);
+    //            }
+    //        });
+    //    }
+    //});
 });
 
 function InfoSesion() {
@@ -32,9 +78,9 @@ function InfoSesion() {
                 window.location = "Login";
                 return;
             }
-            
+
             $(".name_user").text(data.Resultado.Usuario);
-            $(".img-user-rump").attr("src", "~/Content/img/usuario/" + data.Resultado.FOTO);
+            $(".img-user-rump").attr("src", (data.Resultado.FOTO === undefined ? "/Content/img/av-hombre.png" : "/Content/img/usuario/" + data.Resultado.FOTO));
             $(".name_perfil").html('<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400 name_perfil"></i>' + MaysPrimera(data.Resultado.Perfil));
             /************************MENU****************************/
             var htmlMenu = '';
@@ -65,7 +111,8 @@ function InfoSesion() {
 
                     for (var k = 0; k < data.Resultado.ListaMenu.length; k++) {
                         if (data.Resultado.ListaMenu[k].ID_PADRE === data.Resultado.ListaMenu[i].ID_MENU) {
-                            htmlMenu += '<a class="collapse-item" href="/' + data.Resultado.ListaMenu[k].URL + '">' + data.Resultado.ListaMenu[k].DESCRIPCION + '</a>';
+                            //htmlMenu += '<span btn-name="item-menu" style="cursor:pointer;" class="collapse-item" att-url-dinamic="/' + data.Resultado.ListaMenu[k].URL + '">' + data.Resultado.ListaMenu[k].DESCRIPCION + '</span>';
+                            htmlMenu += '<a class="collapse-item" href="#!/' + data.Resultado.ListaMenu[k].URL + '">' + data.Resultado.ListaMenu[k].DESCRIPCION + '</a>';
                         }
                     }
 
@@ -92,7 +139,6 @@ function InfoSesion() {
         }
     });
 }
-
 function fc_listar_configuracion() {
     /************************ Lista de Configuraciones ****************************/
     $.ajax({
@@ -104,8 +150,8 @@ function fc_listar_configuracion() {
         async: false,
         success: function (data) {
             if (!data.Activo) {
-                $("#errorDiv").html(GenerarAlertaError(data.Mensaje));
-                $("#pleaseWaitDialog").modal('hide');
+                msg_OpenDay("e", data.Mensaje)
+                closeLoading();
                 return;
             }
             /************************ Lista de Configuraciones ****************************/
@@ -113,22 +159,20 @@ function fc_listar_configuracion() {
             for (var j = 0; j < data.Resultado.ListaConfiguracion.length; j++) {
                 sessionStorage.setItem(data.Resultado.ListaConfiguracion[j].COD_CONFIG, data.Resultado.ListaConfiguracion[j].VALOR);
                 if (data.Resultado.ListaConfiguracion[j].COD_CONFIG = "LL") {
-                    $("#imgLogo").attr("src", data.Resultado.ListaConfiguracion[j].VALOR);
+                    $("#imgLogo").attr("src", "/" +data.Resultado.ListaConfiguracion[j].VALOR);
                 }
             }
         },
         error: function (data) {
-            $("#errorDiv").html(GenerarAlertaError("Inconveniente en la operación"));
-            $("#pleaseWaitDialog").modal('hide');
+            msg_OpenDay("e", "Inconveniente en la operación");
+            closeLoading();
         }
     });
 }
-
 function fc_mostrar_confirmacion(contenido) {
     $("#txtContenido").html(contenido);
     $("#modalConfirm").modal('show');
 }
-
 function fc_aceptar_confirmacion() {
     if (aceptarConfirm() !== false) {
         $("#modalConfirm").modal('hide');
@@ -151,26 +195,23 @@ function fc_consulta_persona(num_doc) {
             return datosPers;
         },
         error: function (data) {
-            $("#errorDiv").html(GenerarAlertaError("Inconveniente en la operación"));
+            msg_OpenDay("e", "Inconveniente en la operación");
             $("#pleaseWaitDialog").modal('hide');
         }
     });
 }
-
 function openNav() {
     $("#accordionSidebar").css("width", "350px");
     $(".backdrop-fcp").css("display", "block");
 }
-
 function closeNav() {
     $("#accordionSidebar").css("width", "0px");
     $(".backdrop-fcp").css("display", "none");
 }
-
 function openLoading() {
     $("#page-loader").show();
 }
-
 function closeLoading() {
     $("#page-loader").hide();
 }
+

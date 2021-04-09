@@ -85,19 +85,25 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Tour&nbsp;<strong class="text-danger">(*)</strong></label>
                             <select id="sel_tour" class="form-control sel_autocomplete" style="width: 100%;"></select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Embarcación&nbsp;<strong class="text-danger">(*)</strong></label>
+                            <select id="sel_embarcacion" class="form-control sel_autocomplete" style="width: 100%;"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Piloto&nbsp;<strong class="text-danger">(*)</strong></label>
                             <select id="sel_piloto" class="form-control sel_autocomplete" style="width: 100%;"></select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Copiloto&nbsp;<strong class="text-danger">(*)</strong></label>
                             <select id="sel_copiloto" class="form-control sel_autocomplete" style="width: 100%;"></select>
@@ -124,7 +130,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Precio</label>
-                            <input id="txt_precio" placeholder="Ingrese precio" disabled="disabled" class="form-control decimalFCP" type="text" maxlength="100" />
+                            <input id="txt_precio" disabled="disabled" class="form-control decimalFCP" type="text" maxlength="100" />
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -200,8 +206,15 @@
         </div>
     </div>
 </div>
-<script src="~/Content/templateSoft/vendor/jquery/jquery.min.js"></script>
-<script src="~/Scripts/Mantenimiento/viaje.js"></script>
-
-
-
+<script type="text/javascript">
+    $.getScript("Content/js/general.js")
+       .fail(function (jqxhr, settings, exception) {
+           msg_OpenDay("e", "Error: No se ha cargando un complemento del sistema (general.js), porfavor actualize la pagina para poder cargar el complemento. " + exception);
+           closeLoading();
+       });
+    $.getScript("Scripts/Mantenimiento/viaje.js")
+        .fail(function (jqxhr, settings, exception) {
+            msg_OpenDay("e", "Error: No se ha cargando un complemento del sistema (viaje.js), porfavor actualize la pagina para poder cargar el complemento. " + exception);
+            closeLoading();
+        });
+</script>

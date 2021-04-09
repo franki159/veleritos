@@ -19,7 +19,7 @@ namespace solWebVelero.Controllers
             if (Session["ssUserVelero"] == null)
                 return Redirect("~/Seguridad/Login");
 
-            return View();
+            return PartialView("Empleado");
         }
         public JsonResult ListaEmpleados(EEmpleado objE)
         {
@@ -137,7 +137,7 @@ namespace solWebVelero.Controllers
             if (Session["ssUserVelero"] == null)
                 return Redirect("~/Seguridad/Login");
 
-            return View();
+            return PartialView("Embarcacion");
         }
         public JsonResult ListaEmbarcacion(EEmbarcacion objE)
         {
@@ -255,7 +255,7 @@ namespace solWebVelero.Controllers
             if (Session["ssUserVelero"] == null)
                 return Redirect("~/Seguridad/Login");
 
-            return View();
+            return PartialView("Tour");
         }
         public JsonResult ListaTour(ETour objE)
         {
@@ -434,7 +434,7 @@ namespace solWebVelero.Controllers
             if (Session["ssUserVelero"] == null)
                 return Redirect("~/Seguridad/Login");
 
-            return View();
+            return PartialView("Viaje");
         }
         public JsonResult ListaViaje(EViaje objE)
         {
@@ -546,7 +546,5 @@ namespace solWebVelero.Controllers
             return Json(objRespuesta);
         }
         #endregion
-
-
     }
 }

@@ -158,8 +158,15 @@
         </div>
     </div>
 </div>
-<script src="~/Content/templateSoft/vendor/jquery/jquery.min.js"></script>
-<script src="~/Scripts/Mantenimiento/tour.js"></script>
-<script src="~/Content/assets/upGalleryFCP/upGalleryFCP.js"></script>
-
-
+<script type="text/javascript">
+    $.getScript("Content/js/general.js")
+   .fail(function (jqxhr, settings, exception) {
+       msg_OpenDay("e", "Error: No se ha cargando un complemento del sistema (general.js), porfavor actualize la pagina para poder cargar el complemento. " + exception);
+       closeLoading();
+   });
+    $.getScript("Scripts/Mantenimiento/tour.js")
+        .fail(function (jqxhr, settings, exception) {
+            msg_OpenDay("e", "Error: No se ha cargando un complemento del sistema (tour.js), porfavor actualize la pagina para poder cargar el complemento. " + exception);
+            closeLoading();
+        });
+</script>

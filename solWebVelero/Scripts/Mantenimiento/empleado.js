@@ -5,12 +5,8 @@ var valRND = Math.floor(Math.random() * 100);
 /*Inicializar Script*/
 $(function () {
     $(document).unbind("keydown");
-    openLoading();
-
     $("#pnl_empleado").modal({ show: false, backdrop: 'static' });
-
     listar_inicio();
-
     $("#bus_txt_nombre").focus();
 });
 function aceptarConfirm() {
@@ -319,7 +315,6 @@ $("#btn_guardar").click(function (evt) {
             $("#btn_guardar").attr("disabled", true);
         },
         success: function (data) {
-            debugger;
             if (!data.Activo) {
                 msg_OpenDay("e", data.Mensaje);
                 $("#btn_guardar").attr("disabled", false);

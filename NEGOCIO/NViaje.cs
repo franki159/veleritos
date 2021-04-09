@@ -14,6 +14,11 @@ namespace NEGOCIOS
         {
             return DViaje.ListarViaje(objE);
         }
+        public static List<EViaje> ListarViajeVigente(EViaje objE)
+        {
+            return DViaje.ListarViajeVigente(objE);
+        }
+        
         public static EViaje ListarViajexId(EViaje objE)
         {
             return DViaje.ListarViajexId(objE);

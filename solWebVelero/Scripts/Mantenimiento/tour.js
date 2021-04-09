@@ -4,12 +4,8 @@ var valRND = Math.floor(Math.random() * 100);
 /*Inicializar Script*/
 $(function () {
     $(document).unbind("keydown");
-    openLoading();
-
     $("#pnl_tour").modal({ show: false, backdrop: 'static' });
-
     listar_inicio();
-
     $("#bus_txt_nombre").focus();
 });
 function aceptarConfirm() {

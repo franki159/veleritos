@@ -48,41 +48,29 @@
 
             </div>
         </div>
-        <div id="body_viajes_disp"></div>
-
-        @*<div class="row">
-                <div class="col-md-12">
-                    <div class="card border-left-primary shadow h-100 py-2">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Earnings (Monthly)</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                                </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-ship fa-2x text-gray-300"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>*@
+        <div id="body_viajes_disp">
+        </div>
     </div>
 
     <div class="col-md-6" id="divAsiento">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary" id="titulo_asiento"></h6>
+                <h6 class="m-0 font-weight-bold text-uppercase text-primary" id="titulo_asiento"></h6>
+                <div class="text-xs font-weight-bold text-info text-uppercase mb-1" id="subtitulo_asiento">$40,000</div>
             </div>
             <div class="card-body">
+                <h4 class="font-weight-bold">N° de asiento <span class="float-right" id="num_asiento">28 , 27 , 31 , 30</span></h4>
+                <hr>
+                <h4 class="font-weight-bold">Precio Total <span class="float-right" id="precio_total">S/0.00</span></h4>
+                <hr>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12" id="divDistribucion">
                         <table>
                             <tr>
                                 <td>Copiloto</td>
                                 <td>
                                     <div style="position:relative">
-                                        <div name="editar" style="font-size: 30px;" class="btn btn-default btn-sm">
+                                        <div name="btn-asiento" style="font-size: 30px;" class="btn btn-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">40</span>
                                         </div>
@@ -95,7 +83,7 @@
                             <tr>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="1" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 21px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">1</span>
                                         </button>
@@ -103,7 +91,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="2" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 21px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">2</span>
                                         </button>
@@ -112,7 +100,7 @@
                                 <td></td>
                                 <td>
                                     <div style="position:relative">
-                                        <div name="editar" style="font-size: 30px;" class="btn btn-default btn-sm">
+                                        <div name="btn-asiento" style="font-size: 30px;" class="btn btn-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">41</span>
                                         </div>
@@ -123,7 +111,7 @@
                             <tr>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="3" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 21px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">3</span>
                                         </button>
@@ -131,7 +119,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="4" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 21px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">4</span>
                                         </button>
@@ -140,7 +128,7 @@
                                 <td></td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="5" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 21px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">5</span>
                                         </button>
@@ -148,7 +136,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="6" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 21px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">6</span>
                                         </button>
@@ -158,7 +146,7 @@
                             <tr>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="8" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 21px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">7</span>
                                         </button>
@@ -166,7 +154,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="8" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 21px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">8</span>
                                         </button>
@@ -175,7 +163,7 @@
                                 <td></td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="9" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 21px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">9</span>
                                         </button>
@@ -183,7 +171,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="10" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">10</span>
                                         </button>
@@ -193,7 +181,7 @@
                             <tr>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="11" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">11</span>
                                         </button>
@@ -201,7 +189,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="12" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">12</span>
                                         </button>
@@ -210,7 +198,7 @@
                                 <td></td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="13" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">13</span>
                                         </button>
@@ -218,7 +206,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="14" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">14</span>
                                         </button>
@@ -228,7 +216,7 @@
                             <tr>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="15" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">15</span>
                                         </button>
@@ -236,7 +224,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="16" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">16</span>
                                         </button>
@@ -245,7 +233,7 @@
                                 <td></td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="17" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">17</span>
                                         </button>
@@ -253,7 +241,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="18" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">18</span>
                                         </button>
@@ -263,7 +251,7 @@
                             <tr>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="19" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">19</span>
                                         </button>
@@ -271,7 +259,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="20" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">20</span>
                                         </button>
@@ -280,7 +268,7 @@
                                 <td></td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="21" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">21</span>
                                         </button>
@@ -288,7 +276,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="22" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">22</span>
                                         </button>
@@ -298,7 +286,7 @@
                             <tr>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="23" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">23</span>
                                         </button>
@@ -306,7 +294,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="24" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">24</span>
                                         </button>
@@ -315,7 +303,7 @@
                                 <td></td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="25" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">25</span>
                                         </button>
@@ -323,7 +311,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="26" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">26</span>
                                         </button>
@@ -333,7 +321,7 @@
                             <tr>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="27" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">27</span>
                                         </button>
@@ -341,7 +329,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="28" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">28</span>
                                         </button>
@@ -350,7 +338,7 @@
                                 <td></td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="29" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">29</span>
                                         </button>
@@ -358,7 +346,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="30" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">30</span>
                                         </button>
@@ -368,7 +356,7 @@
                             <tr>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="31" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">31</span>
                                         </button>
@@ -376,7 +364,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="32" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">32</span>
                                         </button>
@@ -385,7 +373,7 @@
                                 <td></td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="33" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">33</span>
                                         </button>
@@ -393,7 +381,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="34" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">34</span>
                                         </button>
@@ -403,7 +391,7 @@
                             <tr>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="35" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">35</span>
                                         </button>
@@ -411,7 +399,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="36" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">36</span>
                                         </button>
@@ -419,7 +407,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="37" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">37</span>
                                         </button>
@@ -427,7 +415,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="38" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">38</span>
                                         </button>
@@ -435,7 +423,7 @@
                                 </td>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="editar" style="font-size: 30px;" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="39" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 17px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">39</span>
                                         </button>
@@ -445,10 +433,127 @@
                         </table>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="my-4"></div>
+                        <button id="btn_reservar" class="btn btn-primary btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-briefcase"></i>
+                            </span>
+                            <span class="text">Reservar</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <script src="~/Content/templateSoft/vendor/jquery/jquery.min.js"></script>
-    <script src="~/Scripts/Proceso/entrada.js"></script>
+    <!--***********************  RESERVAR  **************************-->
+    <div class='modal modal-scroll fade' id='pnl_reserva' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+        <div class="modal-dialog modal-extend-fgp">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Registro de asientos</h4>
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Documento de Cliente</label>
+                                <div class="input-group">
+                                    <input id="txt_nro_doc" class="form-control input-sm integerFCP" type="text" />
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" id="btn_buscar_cliente">Buscar <i class="icon-search"></i></button>
+                                        <button class="btn btn-danger" id="btn_limpiar_cliente">Limpiar Cliente <i class="icon-remove"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Nombres de Cliente</label>
+                                <input id="txt_nomcliente" class="form-control input-sm" type="text" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Apellidos de Cliente</label>
+                                <input id="txt_apecliente" class="form-control input-sm" type="text" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Precio del tour</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">S/</span>
+                                    </div>
+                                    <input id="txt_precio" disabled="disabled" class="form-control input-sm decimalFCP" type="text" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Total</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">S/</span>
+                                    </div>
+                                    <input id="txt_total" disabled="disabled" class="form-control input-sm decimalFCP" type="text" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Adelanto</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">S/</span>
+                                    </div>
+                                    <input id="txt_adelanto" class="form-control input-sm decimalFCP" type="text" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Medio de Pago</label>
+                                <select id="sel_mediopago" class="form-control input-sm"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Tipo Reserva</label>
+                                <select id="sel_tiporeserva" class="form-control input-sm"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Observacion</label>
+                                <textarea id="txt_observacion" class="form-control input-sm" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="push"></div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btn_guardar" type="button" class="btn btn-info btn-sm">&nbsp;Guardar</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $.getScript("Content/js/general.js")
+   .fail(function (jqxhr, settings, exception) {
+       msg_OpenDay("e", "Error: No se ha cargando un complemento del sistema (general.js), porfavor actualize la pagina para poder cargar el complemento. " + exception);
+       closeLoading();
+   });
+        $.getScript("Scripts/Proceso/entrada.js")
+        .fail(function (jqxhr, settings, exception) {
+            msg_OpenDay("e", "Error: No se ha cargando un complemento del sistema (entrada.js), porfavor actualize la pagina para poder cargar el complemento. " + exception);
+            closeLoading();
+        });
+    </script>
 </div>
 

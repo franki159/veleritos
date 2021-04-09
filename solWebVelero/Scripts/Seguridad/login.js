@@ -19,7 +19,6 @@
             $("#usuario").focus();
             return;
         }
-        debugger;
         $.ajax({
             type: "POST",
             url: "/Seguridad/AccederSistema",
@@ -33,7 +32,6 @@
                 $("#page-loader").show();
             },
             success: function (data) {
-                debugger;
                 if (!data.Activo) {
                     msg_OpenDay("e", data.Mensaje);
                     $("#msgError").html(GenerarAlertaError(data.Mensaje));

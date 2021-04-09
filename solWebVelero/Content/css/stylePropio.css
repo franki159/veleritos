@@ -480,8 +480,14 @@ legend.scheduler-border {
 }
 
 .modal-extend-fgp {
-    width: 90% !important;
-    max-width: 90% !important;
+    width: auto;
+}
+
+@media (min-width: 576px) {
+    .modal-extend-fgp {
+        width: 90% !important;
+        max-width: 90% !important;
+    }
 }
 
 .pre-scrollable {
@@ -606,7 +612,7 @@ legend.scheduler-border {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1000;
+    z-index: 1052;
     background-color: #000;
 }
 
@@ -756,11 +762,6 @@ legend.scheduler-border {
     fieldset[disabled] .btn-3-default.focus {
         background-color: #fff;
         border-color: #ccc;
-    }
-
-    .btn-3-default .badge {
-        color: #fff;
-        background-color: #333;
     }
 
 .btn-3-primary {

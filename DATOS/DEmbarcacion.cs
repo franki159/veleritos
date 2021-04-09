@@ -30,6 +30,7 @@ namespace DATOS
                     {
                         EEmbarcacion mItem = new EEmbarcacion();
                         mItem.ID_ENCRIP = EUtil.getEncriptar((dr.IsDBNull(dr.GetOrdinal("id_embarcacion")) ? 0 : dr.GetInt32(dr.GetOrdinal("id_embarcacion"))).ToString());
+                        mItem.id_embarcacion = dr.IsDBNull(dr.GetOrdinal("id_embarcacion")) ? 0 : dr.GetInt32(dr.GetOrdinal("id_embarcacion"));
                         mItem.nombre = dr.IsDBNull(dr.GetOrdinal("nombre")) ? string.Empty : dr.GetString(dr.GetOrdinal("nombre"));
                         mItem.tipo_combustible = dr.IsDBNull(dr.GetOrdinal("tipo_combustible")) ? string.Empty : dr.GetString(dr.GetOrdinal("tipo_combustible"));
                         mItem.color = dr.IsDBNull(dr.GetOrdinal("color")) ? string.Empty : dr.GetString(dr.GetOrdinal("color"));
