@@ -153,6 +153,21 @@ namespace solWebVelero.Controllers
                 {
                     objRespuesta.Error("No se pudo actualizar.");
                 }
+                else
+                {
+                    //Enviando correo
+                    ECorreo correo = new ECorreo();
+                    //Para el usuario
+                    correo.Para = objE.correo;
+                    correo.Copia = "chara.20.90@gmail.com";
+                    correo.Asunto = "Su reservación ha sido registrada";
+                    correo.Mensaje = "<h4>¡Saludos de Veleritos Hotel!</h4>" +
+"<p>Agradecemos su preferencia, su reservació.</p>" +
+"<p>Le contactaremos lo antes posible para coordinar la devolución de la mascota a su hogar. Asimismo, le pedimos por favor que acoja y cuide al animalito hasta que se pueda contactar con éxito al dueño.</p>" +
+"<p>Nuevamente, gracias por responsabilizarse sobre el bienestar animal.</p>" +
+"<h4>Equipo RUMP</h4>";
+                    correo.Enviar();
+                }
             }
             catch (Exception ex)
             {

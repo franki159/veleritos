@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="ECliente.cs" />
     <Compile Include="EConfiguracion.cs" />
+    <Compile Include="ECorreo.cs" />
     <Compile Include="EDocumento.cs" />
     <Compile Include="EPais.cs" />
     <Compile Include="EReserva.cs" />

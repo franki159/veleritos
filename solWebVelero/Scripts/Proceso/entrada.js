@@ -87,11 +87,8 @@ function listar_viaje(p_sync) {
             $('#tbl_viaje tbody').empty();
         },
         success: function (data) {
-            $("#btn_buscar").removeAttr("disabled");
-
             if (!data.Activo) {
                 msg_OpenDay("e", data.Mensaje)
-                closeLoading();
                 return;
             }
 
@@ -137,10 +134,11 @@ function listar_viaje(p_sync) {
             }
 
             $("#body_viajes_disp").append(html);
-            closeLoading();
         },
         error: function (data) {
             msg_OpenDay("e", "Inconveniente en la operación");
+        },
+        complete: function (respuesta) {
             $("#btn_buscar").removeAttr("disabled");
             closeLoading();
         }
@@ -192,6 +190,7 @@ function actualizarSeleccion() {
 }
 
 function mostrarAsientos(row) {
+    openLoading();
     arrayNumAsiento = [];
 
     var objViaje = arrayViaje_activ[row];
@@ -221,20 +220,19 @@ function mostrarAsientos(row) {
                 msg_OpenDay("e", data.Mensaje);
                 return;
             }
-            debugger;
             for (var i = 0; i < data.Resultado.length; i++) {
                 $("#divDistribucion").find(':button').each(function() {
                     if ($(this).attr("name") === "btn-asiento" && parseInt($(this).attr("attr-btn-value")) === data.Resultado[i].asiento) {
-                        $(this).attr('est-sel-asi', 'active');
-                        $(this).css("background", "#2468a2");
-                        $(this).prop("disabled", true);
-
+                        $(this).attr('est-sel-asi', 'reservado');
+                        $(this).css("background", "#8a8a8a");
+                        //$(this).prop("disabled", true);
+                        $(this).attr("data-html", "true");
                         $(this).attr("data-toggle", "tooltip");
-                        $(this).attr("title", "tooasdsadltip");
+                        $(this).attr("data-original-title", "DNI: " + data.Resultado[i].vDocumento + "<br>Nombre: " + data.Resultado[i].vCliente);
                     }
                 });
             }
-            //$('[data-toggle="tooltip"]').tooltip();
+            $('[data-toggle="tooltip"]').tooltip();
             $("#divAsiento").show();                
         },
         error: function (data) {
@@ -244,12 +242,7 @@ function mostrarAsientos(row) {
             closeLoading();
         }
     });
-    
-
-    
-
     //Estado de los asientos
-
     $("#divAsiento button").click(function () {
         if ($(this).attr("name") === "btn-asiento") {
             if ($(this).attr("est-sel-asi") === undefined || $(this).attr("est-sel-asi") === "inactive") {//Verificando si esta seleccionado
@@ -261,7 +254,7 @@ function mostrarAsientos(row) {
                     arrayNumAsiento.push(parseInt(valor_boton));
                     actualizarSeleccion();
                 }
-            } else {
+            } else if ($(this).attr("est-sel-asi") === "active") {
                 $(this).attr('est-sel-asi', 'inactive');
                 $(this).css("background", "");
 
@@ -398,7 +391,6 @@ $("#btn_reservar").click(function () {
             }),
             async: true,
             success: function (data) {
-                debugger;
                 if (!data.Activo) {
                     msg_OpenDay("e", "No se encontró el número de documento. Deberá ingresar los datos");
                     return;
@@ -484,7 +476,7 @@ $("#btn_guardar").click(function () {
             objE: objE
         }),
         async: true,
-        before: function () {
+        beforeSend: function () {
             $("#btn_guardar").attr("disabled", false);
         },
         success: function (data) {

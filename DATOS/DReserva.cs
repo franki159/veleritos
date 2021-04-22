@@ -65,7 +65,7 @@ namespace DATOS
                         mItem.id_reserva = dr.IsDBNull(dr.GetOrdinal("id_reserva")) ? 0 : dr.GetDecimal(dr.GetOrdinal("id_reserva"));
                         mItem.asiento = dr.IsDBNull(dr.GetOrdinal("asiento")) ? 0 : dr.GetInt32(dr.GetOrdinal("asiento"));
                         mItem.vCliente = dr.IsDBNull(dr.GetOrdinal("vCliente")) ? string.Empty : dr.GetString(dr.GetOrdinal("vCliente"));
-                        //mItem.num_documento = dr.IsDBNull(dr.GetOrdinal("num_documento")) ? string.Empty : dr.GetString(dr.GetOrdinal("num_documento"));
+                        mItem.vDocumento = dr.IsDBNull(dr.GetOrdinal("num_documento")) ? string.Empty : dr.GetString(dr.GetOrdinal("num_documento"));
                         lista.Add(mItem);
                     }
                 }

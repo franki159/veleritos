@@ -24,5 +24,6 @@ namespace ENTIDAD
         public string celular { get; set; }
         public List<ECliente> listaCliente { get; set; }
         public string vCliente { get; set; }
+        public string vDocumento { get; set; }
     }
 }
