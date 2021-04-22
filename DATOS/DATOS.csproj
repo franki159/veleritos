@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="DConexion.cs" />
     <Compile Include="DCliente.cs" />
+    <Compile Include="DPais.cs" />
+    <Compile Include="DReserva.cs" />
     <Compile Include="DViaje.cs" />
     <Compile Include="DTour.cs" />
     <Compile Include="DEmbarcacion.cs" />

@@ -61,6 +61,7 @@ namespace DATOS
                     {
                         EViaje mItem = new EViaje();
                         mItem.ID_ENCRIP = EUtil.getEncriptar((dr.IsDBNull(dr.GetOrdinal("id_viaje")) ? 0 : dr.GetInt32(dr.GetOrdinal("id_viaje"))).ToString());
+                        mItem.id_viaje =dr.IsDBNull(dr.GetOrdinal("id_viaje")) ? 0 : dr.GetInt32(dr.GetOrdinal("id_viaje"));
                         mItem.nombre = dr.IsDBNull(dr.GetOrdinal("nombre")) ? string.Empty : dr.GetString(dr.GetOrdinal("nombre"));
                         mItem.fecha_ini = dr.IsDBNull(dr.GetOrdinal("fecha_ini")) ? DateTime.MinValue : dr.GetDateTime(dr.GetOrdinal("fecha_ini"));
                         mItem.fecha_fin = dr.IsDBNull(dr.GetOrdinal("fecha_fin")) ? DateTime.MinValue : dr.GetDateTime(dr.GetOrdinal("fecha_fin"));

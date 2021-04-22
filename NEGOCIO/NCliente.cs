@@ -14,5 +14,9 @@ namespace NEGOCIOS
         {
             return DCliente.BuscarClientes(ent);
         }
+        public static ECliente BuscarClientesxDocumento(ECliente ent)
+        {
+            return DCliente.BuscarClientesxDocumento(ent);
+        }
     }
 }

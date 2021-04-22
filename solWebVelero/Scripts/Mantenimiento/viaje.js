@@ -317,8 +317,8 @@ $(document).on('keypress', function (evt) {
         case 8: //BLOQUEA RETROCESO DE PAGINA
             var valor = document.activeElement.value;
             if (valor === undefined) { return false; } break;
-        case 13: //BLOQUEA ENTER
-            $("#btn_buscar").click();
+        //case 13: //BLOQUEA ENTER
+        //    $("#btn_buscar").click();
             break;
     }
 });
@@ -339,8 +339,8 @@ $("#btn_guardar").click(function (evt) {
     $("#pnl_viaje .validator-error").remove();
     if (val_required_FCP($("#sel_tour"), "tour") === false) return;
     if (val_required_FCP($("#sel_embarcacion"), "embarcación") === false) return;
-    if (val_required_FCP($("#sel_piloto"), "poloto") === false) return;
-    if (val_required_FCP($("#sel_copiloto"), "poloto") === false) return;
+    if (val_required_FCP($("#sel_piloto"), "piloto") === false) return;
+    if (val_required_FCP($("#sel_copiloto"), "copiloto") === false) return;
     if (val_required_FCP($("#txt_fec_ini"), "fecha inicio") === false) return;
     if (txh_viaje === "") {
         if (val_required_FCP($("#txt_fec_fin"), "fecha fin") === false) return;

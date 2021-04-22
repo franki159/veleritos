@@ -1269,3 +1269,9 @@ a {
     border-radius: 5px;
     font-size: 13px;
 }
+.card-control-fcp {
+    padding: 1.25rem;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.5)!important;
+    border-radius: 6px;
+    margin-bottom: 5px;
+}

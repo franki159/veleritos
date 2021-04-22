@@ -334,17 +334,18 @@ function listar_parametros_select(p_control, tipo, p_async) {
         success: function (data) {
             if (!data.Activo) {
                 msg_OpenDay("e", data.Mensaje);
-                closeLoading();
                 return;
             }
 
-            $('#' + p_control).append("<option></option>");
+            $(p_control).append("<option></option>");
             for (var i = 0; i < data.Resultado.length; i++) {
-                $('#' + p_control).append("<option value='" + data.Resultado[i].CODIGO + "'>" + data.Resultado[i].DESCRIPCION + "</option>");
+                $(p_control).append("<option value='" + data.Resultado[i].CODIGO + "'>" + data.Resultado[i].DESCRIPCION + "</option>");
             }
         },
         error: function (data) {
             msg_OpenDay("e", "Inconveniente en la operación");
+        },
+        complete: function () {
             closeLoading();
         }
     });
@@ -396,7 +397,7 @@ String.prototype.format = function () {
 };
 
 function convertMoneda(number, fractionDigits) {
-    formatCurrency("es-PE", "PEN", fractionDigits, number);
+    return formatCurrency("es-PE", "PEN", fractionDigits, number);
 }
 
 function formatCurrency(locales, currency, fractionDigits, number) {
@@ -445,15 +446,87 @@ function roundNumber(num, scale) {
         return +(Math.round(+arr[0] + "e" + sig + (+arr[1] + scale)) + "e-" + scale);
     }
 }
+
+function formatoNumero(numero, decimales, separadorDecimal, separadorMiles) {
+    var partes, array;
+
+    if (!isFinite(numero) || isNaN(numero = parseFloat(numero))) {
+        return "";
+    }
+    if (typeof separadorDecimal === "undefined") {
+        separadorDecimal = ",";
+    }
+    if (typeof separadorMiles === "undefined") {
+        separadorMiles = "";
+    }
+
+    // Redondeamos
+    if (!isNaN(parseInt(decimales))) {
+        if (decimales >= 0) {
+            numero = numero.toFixed(decimales);
+        } else {
+            numero = (
+                Math.round(numero / Math.pow(10, Math.abs(decimales))) * Math.pow(10, Math.abs(decimales))
+            ).toFixed();
+        }
+    } else {
+        numero = numero.toString();
+    }
+
+    // Damos formato
+    partes = numero.split(".", 2);
+    array = partes[0].split("");
+    for (var i = array.length - 3; i > 0 && array[i - 1] !== "-"; i -= 3) {
+        array.splice(i, 0, separadorMiles);
+    }
+    numero = array.join("");
+
+    if (partes.length > 1) {
+        numero += separadorDecimal + partes[1];
+    }
+
+    return numero;
+}
 //**********************************Validator Controler************************************/
 function val_required_FCP(p_control, name){
-    if (p_control.val() === "0" || p_control.val() === null || p_control.val().trim() === ""){
+    if (p_control.val() === "0" || p_control.val() === null || p_control.val().trim() === "") {
+        var ctl_parent = p_control.parent(0);
         //Input
-        if (p_control.is("input")) 
-            p_control.after("<div class='validator-error'>Ingrese " + name + "</div>");
+        if (p_control.is("input")) {
+            if (ctl_parent.hasClass("input-group")) {//Para los input group
+                debugger;
+                ctl_parent.after("<div class='validator-error'>Ingrese " + name + "</div>");
+            } else {
+                p_control.after("<div class='validator-error'>Ingrese " + name + "</div>");
+            }
+        }
         //Select
-        if (p_control.is("select")) 
-            p_control.after("<div class='validator-error'>Seleccione " + name + "</div>");
+        if (p_control.is("select")) {
+            if (p_control.hasClass("select2-hidden-accessible")) {
+                debugger;
+                //$("#txt_telefono").parent(0).children('span')
+                ctl_parent.children('span').after("<div class='validator-error'>Seleccione " + name + "</div>");
+            } else {
+                p_control.after("<div class='validator-error'>Seleccione " + name + "</div>");
+            }
+        }
+        p_control.focus();
+        return false;
+    }
+}
+function val_maxValue_FCP(p_control, valueMax, name) {
+    var nvalorinicial = parseFloat(p_control.val());
+    debugger;
+    if (nvalorinicial > valueMax) {
+        var ctl_parent = p_control.parent(0);
+        //Input
+        if (p_control.is("input")) {
+            if (ctl_parent.hasClass("input-group")) {//Para los input group
+                ctl_parent.after("<div class='validator-error'>" + name + " no puede ser mayor a " + valueMax + "</div>");
+            } else {
+                p_control.after("<div class='validator-error'>" + name + " no puede ser mayor a " + valueMax + "</div>");
+            }
+        }
         p_control.focus();
         return false;
     }

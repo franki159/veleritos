@@ -59,9 +59,9 @@
                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1" id="subtitulo_asiento">$40,000</div>
             </div>
             <div class="card-body">
-                <h4 class="font-weight-bold">N° de asiento <span class="float-right" id="num_asiento">28 , 27 , 31 , 30</span></h4>
+                <h4 class="font-weight-bold">N° de asiento <span class="float-right" id="num_asiento"></span></h4>
                 <hr>
-                <h4 class="font-weight-bold">Precio Total <span class="float-right" id="precio_total">S/0.00</span></h4>
+                <h4 class="font-weight-bold">Precio Total <span class="float-right" id="precio_total"></span></h4>
                 <hr>
                 <div class="row">
                     <div class="col-md-12" id="divDistribucion">
@@ -146,7 +146,7 @@
                             <tr>
                                 <td>
                                     <div style="position:relative">
-                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="8" class="btn btn-3-default btn-sm">
+                                        <button name="btn-asiento" style="font-size: 30px;" attr-btn-value="7" class="btn btn-3-default btn-sm">
                                             <i class="fas fa-couch"></i>
                                             <span style="position: absolute;left: 21px;top: 10px;color: #ffffff;text-shadow: 2px 2px 2px grey;font-size: 20px;">7</span>
                                         </button>
@@ -459,48 +459,14 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Documento de Cliente</label>
-                                <div class="input-group">
-                                    <input id="txt_nro_doc" class="form-control input-sm integerFCP" type="text" />
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" id="btn_buscar_cliente">Buscar <i class="icon-search"></i></button>
-                                        <button class="btn btn-danger" id="btn_limpiar_cliente">Limpiar Cliente <i class="icon-remove"></i></button>
-                                    </div>
-                                </div>
+                                <label>Medio de Pago</label>
+                                <select id="sel_mediopago" class="form-control sel_autocomplete" style="width: 100%;"></select>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Nombres de Cliente</label>
-                                <input id="txt_nomcliente" class="form-control input-sm" type="text" />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Apellidos de Cliente</label>
-                                <input id="txt_apecliente" class="form-control input-sm" type="text" />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Precio del tour</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroup-sizing-sm">S/</span>
-                                    </div>
-                                    <input id="txt_precio" disabled="disabled" class="form-control input-sm decimalFCP" type="text" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Total</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroup-sizing-sm">S/</span>
-                                    </div>
-                                    <input id="txt_total" disabled="disabled" class="form-control input-sm decimalFCP" type="text" />
-                                </div>
+                                <label>Tipo Reserva</label>
+                                <select id="sel_tiporeserva" class="form-control sel_autocomplete" style="width: 100%;"></select>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -514,19 +480,92 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Medio de Pago</label>
-                                <select id="sel_mediopago" class="form-control input-sm"></select>
+                        <div class="col-md-12" id="divPasajeros" style="max-height:400px;overflow-y:auto;border-bottom: 1px solid #ccc;margin-bottom: 1rem;">
+                            <div class="card card-control-fcp">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Pasajero 1 | <strong>Asiento 27</strong></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Tipo de documento</label>
+                                            <select class="form-control sel_autocomplete" style="width: 100%;"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Documento de Cliente</label>
+                                            <div class="input-group">
+                                                <input id="txt_nro_doc" class="form-control input-sm integerFCP" type="text" />
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-primary" id="btn_buscar_cliente"><i class="fa fa-search"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Fecha Nac.</label>
+                                            <input class="form-control" type="date">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Nombres</label>
+                                            <input class="form-control input-sm" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Ape. Paterno</label>
+                                            <input class="form-control input-sm" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Ape. Materno</label>
+                                            <input class="form-control input-sm" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Sexo</label>
+                                            <select class="form-control sel_autocomplete" style="width: 100%;"></select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
-                                <label>Tipo Reserva</label>
-                                <select id="sel_tiporeserva" class="form-control input-sm"></select>
+                                <h4 class="text-dark"><i class="fas fa-address-card"></i>&nbsp;<strong>Detalles de Contacto</strong></h4>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Correo de contacto</label>
+                                <div class="form-group">
+                                    <input id="txt_correo" class="form-control input-sm" type="text" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Código</label>
+                                <select id="sel_codPais" class="form-control sel_autocomplete" style="width: 100%;"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label>Celular</label>
+                                <div class="form-group">
+                                    <input id="txt_celular" class="form-control input-sm" placeholder="Ingrese celular" type="text" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label>Observacion</label>
                                 <textarea id="txt_observacion" class="form-control input-sm" rows="3"></textarea>

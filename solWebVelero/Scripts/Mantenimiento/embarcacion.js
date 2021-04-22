@@ -54,12 +54,12 @@ function aceptarConfirm() {
 }
 
 function listar_inicio() {
-    listar_parametros_select("sel_tip_comb", "TIP_COMBUS", false);
-    listar_parametros_select("sel_color", "COL_EMB", false);
-    listar_parametros_select("sel_ambito", "AMBITO", false);
-    listar_parametros_select("sel_tipo_nav", "TIP_NAV", false);
-    listar_parametros_select("sel_tipo_serv", "TIP_SERV", false);
-    listar_parametros_select("sel_constructora", "CONSTRUCTORA", false);
+    listar_parametros_select("#sel_tip_comb", "TIP_COMBUS", false);
+    listar_parametros_select("#sel_color", "COL_EMB", false);
+    listar_parametros_select("#sel_ambito", "AMBITO", false);
+    listar_parametros_select("#sel_tipo_nav", "TIP_NAV", false);
+    listar_parametros_select("#sel_tipo_serv", "TIP_SERV", false);
+    listar_parametros_select("#sel_constructora", "CONSTRUCTORA", false);
     closeLoading();
 }
 function listar_embarcacion(p_sync) {
@@ -188,8 +188,8 @@ $(document).on('keypress', function (evt) {
         case 8: //BLOQUEA RETROCESO DE PAGINA
             var valor = document.activeElement.value;
             if (valor === undefined) { return false; } break;
-        case 13: //BLOQUEA ENTER
-            $("#btn_buscar").click();
+        //case 13: //BLOQUEA ENTER
+        //    $("#btn_buscar").click();
             break;
     }
 });

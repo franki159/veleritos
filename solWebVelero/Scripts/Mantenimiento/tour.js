@@ -245,8 +245,8 @@ $(document).on('keypress', function (evt) {
         case 8: //BLOQUEA RETROCESO DE PAGINA
             var valor = document.activeElement.value;
             if (valor === undefined) { return false; } break;
-        case 13: //BLOQUEA ENTER
-            $("#btn_buscar").click();
+        //case 13: //BLOQUEA ENTER
+        //    $("#btn_buscar").click();
             break;
     }
 });

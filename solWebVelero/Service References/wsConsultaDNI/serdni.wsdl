@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GetReniec">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strDNIAuto" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strDNICon" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetReniecResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetReniecResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ArrayOfString" nillable="true" type="tns:ArrayOfString" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetReniecSoapIn">
+    <wsdl:part name="parameters" element="tns:GetReniec" />
+  </wsdl:message>
+  <wsdl:message name="GetReniecSoapOut">
+    <wsdl:part name="parameters" element="tns:GetReniecResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetReniecHttpGetIn">
+    <wsdl:part name="strDNIAuto" type="s:string" />
+    <wsdl:part name="strDNICon" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetReniecHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="GetReniecHttpPostIn">
+    <wsdl:part name="strDNIAuto" type="s:string" />
+    <wsdl:part name="strDNICon" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetReniecHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:portType name="ServiceDNISoap">
+    <wsdl:operation name="GetReniec">
+      <wsdl:input message="tns:GetReniecSoapIn" />
+      <wsdl:output message="tns:GetReniecSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="ServiceDNIHttpGet">
+    <wsdl:operation name="GetReniec">
+      <wsdl:input message="tns:GetReniecHttpGetIn" />
+      <wsdl:output message="tns:GetReniecHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="ServiceDNIHttpPost">
+    <wsdl:operation name="GetReniec">
+      <wsdl:input message="tns:GetReniecHttpPostIn" />
+      <wsdl:output message="tns:GetReniecHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServiceDNISoap" type="tns:ServiceDNISoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetReniec">
+      <soap:operation soapAction="http://tempuri.org/GetReniec" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServiceDNISoap12" type="tns:ServiceDNISoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetReniec">
+      <soap12:operation soapAction="http://tempuri.org/GetReniec" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServiceDNIHttpGet" type="tns:ServiceDNIHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="GetReniec">
+      <http:operation location="/GetReniec" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServiceDNIHttpPost" type="tns:ServiceDNIHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="GetReniec">
+      <http:operation location="/GetReniec" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServiceDNI">
+    <wsdl:port name="ServiceDNISoap" binding="tns:ServiceDNISoap">
+      <soap:address location="http://wsminsa.minsa.gob.pe/wsreniec_dni/serdni.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ServiceDNISoap12" binding="tns:ServiceDNISoap12">
+      <soap12:address location="http://wsminsa.minsa.gob.pe/wsreniec_dni/serdni.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ServiceDNIHttpGet" binding="tns:ServiceDNIHttpGet">
+      <http:address location="http://wsminsa.minsa.gob.pe/wsreniec_dni/serdni.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ServiceDNIHttpPost" binding="tns:ServiceDNIHttpPost">
+      <http:address location="http://wsminsa.minsa.gob.pe/wsreniec_dni/serdni.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
