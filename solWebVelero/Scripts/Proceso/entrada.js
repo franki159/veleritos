@@ -464,7 +464,8 @@ $("#btn_guardar").click(function () {
         id_pais: $("#sel_codPais").val(),
         celular: $("#txt_celular").val(),
         observacion: $("#txt_observacion").val(),
-        listaCliente: arrayPasajero
+        listaCliente: arrayPasajero,
+        nombre_tour: objViaje_activ.nombre
     }
 
     $.ajax({

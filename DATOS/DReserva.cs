@@ -31,6 +31,7 @@ namespace DATOS
                     cmd.Parameters.AddWithValue("@observacion", objE.observacion);
                     cmd.Parameters.AddWithValue("@usuario", objE.USUARIO.ID_USUARIO);
                     cmd.Parameters.AddWithValue("@pasajeros", objE.vCliente);
+                    cmd.Parameters.AddWithValue("@precio_total", objE.total);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cn.Open();
                     cmd.ExecuteNonQuery();
@@ -39,6 +40,7 @@ namespace DATOS
                     {
                         objResult.id_reserva = Convert.ToDecimal(cmd.Parameters["@id_reserva"].Value);
                         objResult.cod_reserva = (string)cmd.Parameters["@cod_reserva"].Value;
+                        objResult.total = Convert.ToDecimal(cmd.Parameters["@precio_total"].Value);
                     }
                 }
                 return objResult;

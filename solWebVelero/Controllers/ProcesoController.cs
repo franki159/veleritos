@@ -1,8 +1,14 @@
 ﻿using ENTIDAD;
+using Gma.QrCodeNet.Encoding;
+using Gma.QrCodeNet.Encoding.Windows.Render;
 using NEGOCIOS;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 
@@ -78,7 +84,8 @@ namespace solWebVelero.Controllers
                 {
                     objRespuesta.Resultado = objResult;
                 }
-                else {
+                else
+                {
                     objRespuesta = BuscarPersonaPorDni(objE.NUM_DOCUMENTO);
                 }
             }
@@ -115,6 +122,56 @@ namespace solWebVelero.Controllers
 
             return objRespuesta;
         }
+        //        public JsonResult ActualizarReserva(EReserva objE)
+        //        {
+        //            ERespuestaJson objRespuesta = new ERespuestaJson();
+        //            try
+        //            {
+        //                if (Session["ssUserVelero"] == null)
+        //                {
+        //                    objRespuesta.Error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+        //                    return Json(objRespuesta);
+        //                }
+
+        //                var qrEncoder = new QrEncoder(ErrorCorrectionLevel.H);
+        //                var qrCode = qrEncoder.Encode("123456aaa");
+        //                var imgBase64 = "";
+
+        //                MemoryStream ms = new MemoryStream();
+        //                var renderer = new GraphicsRenderer(new FixedModuleSize(5, QuietZoneModules.Two), Brushes.Black, Brushes.White);
+        //                renderer.WriteToStream(qrCode.Matrix, ImageFormat.Png, ms);
+        //                //Convirtiendo imagen en decode64 inicio
+        //                //var inputAsString = Convert.ToBase64String(ms.ToArray(), Base64FormattingOptions.None);
+        //                //imgBase64 = "data:image/png;base64," + inputAsString;
+        //                //Fin
+        //                ECorreo email = new ECorreo();
+        //                email.Enviar_Correo_Solicitud(new ECorreo._Email<ECorreo._Email_Registro>
+        //                {
+        //                    data = new ECorreo._Email_Registro
+        //                    {
+        //                        destinatario_usuario = "",
+        //                        destinatario_contrasenia = "",
+        //                        destinatario_codigo = ""
+        //                    },
+        //                    remitente = "CENARES",
+        //                    remitente_emails = "chara.20.90@gmail.com",
+        //                    remitente_password = "S0p0rt31",
+        //                    sampleImage = ms,
+        //                    plantilla = "<h4>...</h4>" +
+        //"<p><img src='" + imgBase64 + "' /></p>" +
+        //"<h4>Equipo CENARES</h4>",
+        //                    adjunto = imgBase64,
+        //                    destinatario_email = "chara.20.90@gmail.com",
+        //                    mailSent = false,
+        //                    titulo = "Prueba de sistemas"
+        //                });
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                objRespuesta.Error(String.IsNullOrEmpty(ex.Message) ? ex.InnerException.Message : ex.Message);
+        //            }
+        //            return Json(objRespuesta);
+        //        }
         public JsonResult ActualizarReserva(EReserva objE)
         {
             ERespuestaJson objRespuesta = new ERespuestaJson();
@@ -126,13 +183,17 @@ namespace solWebVelero.Controllers
                     return Json(objRespuesta);
                 }
 
-                string objResultado = "";
+                EReserva objResultado = new EReserva();
                 EUsuario eSession = (EUsuario)Session["ssUserVelero"];
                 objE.USUARIO = new EUsuario();
                 objE.USUARIO.ID_USUARIO = eSession.ID_USUARIO;
 
                 //Pasajeros
                 var vPasajeros = "";
+                var pasajeroHTML = "";
+                pasajeroHTML += "<table style=width:100%;height:auto;margin-top:10px'>";
+                pasajeroHTML += "    <thead><tr style='margin:0px;text-align:left;font-size:16px;color:#05589e;width:50%'><td><strong>Pasajero</strong></td><td><strong>Documento</strong></td><td><strong>Asiento</strong></td></tr><tr><td>&nbsp;</td><td></td><td></td></tr>";
+                pasajeroHTML += "    </thead><tbody>";
                 foreach (ECliente item in objE.listaCliente)
                 {
                     vPasajeros += item.ASIENTO + ",";
@@ -143,30 +204,54 @@ namespace solWebVelero.Controllers
                     vPasajeros += item.APE_PAT + ",";
                     vPasajeros += item.APE_MAT + ",";
                     vPasajeros += item.SEXO + "|";
+                    
+                    pasajeroHTML += "<tr style='font -size:16px;color:#05589e'>";
+                    pasajeroHTML += "<td style='text-align:left;width:50%'>"+ item.NOMBRES + " " + item.APE_PAT + " " + item.APE_MAT + "</td>";
+                    pasajeroHTML += "<td style='text-align:center;'>"+ item.NUM_DOCUMENTO + "</td>";
+                    pasajeroHTML += "<td style='text-align:right'>"+item.ASIENTO + "</td></tr>";
                 }
+                pasajeroHTML += "</tbody></table>";
 
                 objE.vCliente = vPasajeros;
 
-                objResultado = NReserva.actualizarReserva(objE).ToString();
+                EReserva objReservaResultado = new EReserva();
+                objReservaResultado = NReserva.actualizarReserva(objE);
+                objResultado = objReservaResultado;
 
-                if (objResultado == "")
+                if (objReservaResultado.cod_reserva == "")
                 {
                     objRespuesta.Error("No se pudo actualizar.");
                 }
                 else
                 {
-                    //Enviando correo
+                    //Generando QR
+                    var qrEncoder = new QrEncoder(ErrorCorrectionLevel.H);
+                    var qrCode = qrEncoder.Encode(objReservaResultado.cod_reserva);
+                    var imgBase64 = "";
+
+                    MemoryStream ms = new MemoryStream();
+                    var renderer = new GraphicsRenderer(new FixedModuleSize(5, QuietZoneModules.Two), Brushes.Black, Brushes.White);
+                    renderer.WriteToStream(qrCode.Matrix, ImageFormat.Png, ms);
+                    //Convirtiendo imagen en decode64 inicio
+                    //var inputAsString = Convert.ToBase64String(ms.ToArray(), Base64FormattingOptions.None);
+                    //imgBase64 = "data:image/png;base64," + inputAsString;
+                    //Fin
                     ECorreo correo = new ECorreo();
                     //Para el usuario
                     correo.Para = objE.correo;
-                    correo.Copia = "chara.20.90@gmail.com";
-                    correo.Asunto = "Su reservación ha sido registrada";
-                    correo.Mensaje = "<h4>¡Saludos de Veleritos Hotel!</h4>" +
-"<p>Agradecemos su preferencia, su reservació.</p>" +
-"<p>Le contactaremos lo antes posible para coordinar la devolución de la mascota a su hogar. Asimismo, le pedimos por favor que acoja y cuide al animalito hasta que se pueda contactar con éxito al dueño.</p>" +
-"<p>Nuevamente, gracias por responsabilizarse sobre el bienestar animal.</p>" +
-"<h4>Equipo RUMP</h4>";
-                    correo.Enviar();
+                    //correo.Copia = objE.correo;
+
+                    LinkedResource img = new LinkedResource(ms, "image/png");
+                    img.ContentId = "codigoReserva";
+
+                    correo.ImagenEmbebido = img;
+                    correo.Asunto = "Veleritos - Reserva asientos";
+                    string path = Server.MapPath("~/Controllers/PlantillaHTML/CorreoReserva.txt");
+                    // Open the file to read from.
+                    string readText = System.IO.File.ReadAllText(path);
+
+                    correo.Mensaje = String.Format(readText, "Tour de prueba", objReservaResultado.cod_reserva, "12/04/2021", "13:00", pasajeroHTML, String.Format("{0:n0}", objReservaResultado.total));
+                    //correo.EnviarImagen();
                 }
             }
             catch (Exception ex)

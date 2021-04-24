@@ -1,0 +1,76 @@
+<table style='margin:0 auto;width:100%;font-family:arial' align='center' cellpadding='0' cellspacing='0' border='0'>
+            <tbody>
+                <tr>
+                    <td style='width:100%;height:auto;padding:10px 50px;text-align:center'>
+                        <p style='margin:0px;font-size:38px;text-align:center;color:#0d1f40;font-weight:bold'>{0}</p>
+                        <p style='font-size:20px;text-align:center;color:#05589e;margin-bottom:0px'>Código de reserva: <strong>{1}</strong></p>
+                        <img src=cid:codigoReserva>
+                        <hr style='width:100%;padding:2.5px 0;height:1px;border:0;border-bottom:1px solid #f6f6f6'>
+                    </td>
+                </tr>
+                <tr>
+                    <td style='width:100%;height:auto;padding:0px 50px;text-align:center;letter-spacing:-5px'>
+                        <div style='display:inline-block;width:90%;min-width:300px;letter-spacing:normal;font-size:12px;color:#ed3968'>Muestra el código QR desde tu celular para ingresar al velero. No necesitas imprimir este documento</div>
+                        <hr style='width:100%;padding:10px 0;height:1px;border:0;border-bottom:1px solid #f6f6f6'>
+                    </td>
+                </tr>
+                <tr>
+                    <td style='width:100%;height:auto;padding:5px 50px;text-align:center'>
+                        <div>
+                            <div style='width:22%;display:inline-block;min-width:100px'><p style='letter-spacing:normal;color:#05589e'>{2}</p></div>
+                            <div style='width:22%;display:inline-block;min-width:100px'><p style='letter-spacing:normal;color:#05589e'>{3}</p></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style='width:100%;height:auto;padding:5px 50px'>
+                        {4}
+                        <hr style='width:100%;padding:2px 0;height:1px;border:0;border-bottom:1px solid #f6f6f6'>
+                    </td>
+                </tr>
+                <tr>
+                    <td style='width:100%;height:auto;padding:5px 50px'>
+                        <table style='width:100%;height:auto'>
+                            <tbody>
+                                <tr style='font-size:18px;color:#05589e'>
+                                    <td style='text-align:left'></td>
+                                    <td style='text-align:center'></td>
+                                    <td style='text-align:right;font-weight:bold'><span>TOTAL: </span><span>S/</span> <span>{5}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr style='width:100%;height:1px;border:0;border-bottom:1px solid #f6f6f6'>
+                    </td>
+                </tr>
+                <tr>
+                    <td style='width:100%;height:auto;padding:0px 50px;text-align:center'>
+                        <table style='margin:0px;text-align:left;font-size:14px;color:#05589e;width:90%'>
+                            <tbody>
+                                <tr>
+                                    <td colspan='2' style='font-weight:bold;font-size:20px!important;margin-bottom:10px'><p style='margin-bottom:10px;margin-top:5px'>Recuerda</p> </td>
+                                </tr>
+                                <tr>
+                                    <td style='width:8%;text-align:right;margin-right:10px'></td>
+                                    <td><p style='color:#05589e;margin:10px'>Muestra tu Orden de Código de reserva directamente desde tu celular, no es necesario imprimir.</p></td>
+                                </tr>
+                                <tr>
+                                    <td style='width:8%;text-align:right;margin-right:10px'></td>
+                                    <td><p style='color:#05589e;margin:10px'>Es necesario presentarme media hora antes del inicio del tour para no tener inconvenientes.</p></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style='width:100%;height:auto;padding:0px 50px;text-align:left;color:#05589e;font-size:14px'>
+                        <strong>Condiciones de compra </strong>
+                        <ul>
+                            <li>La compra de los asientos, solo son válidos para el mismo día del tour.</li>
+                            <li>Esta compra no permite cambio de asiento, anulación y/o devolución de dinero. </li>
+                        </ul>
+                        <span style='font-size:9pt;color:#767171'>Veleritos se ubica en la playa de Los Organos, entre el muelle de Los Organos y Punta Veleros. - Piura - Perú.</span><br>
+                        <hr style='border-bottom:5px solid #e50246;width:100%;margin-bottom:10px;margin-top:10px'>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
