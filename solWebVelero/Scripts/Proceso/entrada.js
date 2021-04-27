@@ -189,6 +189,49 @@ function actualizarSeleccion() {
     $("#precio_total").html(convertMoneda(ntotal,2));
 }
 
+function mapearAsiento(p_async, p_id_viaje) {
+    //Obteniendo reservas del viaje
+    var objE = {
+        id_viaje: p_id_viaje
+    }
+    $.ajax({
+        type: "POST",
+        url: "/Proceso/ListaAsiento",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify({
+            objE: objE
+        }),
+        async: p_async,
+        success: function (data) {
+            if (!data.Activo) {
+                msg_OpenDay("e", data.Mensaje);
+                return;
+            }
+            for (var i = 0; i < data.Resultado.length; i++) {
+                $("#divDistribucion").find(':button').each(function () {
+                    if ($(this).attr("name") === "btn-asiento" && parseInt($(this).attr("attr-btn-value")) === data.Resultado[i].asiento) {
+                        $(this).attr('est-sel-asi', 'reservado');
+                        $(this).css("background", "#8a8a8a");
+                        //$(this).prop("disabled", true);
+                        $(this).attr("data-html", "true");
+                        $(this).attr("data-toggle", "tooltip");
+                        $(this).attr("data-original-title", "DNI: " + data.Resultado[i].vDocumento + "<br>Nombre: " + data.Resultado[i].vCliente);
+                    }
+                });
+            }
+            $('[data-toggle="tooltip"]').tooltip();
+            $("#divAsiento").show();
+        },
+        error: function (data) {
+            msg_OpenDay("e", "Inconveniente en la operación");
+        },
+        complete: function () {
+            closeLoading();
+        }
+    });
+}
+
 function mostrarAsientos(row) {
     openLoading();
     arrayNumAsiento = [];
@@ -202,46 +245,7 @@ function mostrarAsientos(row) {
     $("#subtitulo_asiento").html("Salida: " + formatDate(parseDateServer(objViaje.fecha_ini), "dd-MM-yyyy") + " " + formatDate(parseDateServer(objViaje.fecha_ini), "HH:mm") + ' - ' + formatDate(parseDateServer(objViaje.fecha_fin), "HH:mm") + " | Asiento: " + objViaje.asiento_libre + " libres");
     $("#divDistribucion").html(objViaje.distribucion);
 
-    //Obteniendo reservas del viaje
-    var objE = {
-        id_viaje: objViaje_activ.id_viaje
-    }
-    $.ajax({
-        type: "POST",
-        url: "/Proceso/ListaAsiento",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify({
-            objE: objE
-        }),
-        async: true,
-        success: function (data) {
-            if (!data.Activo) {
-                msg_OpenDay("e", data.Mensaje);
-                return;
-            }
-            for (var i = 0; i < data.Resultado.length; i++) {
-                $("#divDistribucion").find(':button').each(function() {
-                    if ($(this).attr("name") === "btn-asiento" && parseInt($(this).attr("attr-btn-value")) === data.Resultado[i].asiento) {
-                        $(this).attr('est-sel-asi', 'reservado');
-                        $(this).css("background", "#8a8a8a");
-                        //$(this).prop("disabled", true);
-                        $(this).attr("data-html", "true");
-                        $(this).attr("data-toggle", "tooltip");
-                        $(this).attr("data-original-title", "DNI: " + data.Resultado[i].vDocumento + "<br>Nombre: " + data.Resultado[i].vCliente);
-                    }
-                });
-            }
-            $('[data-toggle="tooltip"]').tooltip();
-            $("#divAsiento").show();                
-        },
-        error: function (data) {
-            msg_OpenDay("e", "Inconveniente en la operación");
-        },
-        complete: function () {
-            closeLoading();
-        }
-    });
+    mapearAsiento(true, objViaje_activ.id_viaje);
     //Estado de los asientos
     $("#divAsiento button").click(function () {
         if ($(this).attr("name") === "btn-asiento") {
@@ -465,9 +469,11 @@ $("#btn_guardar").click(function () {
         celular: $("#txt_celular").val(),
         observacion: $("#txt_observacion").val(),
         listaCliente: arrayPasajero,
-        nombre_tour: objViaje_activ.nombre
+        nombre_tour: objViaje_activ.nombre,
+        fecha_ini: parseDateServer(objViaje_activ.fecha_ini),
+        fecha_fin: parseDateServer(objViaje_activ.fecha_fin)
     }
-
+    debugger;
     $.ajax({
         type: "POST",
         url: "/Proceso/ActualizarReserva",
@@ -486,6 +492,7 @@ $("#btn_guardar").click(function () {
                 return;
             }
 
+            mapearAsiento(false, objViaje_activ.id_viaje);
             $("#pnl_reserva").modal('hide');
 
             msg_OpenDay("c", "Se guardó correctamente");

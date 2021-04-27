@@ -21,7 +21,7 @@ namespace DATOS
                 {
                     cmd.Parameters.AddWithValue("@id_reserva", 0).Direction = ParameterDirection.Output;
                     cmd.Parameters.AddWithValue("@id_viaje", objE.id_viaje);
-                    cmd.Parameters.AddWithValue("@cod_reserva", "").Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@cod_reserva", SqlDbType.VarChar, 10).Direction = ParameterDirection.Output;
                     cmd.Parameters.AddWithValue("@tipo_reserva", objE.tipo_reserva);
                     cmd.Parameters.AddWithValue("@medio_pago", objE.medio_pago);
                     cmd.Parameters.AddWithValue("@adelanto", objE.adelanto);
@@ -31,7 +31,7 @@ namespace DATOS
                     cmd.Parameters.AddWithValue("@observacion", objE.observacion);
                     cmd.Parameters.AddWithValue("@usuario", objE.USUARIO.ID_USUARIO);
                     cmd.Parameters.AddWithValue("@pasajeros", objE.vCliente);
-                    cmd.Parameters.AddWithValue("@precio_total", objE.total);
+                    cmd.Parameters.AddWithValue("@precio_total", 0).Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cn.Open();
                     cmd.ExecuteNonQuery();

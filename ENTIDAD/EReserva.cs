@@ -13,6 +13,8 @@ namespace ENTIDAD
         public int id_viaje { get; set; }
         public int id_cliente { get; set; }
         public string nombre_tour { get; set; }
+        public DateTime fecha_ini { get; set; }
+        public DateTime fecha_fin { get; set; }
         public string cod_reserva { get; set; }
         public string tipo_reserva { get; set; }
         public string medio_pago { get; set; }

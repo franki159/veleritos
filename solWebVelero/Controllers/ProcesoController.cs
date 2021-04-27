@@ -192,7 +192,7 @@ namespace solWebVelero.Controllers
                 var vPasajeros = "";
                 var pasajeroHTML = "";
                 pasajeroHTML += "<table style=width:100%;height:auto;margin-top:10px'>";
-                pasajeroHTML += "    <thead><tr style='margin:0px;text-align:left;font-size:16px;color:#05589e;width:50%'><td><strong>Pasajero</strong></td><td><strong>Documento</strong></td><td><strong>Asiento</strong></td></tr><tr><td>&nbsp;</td><td></td><td></td></tr>";
+                pasajeroHTML += "    <thead><tr style='margin:0px;text-align:left;font-size:16px;color:#05589e;width:50%'><td><strong>Pasajero</strong></td><td style='text-align:center'><strong>Documento</strong></td><td style='text-align:right'><strong>Asiento</strong></td></tr><tr><td>&nbsp;</td><td></td><td></td></tr>";
                 pasajeroHTML += "    </thead><tbody>";
                 foreach (ECliente item in objE.listaCliente)
                 {
@@ -250,7 +250,7 @@ namespace solWebVelero.Controllers
                     // Open the file to read from.
                     string readText = System.IO.File.ReadAllText(path);
 
-                    correo.Mensaje = String.Format(readText, "Tour de prueba", objReservaResultado.cod_reserva, "12/04/2021", "13:00", pasajeroHTML, String.Format("{0:n0}", objReservaResultado.total));
+                    correo.Mensaje = String.Format(readText, "Tour de prueba", objReservaResultado.cod_reserva, objE.fecha_ini.ToString("dd/MM/yyyy"), objE.fecha_ini.ToString("hh:mm") + " - " + objReservaResultado.fecha_fin.ToString("hh:mm") , pasajeroHTML, String.Format("{0:n0}", objReservaResultado.total));
                     //correo.EnviarImagen();
                 }
             }
