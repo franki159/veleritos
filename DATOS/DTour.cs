@@ -36,6 +36,7 @@ namespace DATOS
                         mItem.detalle = dr.IsDBNull(dr.GetOrdinal("detalle")) ? string.Empty : dr.GetString(dr.GetOrdinal("detalle"));
                         mItem.condicion= dr.IsDBNull(dr.GetOrdinal("condicion")) ? string.Empty : dr.GetString(dr.GetOrdinal("condicion"));
                         mItem.precio = dr.IsDBNull(dr.GetOrdinal("precio")) ? 0 : dr.GetDecimal(dr.GetOrdinal("precio"));
+                        mItem.foto = dr.IsDBNull(dr.GetOrdinal("foto")) ? string.Empty : dr.GetString(dr.GetOrdinal("foto"));
 
                         lista.Add(mItem);
                     }
@@ -164,8 +165,9 @@ namespace DATOS
             using (SqlConnection cn = new SqlConnection(DConexion.Get_Connection(DConexion.DataBase.CnVelero)))
             {
                 SqlCommand cmd = new SqlCommand("sp_fotoTour_actualizar", cn);
-                cmd.Parameters.AddWithValue("@id_foto_tour", EUtil.getDesencriptar(objE.ID_ENCRIP));
+                cmd.Parameters.AddWithValue("@id_foto_tour", objE.id_foto_tour);
                 cmd.Parameters.AddWithValue("@ruta", objE.ruta);
+                cmd.Parameters.AddWithValue("@orden", objE.orden);
                 cmd.Parameters.AddWithValue("@opcion", 2);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cn.Open();

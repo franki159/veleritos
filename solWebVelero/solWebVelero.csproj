@@ -222,6 +222,7 @@
     <Compile Include="Controllers\MantenimientoController.cs" />
     <Compile Include="Controllers\ProcesoController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
+    <Compile Include="Controllers\TourController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -2330,6 +2331,8 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Scripts\Tour\SeleccionViaje.js" />
+    <Content Include="Scripts\Tour\index.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2355,6 +2358,9 @@
     <Content Include="Views\Proceso\Entrada.cshtml" />
     <Content Include="Views\Home\Error.cshtml" />
     <None Include="Service References\wsConsultaDNI\serdni.wsdl" />
+    <Content Include="Views\Tour\Index.cshtml" />
+    <Content Include="Views\Tour\Viaje.cshtml" />
+    <Content Include="Views\Tour\SeleccionViaje.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

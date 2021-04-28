@@ -397,7 +397,7 @@ namespace solWebVelero.Controllers
             }
             return Json(objRespuesta);
         }
-        public JsonResult AcualizarFotoTour(EFoto objE)
+        public JsonResult ActualizarFotoTour(EFoto objE)
         {
             ERespuestaJson objRespuesta = new ERespuestaJson();
             try

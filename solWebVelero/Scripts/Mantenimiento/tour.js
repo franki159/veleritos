@@ -183,11 +183,11 @@ function listar_tour(p_sync) {
                                 if (masc === 0) {
                                     $('.imagePreview').css("background-image", "url(../../Content/img/tour/" + data.Resultado.listFoto[0].ruta + "?v=" + valRND + ")");
                                     $('.imagePreview').attr('img-fcp-url', data.Resultado.listFoto[0].ruta);
-                                    $('.imagePreview').attr('id', 'imgGal_' + + data.Resultado.listFoto[0].id_tour);
+                                    $('.imagePreview').attr('id', 'imgGal_' + +data.Resultado.listFoto[0].id_foto_tour);
                                 } else {
-                                    $(".container-file").closest(".row").find('.imgAdd').before('<div class="col-sm-2 imgUp imgSecond"><div class="imagePreview" id="imgGal_' + data.Resultado.listFoto[masc].id_tour + '"></div><label class="btn btn-primary btn-upload">Subir<input type="file" class="uploadFile img" value="Upload Photo" style="width:0px;height:0px;overflow:hidden;"></label><i class="fa fa-times del"></i></div>');
-                                    $("#imgGal_" + data.Resultado.listFoto[masc].id_tour).css("background-image", "url(img/mascota/" + data.Resultado.listFoto[masc].ruta + "?v=" + valRND + ")");
-                                    $("#imgGal_" + data.Resultado.listFoto[masc].id_tour).attr('img-fcp-url', data.Resultado.listFoto[masc].ruta);
+                                    $(".container-file").closest(".row").find('.imgAdd').before('<div class="col-sm-2 imgUp imgSecond"><div class="imagePreview" id="imgGal_' + data.Resultado.listFoto[masc].id_foto_tour + '"></div><label class="btn btn-primary btn-upload">Subir<input type="file" class="uploadFile img" value="Upload Photo" style="width:0px;height:0px;overflow:hidden;"></label><i class="fa fa-times del"></i></div>');
+                                    $("#imgGal_" + data.Resultado.listFoto[masc].id_foto_tour).css("background-image", "url(img/mascota/" + data.Resultado.listFoto[masc].ruta + "?v=" + valRND + ")");
+                                    $("#imgGal_" + data.Resultado.listFoto[masc].id_foto_tour).attr('img-fcp-url', data.Resultado.listFoto[masc].ruta);
                                 }
                             }
                             $("#pnl_tour").modal('show');
@@ -327,34 +327,20 @@ $("#btn_guardar").click(function (evt) {
                             async: false,
                             success: function (dataImg) {
                                 if (!dataImg.Activo) {
-                                    msg_OpenDay("e", dataImg.Mensaje);
-                                    closeLoading();
+                                    error_img++;
                                     return;
                                 }
 
                                 error_img += guardarImagen(evt, dataImg.Resultado, imgTemp);
                             },
                             error: function (data) {
-                                msg_OpenDay("e", "Inconveniente en la operación");
-                                closeLoading();
+                                error_img++;
                             }
                         });
 
                         evt.preventDefault();
                     }
                 });
-
-                if (error_img > 0) {
-                    $("#pnl_tour").modal('hide');
-                    $("#btn_guardar").attr("disabled", false);
-                    closeLoading();
-                    msg_OpenDay("e", "Error al guardar imagen");
-                } else {
-                    $("#pnl_tour").modal('hide');
-                    $("#btn_guardar").attr("disabled", false);
-                    listar_tour(false);
-                    msg_OpenDay("c", "Se guardó correctamente");
-                }
             } else if (txh_tour !== "") {//Modificar
                 //Guardando todas las imagenes BD
                 error_img = 0;
@@ -367,13 +353,13 @@ $("#btn_guardar").click(function (evt) {
                             var nameAct = $(this).parent().parent().children(0).attr("img-fcp-url");
                             var gal_id = $(this).parent().parent().children(0)[0].id.split("_")[1];
                             //Actualizando el nombre en la base de datos
-                            obE = {
+                            objE = {
                                 ID_ENCRIP: txh_tour,
                                 ruta: getExtension(imgTemp.name),
                                 id_foto_tour: gal_id,
                                 orden: inxImg
                             };
-
+                            debugger;
                             $.ajax({
                                 type: "POST",
                                 url: "/Mantenimiento/ActualizarFotoTour",
@@ -383,16 +369,14 @@ $("#btn_guardar").click(function (evt) {
                                 async: false,
                                 success: function (dataImg) {
                                     if (!dataImg.Activo) {
-                                        msg_OpenDay("e", dataImg.Mensaje);
-                                        closeLoading();
+                                        error_img++;
                                         return;
                                     }
 
                                     error_img += guardarImagen(evt, dataImg.Resultado, imgTemp);
                                 },
                                 error: function (data) {
-                                    msg_OpenDay("e", "Inconveniente en la operación");
-                                    closeLoading();
+                                    error_img++;
                                 }
                             });
 
@@ -421,8 +405,6 @@ $("#btn_guardar").click(function (evt) {
                                 async: false,
                                 success: function (dataImg) {
                                     if (!dataImg.Activo) {
-                                        msg_OpenDay("e", dataImg.Mensaje);
-                                        closeLoading();
                                         error_img++;
                                         return;
                                     }
@@ -430,28 +412,27 @@ $("#btn_guardar").click(function (evt) {
                                     error_img += guardarImagen(evt, dataImg.Resultado, imgTemp);
                                 },
                                 error: function (data) {
-                                    msg_OpenDay("e", "Inconveniente en la operación");
-                                    closeLoading();
+                                    error_img++;
                                 }
                             });
                         }
                     }
-                });
+                });               
+            }
 
-                if (error_img > 0) {
-                    $("#pnl_tour").modal('hide');
-                    $("#btn_guardar").attr("disabled", false);
-                    msg_OpenDay("e", "Error al guardar imagen");
-                } else {
-                    $("#pnl_tour").modal('hide');
-                    $("#btn_guardar").attr("disabled", false);
-                    listar_tour(false);
-                    msg_OpenDay("c", "Se guardó correctamente");
-                }
+            if (error_img > 0) {
+                $("#pnl_tour").modal('hide');
+                msg_OpenDay("e", "Error al guardar imagen");
+            } else {
+                $("#pnl_tour").modal('hide');
+                listar_tour(false);
+                msg_OpenDay("c", "Se guardó correctamente");
             }
         },
         error: function (data) {
             msg_OpenDay("e", "Inconveniente en la operación");
+        },
+        complete: function (respuesta) {
             $("#btn_guardar").attr("disabled", false);
             closeLoading();
         }

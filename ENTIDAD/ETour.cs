@@ -14,7 +14,7 @@ namespace ENTIDAD
         public string condicion { get; set; }
         public string caracteristicas { get; set; }
         public decimal precio { get; set; }
-
+        public string foto { get; set; }
         public List<EFoto>listFoto { get; set; }
     }
 
