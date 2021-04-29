@@ -70,7 +70,6 @@ $(document).on('keypress', function (evt) {
 });
 
 function buscarViajes(row) {
-    debugger;
     objTour_activ = arrayTour_activ[row];
     var url_destino = "/Tour/SeleccionViaje?fromTourId=" + encodeURIComponent(objTour_activ.ID_ENCRIP);
     window.open(url_destino);

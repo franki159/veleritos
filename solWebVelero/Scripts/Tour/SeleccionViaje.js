@@ -1,6 +1,8 @@
 ﻿var txh_tour;
 var txh_idConfirm = "";
 var valRND = Math.floor(Math.random() * 100);
+var arrayViaje_activ = [];
+var objTour_activ = {};
 /*Inicializar Script*/
 $(function () {
     if (toURLParam("fromTourId") === null) {
@@ -13,18 +15,18 @@ $(function () {
     var fullDate = new Date();
 
     $("#bus_txt_fec_ini").val(formatDate(fullDate, "yyyy-MM-dd"));
+    $("#bus_txt_fec_ini").attr("min", formatDate(fullDate, "yyyy-MM-dd"));
 
     listar_inicio();
 });
 function listar_viaje(p_sync) {
-    $("#divAsiento").hide();
     openLoading();
     var objE = {
         ID_ENCRIP: getUrlParameter("fromTourId"),
         fecha_ini: $("#bus_txt_fec_ini").val() === "" ? null : getDateFromFormat($("#bus_txt_fec_ini").val(), 'yyyy-MM-dd'),
         fecha_fin: $("#bus_txt_fec_ini").val() === "" ? null : getDateFromFormat($("#bus_txt_fec_ini").val(), 'yyyy-MM-dd')
     };
-
+ 
     $.ajax({
         type: "POST",
         url: "/Tour/ListaViaje",
@@ -96,8 +98,12 @@ function listar_viaje(p_sync) {
     });
 }
 function listar_inicio() {
-    $("#bodyCard").html("");
     listar_viaje(true);
+}
+function mostrarAsientos(row) {
+    objViaje_activ = arrayViaje_activ[row];
+    var url_destino = "/Tour/SeleccionAsiento?fromViajeId=" + encodeURIComponent(objViaje_activ.ID_ENCRIP);
+    window.open(url_destino);
 }
 /*Eventos por Control*/
 $(document).on('keypress', function (evt) {
@@ -111,7 +117,6 @@ $(document).on('keypress', function (evt) {
     }
 });
 $("#btn_buscar").click(function () {
-    debugger;
     listar_viaje(true);
 });
 function openLoading() {

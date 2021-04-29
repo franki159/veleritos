@@ -68,6 +68,7 @@ namespace DATOS
                         mItem.ambito = dr.IsDBNull(dr.GetOrdinal("ambito")) ? string.Empty : dr.GetString(dr.GetOrdinal("ambito"));
                         mItem.tipo_nav = dr.IsDBNull(dr.GetOrdinal("tipo_nav")) ? string.Empty : dr.GetString(dr.GetOrdinal("tipo_nav"));
                         mItem.tipo_serv = dr.IsDBNull(dr.GetOrdinal("tipo_serv")) ? string.Empty : dr.GetString(dr.GetOrdinal("tipo_serv"));
+                        mItem.distribucion = dr.IsDBNull(dr.GetOrdinal("distribucion")) ? string.Empty : dr.GetString(dr.GetOrdinal("distribucion"));
                         mItem.constructora = dr.IsDBNull(dr.GetOrdinal("constructora")) ? string.Empty : dr.GetString(dr.GetOrdinal("constructora"));
                     }
                 }
@@ -94,6 +95,7 @@ namespace DATOS
                 cmd.Parameters.AddWithValue("@ambito", objE.ambito);
                 cmd.Parameters.AddWithValue("@tipo_nav", objE.tipo_nav);
                 cmd.Parameters.AddWithValue("@tipo_serv", objE.tipo_serv);
+                cmd.Parameters.AddWithValue("@distribucion", objE.distribucion);
                 cmd.Parameters.AddWithValue("@constructora", objE.constructora);
                 cmd.Parameters.AddWithValue("@usuario", objE.USUARIO.ID_USUARIO);
                 cmd.Parameters.AddWithValue("@opcion", objE.OPCION);

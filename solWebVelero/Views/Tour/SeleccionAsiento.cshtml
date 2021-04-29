@@ -31,13 +31,33 @@
     <div class="container" style="max-width: 960px;">
         <h1 class="display-4">Nuestros tours</h1>
         <p class="lead">Disfruta de nuestros hermosos recorridos en compañía de tu familia y amigos.</p>
-        <div id="bodyCard" class="card-deck mb-3">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="col-md-12" id="divAsiento">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-uppercase text-primary" id="titulo_asiento"></h6>
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1" id="subtitulo_asiento"></div>
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <h4 class="font-weight-bold">N° de asiento <span class="float-right" id="num_asiento"></span></h4>
+                    <hr>
+                    <h4 class="font-weight-bold">Precio Total <span class="float-right" id="precio_total"></span></h4>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12" id="divDistribucion">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="my-4"></div>
+                            <button id="btn_reservar" class="btn btn-primary btn-icon-split">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-briefcase"></i>
+                                </span>
+                                <span class="text">Reservar</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -68,7 +88,7 @@
     <script src="~/Content/js/general.js?v=@DateTime.Now.ToString("yyyyMMddHHmm")"></script>
     <script src="~/Content/js/all/date.js"></script>
 
-    <script src="~/Scripts/Tour/index.js"></script>
+    <script src="~/Scripts/Tour/SeleccionAsiento.js"></script>
     <!-- Select 2 filtro-->
     <script src="~/Content/assets/select2/js/select2.full.js"></script>
 </body>

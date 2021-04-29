@@ -2331,6 +2331,7 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Scripts\Tour\SeleccionAsiento.js" />
     <Content Include="Scripts\Tour\SeleccionViaje.js" />
     <Content Include="Scripts\Tour\index.js" />
     <Content Include="Web.config" />
@@ -2361,6 +2362,7 @@
     <Content Include="Views\Tour\Index.cshtml" />
     <Content Include="Views\Tour\Viaje.cshtml" />
     <Content Include="Views\Tour\SeleccionViaje.cshtml" />
+    <Content Include="Views\Tour\SeleccionAsiento.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

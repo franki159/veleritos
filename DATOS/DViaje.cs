@@ -108,6 +108,36 @@ namespace DATOS
             }
             return mItem;
         }
+        public static EViaje MapearViajexId(EViaje objE)
+        {
+            EViaje mItem = new EViaje();
+
+            using (SqlConnection cn = new SqlConnection(DConexion.Get_Connection(DConexion.DataBase.CnVelero)))
+            {
+                SqlCommand cmd = new SqlCommand("sp_viaje_mapearxId", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id_viaje", EUtil.getDesencriptar(objE.ID_ENCRIP));
+
+                cn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        mItem.ID_ENCRIP = EUtil.getEncriptar((dr.IsDBNull(dr.GetOrdinal("id_viaje")) ? 0 : dr.GetInt32(dr.GetOrdinal("id_viaje"))).ToString());
+                        mItem.id_viaje = dr.IsDBNull(dr.GetOrdinal("id_viaje")) ? 0 : dr.GetInt32(dr.GetOrdinal("id_viaje"));
+                        mItem.nombre = dr.IsDBNull(dr.GetOrdinal("nombre")) ? string.Empty : dr.GetString(dr.GetOrdinal("nombre"));
+                        mItem.fecha_ini = dr.IsDBNull(dr.GetOrdinal("fecha_ini")) ? DateTime.MinValue : dr.GetDateTime(dr.GetOrdinal("fecha_ini"));
+                        mItem.fecha_fin = dr.IsDBNull(dr.GetOrdinal("fecha_fin")) ? DateTime.MinValue : dr.GetDateTime(dr.GetOrdinal("fecha_fin"));
+                        mItem.distribucion = dr.IsDBNull(dr.GetOrdinal("distribucion")) ? string.Empty : dr.GetString(dr.GetOrdinal("distribucion"));
+                        mItem.asiento_libre = dr.IsDBNull(dr.GetOrdinal("asiento_libre")) ? 0 : dr.GetInt32(dr.GetOrdinal("asiento_libre"));
+                        mItem.precio = dr.IsDBNull(dr.GetOrdinal("precio")) ? 0 : dr.GetDecimal(dr.GetOrdinal("precio"));
+                        mItem.descuento = dr.IsDBNull(dr.GetOrdinal("descuento")) ? 0 : dr.GetDecimal(dr.GetOrdinal("descuento"));
+                    }
+                }
+            }
+            return mItem;
+        }
 
         public static int actualizarViaje(EViaje objE)
         {

@@ -146,6 +146,8 @@ function listar_embarcacion(p_sync) {
                             $("#sel_tipo_nav").val(data.Resultado.tipo_nav);
                             $("#sel_tipo_serv").val(data.Resultado.tipo_serv);
                             $("#sel_constructora").val(data.Resultado.constructora);
+                            $("#txt_distribucion").val(data.Resultado.distribucion);
+                            $("#divDistribucion").html($("#txt_distribucion").val());
 
                             $("#pnl_embarcacion").modal('show');
                         },
@@ -178,6 +180,7 @@ function limpiar_embarcacion() {
     $("#pnl_embarcacion input").val('');
     $("#pnl_embarcacion textarea").val('');
     $("#pnl_embarcacion sel_cargo").val(0);
+    $("#divDistribucion").html("");
 
     $("#pnl_embarcacion .validator-error").remove();
     txh_embarcacion = "";
@@ -223,6 +226,7 @@ $("#btn_guardar").click(function (evt) {
         tipo_nav: $("#sel_tipo_nav").val(),
         tipo_serv: $("#sel_tipo_serv").val(),
         constructora: $("#sel_constructora").val(),
+        distribucion: $("#txt_distribucion").val()
     };
 
     $.ajax({
@@ -254,4 +258,7 @@ $("#btn_guardar").click(function (evt) {
             closeLoading();
         }
     });
+});
+$("#txt_distribucion").on('keyup', function (evt) {
+    $("#divDistribucion").html($("#txt_distribucion").val());
 });

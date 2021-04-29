@@ -19,6 +19,7 @@ namespace ENTIDAD
         public string ambito { get; set; }
         public string tipo_nav { get; set; }
         public string tipo_serv { get; set; }
+        public string distribucion { get; set; }
         public string constructora { get; set; }
     }
 }

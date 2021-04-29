@@ -25,6 +25,10 @@ namespace solWebVelero.Controllers
         {
             return View();
         }
+        public ActionResult SeleccionAsiento()
+        {
+            return View();
+        }
 
         public JsonResult ListaTour(ETour objE)
         {
@@ -45,9 +49,37 @@ namespace solWebVelero.Controllers
             ERespuestaJson objRespuesta = new ERespuestaJson();
             try
             {
-                var id_tour = Request.QueryString["fromTourId"];
                 objE.id_tour = Convert.ToInt32(EUtil.getDesencriptar(objE.ID_ENCRIP));
                 objRespuesta.Resultado = NViaje.ListarViajeVigente(objE);
+            }
+            catch (Exception ex)
+            {
+                objRespuesta.Error(string.IsNullOrEmpty(ex.Message) ? ex.InnerException.Message : ex.Message);
+            }
+
+            return Json(objRespuesta);
+        }
+        public JsonResult MapearViaje(EViaje objE)
+        {
+            ERespuestaJson objRespuesta = new ERespuestaJson();
+            try
+            {
+                objE.id_viaje = Convert.ToInt32(EUtil.getDesencriptar(objE.ID_ENCRIP));
+                objRespuesta.Resultado = NViaje.MapearViajexId(objE);
+            }
+            catch (Exception ex)
+            {
+                objRespuesta.Error(string.IsNullOrEmpty(ex.Message) ? ex.InnerException.Message : ex.Message);
+            }
+
+            return Json(objRespuesta);
+        }
+        public JsonResult ListaAsiento(EReserva objE)
+        {
+            ERespuestaJson objRespuesta = new ERespuestaJson();
+            try
+            {
+                objRespuesta.Resultado = NReserva.ListarAsiento(objE);
             }
             catch (Exception ex)
             {
