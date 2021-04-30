@@ -85,12 +85,6 @@ namespace solWebVelero.Controllers
 
             try
             {
-                if (Session["ssUserVelero"] == null)
-                {
-                    objRespuesta.Error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
-                    return Json(objRespuesta);
-                }
-                
                 objRespuesta.Resultado = NUsuario.ListarParametro(opcion).ToList();
             }
             catch (Exception ex)

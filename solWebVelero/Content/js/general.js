@@ -333,7 +333,6 @@ function listar_parametros_select(p_control, tipo, p_async) {
         },
         success: function (data) {
             if (!data.Activo) {
-                msg_OpenDay("e", data.Mensaje);
                 return;
             }
 
@@ -341,9 +340,6 @@ function listar_parametros_select(p_control, tipo, p_async) {
             for (var i = 0; i < data.Resultado.length; i++) {
                 $(p_control).append("<option value='" + data.Resultado[i].CODIGO + "'>" + data.Resultado[i].DESCRIPCION + "</option>");
             }
-        },
-        error: function (data) {
-            msg_OpenDay("e", "Inconveniente en la operación");
         },
         complete: function () {
             closeLoading();

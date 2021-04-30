@@ -50,11 +50,6 @@ namespace solWebVelero.Controllers
             ERespuestaJson objRespuesta = new ERespuestaJson();
             try
             {
-                if (Session["ssUserVelero"] == null)
-                {
-                    objRespuesta.Error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
-                    return Json(objRespuesta);
-                }
 
                 objRespuesta.Resultado = NPais.ListarPais();
             }
@@ -96,7 +91,7 @@ namespace solWebVelero.Controllers
 
             return Json(objRespuesta);
         }
-        public ERespuestaJson BuscarPersonaPorDni(string NumeroDocumento = "")
+        public static ERespuestaJson BuscarPersonaPorDni(string NumeroDocumento = "")
         {
             ERespuestaJson objRespuesta = new ERespuestaJson();
             try

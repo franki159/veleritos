@@ -30,22 +30,49 @@ function listar_tour(p_sync) {
                 return;
             }
             
-            var html = '';
+            var html_tours_pc = "";
+            var html_tours_mobile = "";
             $("#bodyCard").html("");
+
+            html += '<div class="carousel-item active">';
+            html += '   <div class="row h-100">';
             arrayTour_activ = [];
             for (var i = 0; i < data.Resultado.length; i++) {
                 arrayTour_activ.push(data.Resultado[i]);
-                html += '<div class="card mb-4 box-shadow btn-3-default" style="min-width: 220px;cursor: pointer;" onClick="buscarViajes('+ i +')">';
-                html += '   <img class="card-img-top" src="../Content/img/tour/'+ data.Resultado[i].foto +'" alt="Card image cap">';
-                html += '   <div class="card-body">';
-                html += '       <h4 class="card-title font-weight-bold"><a href="#">' + data.Resultado[i].nombre + '</a></h4>';
-                html += '       <p class="card-text">' + data.Resultado[i].DESCRIPCION + '</p>';
-                html += '       <h1 class="card-title pricing-card-title">S/ ' + data.Resultado[i].precio + '</h1>';
-                html += '   </div>';
-                html += '</div>';
+
+debugger;
+                var html = '';
+                html += '     <div class="col-md-4 mb-3 mb-md-0">';
+                html += '         <div class="card h-100 text-white hover-top">';
+                html += '           <img class="img-fluid h-100" src="../Content/img/tour/'+ data.Resultado[i].foto +'" alt="" />';
+                html += '           <div class="card-img-overlay ps-0 d-flex flex-column justify-content-between bg-dark-gradient">';
+                html += '               <div class="pt-3"><span class="badge bg-primary">S/ ' + data.Resultado[i].precio + '</span></div>';
+                html += '               <div class="ps-3 d-flex justify-content-between align-items-center">';
+                html += '                   <h5 class="text-white">' + data.Resultado[i].nombre + '</h5>';
+                html += '                   <h6 class="text-600">Tour</h6>';
+                html += '               </div>';
+                html += '           </div>';
+                html += '         </div>';
+                html += '    </div>';
+                
+                if (i%3 === 0){
+                    if (i == 0){
+                        html_tours_pc += '<div class="carousel-item active">';
+                    }else{
+                        html_tours_pc += '</div>';
+                        html_tours_pc += '</div>';
+                        html_tours_pc += '<div class="carousel-item">';                    
+                    }
+
+                    html_tours_pc += '   <div class="row h-100">';
+                }
+                html_tours_pc += html;
+                html_tours_mobile += html;
             }
 
-            $("#bodyCard").append(html);
+
+            $("#bodyCard").append(html_tours_pc);
+            $("bodyCardMobile").append(html_tours_mobile);
             closeLoading();
         },
         error: function (data) {

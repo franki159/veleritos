@@ -186,7 +186,7 @@ function actualizarSeleccion() {
         vasientos = vasientos.substring(0, vasientos.length - 1);
 
     $("#num_asiento").html(vasientos);
-    $("#precio_total").html(convertMoneda(ntotal,2));
+    $("#precio_total").html("S/ " + formatoNumero(ntotal, 2, ".", ","));
 }
 
 function mapearAsiento(p_async, p_id_viaje) {
