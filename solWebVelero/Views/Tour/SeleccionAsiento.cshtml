@@ -4,8 +4,280 @@
 }
 
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Vacation - Free Bootstrap 4 Template by Colorlib</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<html>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/templatePage/css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/templatePage/css/animate.css">
+    @Styles.Render("~/Content/templateSoft/vendor/fontawesome-free/css/all.min.css")
+    <link rel="stylesheet" href="~/Content/templatePage/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/Content/templatePage/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/Content/templatePage/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/Content/templatePage/css/aos.css">
+    <link rel="stylesheet" href="~/Content/templatePage/css/ionicons.min.css">
+    <link rel="stylesheet" href="~/Content/templatePage/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="~/Content/templatePage/css/jquery.timepicker.css">
+
+    <link href="~/Content/assets/multisteps/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/templatePage/css/flaticon.css">
+    <link rel="stylesheet" href="~/Content/templatePage/css/icomoon.css">
+    <link rel="stylesheet" href="~/Content/templatePage/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Veleritos<span>Tour</span></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="oi oi-menu"></span> Menu
+            </button>
+            <div class="collapse navbar-collapse" id="ftco-nav">
+                <ul class="navbar-nav ml-auto">
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- END nav -->
+    <!-- END nav -->
+    <section class="ftco-section services-section">
+        <div class="container">
+            <div class="row d-flex">
+                <div class="col-md-12">
+                    <div style="padding: 10px 0px 40px;min-height: 400px;">
+                        <!--multisteps-form-->
+                        <div class="multisteps-form">
+                            <!--progress bar-->
+                            <div class="row">
+                                <div class="col-12 col-lg-8 ml-auto mr-auto mb-4">
+                                    <div class="multisteps-form__progress">
+                                        <button class="multisteps-form__progress-btn js-active" type="button" title="User Info">Asientos</button>
+                                        <button class="multisteps-form__progress-btn" type="button" title="Address">Pasajeros</button>
+                                        <button class="multisteps-form__progress-btn" type="button" title="Order Info">Pago</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--form panels-->
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="multisteps-form__form">
+                                        <!--single form panel-->
+                                        <div class="multisteps-form__panel p-4 bg-white js-active card shadow position-absolute" data-animation="scaleIn">
+                                            <div class="body-items">
+
+                                            </div>
+                                            <div class="button-row d-flex">
+                                                <button class="btn btn-primary ml-auto js-btn-next" type="button" title="Next" id="btn-carrito">
+                                                    Reservar
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!--single form panel-->
+                                        <div class="multisteps-form__panel p-4 bg-white card shadow position-absolute" data-animation="scaleIn">
+                                            <h3 class="multisteps-form__title"><i class="fas fa-users"></i>&nbsp;<b>Información de pasajero(s)</b></h3>
+                                            <div class="multisteps-form__content">
+                                                <div class="col-md-12" id="divPasajeros" style="max-height:400px;overflow-y:auto;border-bottom: 1px solid #ccc;margin-bottom: 1rem;">
+                                                </div>
+                                                    <div class="form-row mt-4">
+                                                        <div class="col-12 col-sm-6">
+                                                            <label>Nombres</label>
+                                                            <input class="multisteps-form__input form-control" id="txt-nom" type="text" placeholder="Nombres" />
+                                                        </div>
+                                                        <div class="col-12 col-sm-6 mt-4 mt-sm-0">
+                                                            <label>Apellidos</label>
+                                                            <input class="multisteps-form__input form-control" id="txt-ape" type="text" placeholder="Apellidos" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row mt-4">
+                                                        <div class="col-12 col-sm-6">
+                                                            <label>Telefono</label>
+                                                            <input class="multisteps-form__input form-control integerFCP" maxlength="15" id="txt-tel" type="text" placeholder="Telefono" />
+                                                        </div>
+                                                        <div class="col-12 col-sm-6 mt-4 mt-sm-0">
+                                                            <label>DNI</label>
+                                                            <input class="multisteps-form__input form-control integerFCP" maxlength="15" id="txt-dni" type="text" placeholder="DNI" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <br />
+                                            <h3 class="multisteps-form__title"><i class="fas fa-address-card"></i>&nbsp;<b>Detalles de Contacto</b></h3>
+                                            <div class="multisteps-form__content">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Correo de contacto</label>
+                                                            <div class="form-group">
+                                                                <input id="txt_correo" class="form-control input-sm" type="text" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Código</label>
+                                                            <select id="sel_codPais" class="form-control sel_autocomplete" style="width: 100%;"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Celular</label>
+                                                            <div class="form-group">
+                                                                <input id="txt_celular" class="form-control input-sm" placeholder="Ingrese celular" type="text" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label>Observacion</label>
+                                                            <textarea id="txt_observacion" class="form-control input-sm" rows="3"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="button-row d-flex mt-4">
+                                                    <button class="btn btn-primary js-btn-prev" type="button" title="Prev"><< Atras</button>
+                                                    <button class="btn btn-primary ml-auto js-btn-next" type="button" title="Next" id="btn-domicilio">Siguiente >></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--single form panel-->
+                                        <div class="multisteps-form__panel p-4 bg-white card shadow position-absolute" data-animation="scaleIn">
+                                            <h3 class="multisteps-form__title">Elige tu medio de pago</h3>
+                                            <div class="multisteps-form__content">
+                                                <div class="">
+                                                    <div class="px-4 py-4 border btn-light btn-card-payment">
+                                                        <div class="row">
+                                                            <div class="col-0">
+                                                                <i class="fas fa-credit-card text-primary h2"></i>
+                                                            </div>
+                                                            <div class="col-10  my-auto">
+                                                                <div class="col-12">
+                                                                    <span>Tarjeta</span>
+                                                                </div>
+                                                                <div class="col-12 col-12 py-1">
+                                                                    <span class="text-gray-500 h5">Débito o crédito</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="px-4 py-4 border border-top-0  btn-light btn-money-payment">
+                                                        <div class="row">
+                                                            <div class="col-0">
+                                                                <i class="far fa-money-bill-alt text-primary h2"></i>
+                                                            </div>
+                                                            <div class="col-10  my-auto">
+                                                                <div class="col-12">
+                                                                    <span>Efectivo en agentes</span>
+                                                                </div>
+                                                                <div class="col-12 col-12 py-1">
+                                                                    <span class="text-gray-500 h5">El pago se acreditará en 1 día.</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="px-4 py-4 border border-top-0 btn-light btn-bank-payment">
+                                                        <div class="row">
+                                                            <div class="col-0 text-primary">
+                                                                <i class="fas fa-university" style="font-size: 30px;"></i>
+                                                            </div>
+                                                            <div class="col-10  my-auto">
+                                                                <div class="col-12">
+                                                                    <span>Banca por internet</span>
+                                                                </div>
+                                                                <div class="col-12 col-12 py-1">
+                                                                    <span class="text-gray-500 h5">El pago se acreditará en 1 día.</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="button-row d-flex mt-4">
+                                                    <button class="btn btn-primary js-btn-prev" type="button" title="Prev"><< Atras</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <form class="multisteps-form__form">
+                                        <!--single form panel-->
+                                        <div class="p-4 bg-white js-active card shadow" data-animation="scaleIn">
+                                            <h3 class="multisteps-form__title">Resumen</h3>
+                                            <div class="multisteps-form__content">
+                                                <div class="form-row mt-4">
+                                                    <div class="col-12">
+                                                        <p><span class="dsc-prod-pag text-primary"></span></p>
+                                                        <p>Costo de servicio:<span class="dsc-pre-pag" style="float:right"></span></p>
+                                                        <p>Costo de envío:<span class="dsc-env-pag" style="float:right">-</span></p>
+                                                        <p><b>Total:<span class="dsc-tot-pag" style="float:right"></span></b></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="ftco-footer bg-bottom" style="background-image: url(/Content/templatePage/images/footer-bg.jpg);">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-md">
+                    <div class="ftco-footer-widget mb-4">
+                        <h2 class="ftco-heading-2">¿Tiene alguna duda?</h2>
+                        <div class="block-23 mb-3">
+                            <ul>
+                                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
+                                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
+                                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;
+                        <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- loader -->
+    <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" /><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg></div>
+
+    <script src="~/Content/templatePage/js/jquery.min.js"></script>
+    <script src="~/Content/templatePage/js/jquery-migrate-3.0.1.min.js"></script>
+    <script src="~/Content/templatePage/js/popper.min.js"></script>
+    <script src="~/Content/templatePage/js/bootstrap.min.js"></script>
+    <script src="~/Content/templatePage/js/jquery.easing.1.3.js"></script>
+    <script src="~/Content/templatePage/js/jquery.waypoints.min.js"></script>
+    <script src="~/Content/templatePage/js/jquery.stellar.min.js"></script>
+    <script src="~/Content/templatePage/js/owl.carousel.min.js"></script>
+    <script src="~/Content/templatePage/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/Content/templatePage/js/aos.js"></script>
+    <script src="~/Content/templatePage/js/jquery.animateNumber.min.js"></script>
+    <script src="~/Content/templatePage/js/bootstrap-datepicker.js"></script>
+    <script src="~/Content/templatePage/js/scrollax.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+    <script src="~/Content/templatePage/js/main.js"></script>
+    <script src="~/Content/js/general.js?v=@DateTime.Now.ToString("yyyyMMddHHmm")"></script>
+    <script src="~/Content/js/all/date.js"></script>
+    <script src="~/Scripts/Tour/SeleccionAsiento.js"></script>
+    <script src="~/Content/assets/multisteps/script.js"></script>
+</body>
+</html>
+@*<html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -208,4 +480,4 @@
     <!-- Select 2 filtro-->
     <script src="~/Content/assets/select2/js/select2.full.js"></script>
 </body>
-</html>
+</html>*@

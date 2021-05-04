@@ -45,6 +45,10 @@ function listar_viaje(p_sync) {
                 return;
             }
 
+            if (data.Resultado.length  === 0) {
+                msg_OpenDay("a", "No se encontraron tours disponibles en la fecha seleccionada");
+            }
+
             var html = '';
             $("#body_viajes_disp").html("");
             arrayViaje_activ = [];
@@ -117,6 +121,7 @@ $(document).on('keypress', function (evt) {
     }
 });
 $("#btn_buscar").click(function () {
+    debugger;
     listar_viaje(true);
 });
 function openLoading() {
