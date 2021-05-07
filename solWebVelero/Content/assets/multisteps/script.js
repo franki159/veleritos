@@ -13,26 +13,19 @@ const DOMstrings = {
 
 //remove class from a set of items
 const removeClasses = (elemSet, className) => {
-
   elemSet.forEach(elem => {
-
     elem.classList.remove(className);
-
   });
-
 };
 
 //return exect parent node of the element
 const findParent = (elem, parentClass) => {
-
   let currentNode = elem;
 
   while (!currentNode.classList.contains(parentClass)) {
     currentNode = currentNode.parentNode;
   }
-
   return currentNode;
-
 };
 
 //get active button step number
@@ -111,7 +104,6 @@ const setFormHeight = () => {
 
 //STEPS BAR CLICK FUNCTION
 DOMstrings.stepsBar.addEventListener('click', e => {
-
   //check if click target is a step button
   const eventTarget = e.target;
 
@@ -131,7 +123,6 @@ DOMstrings.stepsBar.addEventListener('click', e => {
 
 //PREV/NEXT BTNS CLICK
 DOMstrings.stepsForm.addEventListener('click', e => {
-
   const eventTarget = e.target;
 
   //check if we clicked on `PREV` or NEXT` buttons

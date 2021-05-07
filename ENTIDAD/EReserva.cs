@@ -29,5 +29,7 @@ namespace ENTIDAD
         public List<ECliente> listaCliente { get; set; }
         public string vCliente { get; set; }
         public string vDocumento { get; set; }
+        //PAra los pagos
+        public string COMENTARIO { get; set; }
     }
 }

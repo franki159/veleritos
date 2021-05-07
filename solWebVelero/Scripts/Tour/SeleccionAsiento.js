@@ -42,12 +42,15 @@ function listar_viaje(p_sync) {
             //Obteniendo valores del viaje seleccionado
             var precio_real = data.Resultado.precio - data.Resultado.descuento;
             $("#titulo_asiento").html(data.Resultado.nombre + "(" + convertMoneda(precio_real, 2) + ")");
-            $("#subtitulo_asiento").html("Salida: " + formatDate(parseDateServer(data.Resultado.fecha_ini), "dd-MM-yyyy") + " " + formatDate(parseDateServer(data.Resultado.fecha_ini), "HH:mm") + ' - ' + formatDate(parseDateServer(data.Resultado.fecha_fin), "HH:mm") + " | Asiento: " + data.Resultado.asiento_libre + " libres");
+            $("#spn-fec-sal").html(formatDate(parseDateServer(data.Resultado.fecha_ini), "dd-MM-yyyy"));
+            $("#spn-hor-sal").html(formatDate(parseDateServer(data.Resultado.fecha_ini), "HH:mm") + ' - ' + formatDate(parseDateServer(data.Resultado.fecha_fin), "HH:mm"));
+
             $("#divDistribucion").html(data.Resultado.distribucion);
+            setFormHeight();
 
             mapearAsiento(true, data.Resultado.id_viaje);
             //Estado de los asientos
-            $("#divAsiento button").click(function () {
+            $("#divDistribucion button").click(function () {
                 if ($(this).attr("name") === "btn-asiento") {
                     if ($(this).attr("est-sel-asi") === undefined || $(this).attr("est-sel-asi") === "inactive") {//Verificando si esta seleccionado
                         $(this).attr('est-sel-asi', 'active');
@@ -111,7 +114,6 @@ function listar_pais(p_sync) {
 }
 function actualizarSeleccion() {
     arrayNumAsiento = arrayNumAsiento.sort(function (a, b) { return a - b });
-    debugger;
     var ntotal = arrayNumAsiento.length * (objViaje_activ.precio - objViaje_activ.descuento);
     var vasientos = ""
     for (var i = 0; i < arrayNumAsiento.length; i++) {
@@ -126,7 +128,76 @@ function actualizarSeleccion() {
     $("#num_asiento").html(vasientos);
     $("#precio_total").html("S/ " + formatoNumero(ntotal, 2, ".", ","));
 }
+function guardarReservacion() {
+    $("#pnl_reserva .validator-error").remove();
+    var arrayPasajero = [];
+    //Validando datos de los pasajeros
+    for (var i = 0; i < arrayNumAsiento.length; i++) {
+        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .sel_tipo_doc_asiento"), "tipo de documento") === false) return;
+        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .txt_nro_doc_asiento"), "número de documento") === false) return;
+        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .txt_fec_nac_asiento"), "fecha de nacimiento") === false) return;
+        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .txt_nom_asiento"), "nombre") === false) return;
+        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .txt_ape_pat_asiento"), "apellido paterno") === false) return;
+        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .txt_ape_mat_asiento"), "apellido materno") === false) return;
+        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .sel_sexo_asiento"), "sexo") === false) return;
 
+        arrayPasajero.push({
+            ASIENTO: arrayNumAsiento[i],
+            TIPO_DOCUMENTO: $("#divAsiento_" + arrayNumAsiento[i] + " .sel_tipo_doc_asiento").val(),
+            NUM_DOCUMENTO: $("#divAsiento_" + arrayNumAsiento[i] + " .txt_nro_doc_asiento").val(),
+            FEC_NAC: $("#divAsiento_" + arrayNumAsiento[i] + " .txt_fec_nac_asiento").val() === "" ? null : getDateFromFormat($("#divAsiento_" + arrayNumAsiento[i] + " .txt_fec_nac_asiento").val(), 'yyyy-MM-dd'),
+            NOMBRES: $("#divAsiento_" + arrayNumAsiento[i] + " .txt_nom_asiento").val(),
+            APE_PAT: $("#divAsiento_" + arrayNumAsiento[i] + " .txt_ape_pat_asiento").val(),
+            APE_MAT: $("#divAsiento_" + arrayNumAsiento[i] + " .txt_ape_mat_asiento").val(),
+            SEXO: $("#divAsiento_" + arrayNumAsiento[i] + " .sel_sexo_asiento").val()
+        });
+    }
+    if (val_required_FCP($("#txt_correo"), "correo de contacto") === false) return;
+    if (val_required_FCP($("#txt_celular"), "celular de contacto") === false) return;
+
+    openLoading();
+
+    var objE = {
+        id_viaje: objViaje_activ.id_viaje,
+        correo: $("#txt_correo").val(),
+        id_pais: $("#sel_codPais").val(),
+        celular: $("#txt_celular").val(),
+        observacion: $("#txt_observacion").val(),
+        listaCliente: arrayPasajero,
+        nombre_tour: objViaje_activ.nombre,
+        fecha_ini: parseDateServer(objViaje_activ.fecha_ini),
+        fecha_fin: parseDateServer(objViaje_activ.fecha_fin)
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "/Tour/ActualizarReserva",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify({
+            objE: objE
+        }),
+        async: true,
+        beforeSend: function () {
+            $("#btn_guardar").attr("disabled", false);
+        },
+        success: function (data) {
+            if (!data.Activo) {
+                msg_OpenDay("e", data.Mensaje);
+                return;
+            }
+
+            window.location = "paymentGen";
+        },
+        error: function (data) {
+            msg_OpenDay("e", "Inconveniente en la operación");
+        },
+        complete: function () {
+            $("#btn_guardar").attr("disabled", false);
+            closeLoading();
+        }
+    });
+}
 function mapearAsiento(p_async, p_id_viaje) {
     //Obteniendo reservas del viaje
     var objE = {
@@ -182,6 +253,7 @@ $("#btn_buscar").click(function () {
 });
 $("#btn_reservar").click(function () {
     if (arrayNumAsiento.length == 0) {
+        //alert("Seleccione almenos un asiento");
         msg_OpenDay("a", "Seleccione almenos un asiento");
         return false;
     }
@@ -189,14 +261,13 @@ $("#btn_reservar").click(function () {
     openLoading();
 
     var num_asien_selec = 0;
-    arrayPasajero = [];
     var ntotal = arrayNumAsiento.length * (objViaje_activ.precio - objViaje_activ.descuento);
     $("#pnl_reserva .modal-title").html("Registro de asientos | Precio: " + formatoNumero(objViaje_activ.precio, 2, ".", ",") + " | Total: " + formatoNumero(ntotal, 2, ".", ","));
 
     //Creando Listado de pasajeros
     var html_body = "";
     for (var i = 0; i < arrayNumAsiento.length; i++) {
-        html_body += '      <div class="card card-control-fcp" id="divAsiento_' + arrayNumAsiento[i] + '">' +
+        html_body += '      <div id="divAsiento_' + arrayNumAsiento[i] + '">' +
                      '           <div class="row">' +
                      '               <div class="col-md-12">' +
                      '                   <div class="form-group">' +
@@ -252,8 +323,11 @@ $("#btn_reservar").click(function () {
                      '               </div>' +
                      '           </div>' +
                      '       </div>';
+        if (i < arrayNumAsiento.length - 1) {
+            html_body += '<hr>';
+        }
     }
-
+    
     $("#divPasajeros").html(html_body);
 
     //Listando combos
@@ -317,88 +391,22 @@ $("#btn_reservar").click(function () {
 
     $("#pnl_reserva").modal("show");
 });
-$("#btn_guardar").click(function () {
-    $("#pnl_reserva .validator-error").remove();
-    if (val_required_FCP($("#sel_mediopago"), "medio de pago") === false) return;
-    if (val_required_FCP($("#sel_tiporeserva"), "medio de pago") === false) return;
-    if (val_required_FCP($("#txt_adelanto"), "adelanto") === false) return;
-
-    var ntotal = arrayNumAsiento.length * (objViaje_activ.precio - objViaje_activ.descuento);
-    if (val_maxValue_FCP($("#txt_adelanto"), ntotal, "adelanto") === false) return;
-
-    //Validando datos de los pasajeros
-    for (var i = 0; i < arrayNumAsiento.length; i++) {
-        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .sel_tipo_doc_asiento"), "tipo de documento") === false) return;
-        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .txt_nro_doc_asiento"), "número de documento") === false) return;
-        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .txt_fec_nac_asiento"), "fecha de nacimiento") === false) return;
-        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .txt_nom_asiento"), "nombre") === false) return;
-        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .txt_ape_pat_asiento"), "apellido paterno") === false) return;
-        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .txt_ape_mat_asiento"), "apellido materno") === false) return;
-        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .sel_sexo_asiento"), "sexo") === false) return;
-
-        arrayPasajero.push({
-            ASIENTO: arrayNumAsiento[i],
-            TIPO_DOCUMENTO: $("#divAsiento_" + arrayNumAsiento[i] + " .sel_tipo_doc_asiento").val(),
-            NUM_DOCUMENTO: $("#divAsiento_" + arrayNumAsiento[i] + " .txt_nro_doc_asiento").val(),
-            FEC_NAC: $("#divAsiento_" + arrayNumAsiento[i] + " .txt_fec_nac_asiento").val() === "" ? null : getDateFromFormat($("#divAsiento_" + arrayNumAsiento[i] + " .txt_fec_nac_asiento").val(), 'yyyy-MM-dd'),
-            NOMBRES: $("#divAsiento_" + arrayNumAsiento[i] + " .txt_nom_asiento").val(),
-            APE_PAT: $("#divAsiento_" + arrayNumAsiento[i] + " .txt_ape_pat_asiento").val(),
-            APE_MAT: $("#divAsiento_" + arrayNumAsiento[i] + " .txt_ape_mat_asiento").val(),
-            SEXO: $("#divAsiento_" + arrayNumAsiento[i] + " .sel_sexo_asiento").val()
-        });
+$("#btn-continuar").click(function (e) {
+    const eventTarget = e.target;
+    debugger;
+    //find active panel
+    const activePanel = getActivePanel();
+    let activePanelNum = Array.from(DOMstrings.stepFormPanels).indexOf(activePanel);
+    
+    if (activePanelNum === 0)
+        $("#btn_reservar").click();
+    else if (activePanelNum === 1) {
+        $("#btn_siguiente").click();
+        $(this).val("Pagar");
     }
-    if (val_required_FCP($("#txt_correo"), "correo de contacto") === false) return;
-    if (val_required_FCP($("#txt_celular"), "celular de contacto") === false) return;
-
-    openLoading();
-
-    var objE = {
-        id_viaje: objViaje_activ.id_viaje,
-        tipo_reserva: $("#sel_tiporeserva").val(),
-        medio_pago: $("#sel_mediopago").val(),
-        adelanto: $("#txt_adelanto").val(),
-        correo: $("#txt_correo").val(),
-        id_pais: $("#sel_codPais").val(),
-        celular: $("#txt_celular").val(),
-        observacion: $("#txt_observacion").val(),
-        listaCliente: arrayPasajero,
-        nombre_tour: objViaje_activ.nombre,
-        fecha_ini: parseDateServer(objViaje_activ.fecha_ini),
-        fecha_fin: parseDateServer(objViaje_activ.fecha_fin)
-    }
-
-    $.ajax({
-        type: "POST",
-        url: "/Proceso/ActualizarReserva",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify({
-            objE: objE
-        }),
-        async: true,
-        beforeSend: function () {
-            $("#btn_guardar").attr("disabled", false);
-        },
-        success: function (data) {
-            if (!data.Activo) {
-                msg_OpenDay("e", data.Mensaje);
-                return;
-            }
-
-            mapearAsiento(false, objViaje_activ.id_viaje);
-            $("#pnl_reserva").modal('hide');
-
-            msg_OpenDay("c", "Se guardó correctamente");
-        },
-        error: function (data) {
-            msg_OpenDay("e", "Inconveniente en la operación");
-        },
-        complete: function () {
-            $("#btn_guardar").attr("disabled", false);
-            closeLoading();
-        }
-    });
-
+    else if (activePanelNum === 2)
+        guardarReservacion();
+    
 });
 function openLoading() {
     $("#page-loader").show();

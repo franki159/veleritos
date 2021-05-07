@@ -5,7 +5,6 @@ var valRND = Math.floor(Math.random() * 100);
 var arrayViaje_activ = [];
 var objViaje_activ = {};
 var arrayNumAsiento = [];
-var arrayPasajero = [];
 var montoTotal = 0;
 /*Inicializar Script*/
 $(function () {
@@ -295,7 +294,6 @@ $("#btn_reservar").click(function () {
     openLoading();
 
     var num_asien_selec = 0;
-    arrayPasajero = [];
     var ntotal = arrayNumAsiento.length * (objViaje_activ.precio - objViaje_activ.descuento);
     $("#pnl_reserva .modal-title").html("Registro de asientos | Precio: " + formatoNumero(objViaje_activ.precio, 2, ".", ",") + " | Total: " + formatoNumero(ntotal, 2, ".", ","));
 
@@ -427,12 +425,13 @@ $("#btn_reservar").click(function () {
 $("#btn_guardar").click(function () {
     $("#pnl_reserva .validator-error").remove();
     if (val_required_FCP($("#sel_mediopago"), "medio de pago") === false) return;
-    if (val_required_FCP($("#sel_tiporeserva"), "medio de pago") === false) return;
+    if (val_required_FCP($("#sel_tiporeserva"), "tipo reserva") === false) return;
     if (val_required_FCP($("#txt_adelanto"), "adelanto") === false) return;
 
     var ntotal = arrayNumAsiento.length * (objViaje_activ.precio - objViaje_activ.descuento);
     if (val_maxValue_FCP($("#txt_adelanto"), ntotal, "adelanto") === false) return;
 
+    var arrayPasajero = [];
     //Validando datos de los pasajeros
     for (var i = 0; i < arrayNumAsiento.length; i++) {
         if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .sel_tipo_doc_asiento"), "tipo de documento") === false) return;

@@ -15,5 +15,6 @@ namespace ENTIDAD
         public int ESTADO { get; set; }
         public int OPCION { get; set; }
         public EUsuario USUARIO { get; set; }
+        public string vPARAM1 { get; set; }
     }
 }

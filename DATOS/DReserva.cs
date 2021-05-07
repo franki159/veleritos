@@ -46,6 +46,51 @@ namespace DATOS
                 return objResult;
             }
         }
+        public static int AtenderReserva(EReserva objE)
+        {
+            using (SqlConnection cn = new SqlConnection(DConexion.Get_Connection(DConexion.DataBase.CnVelero)))
+            {
+                EReserva objResult = new EReserva();
+                using (SqlCommand cmd = new SqlCommand("sp_reserva_activar", cn))
+                {
+                    cmd.Parameters.AddWithValue("@id_reserva", objE.id_reserva);
+                    cmd.Parameters.AddWithValue("@usuario", objE.USUARIO.ID_USUARIO);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cn.Open();
+                    return cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        public static EReserva actualizarReservaCliente(EReserva objE)
+        {
+            using (SqlConnection cn = new SqlConnection(DConexion.Get_Connection(DConexion.DataBase.CnVelero)))
+            {
+                EReserva objResult = new EReserva();
+                using (SqlCommand cmd = new SqlCommand("sp_reserva_actualizar_cliente", cn))
+                {
+                    cmd.Parameters.AddWithValue("@id_reserva", 0).Direction = ParameterDirection.Output;
+                    cmd.Parameters.AddWithValue("@id_viaje", objE.id_viaje);
+                    cmd.Parameters.Add("@cod_reserva", SqlDbType.VarChar, 10).Direction = ParameterDirection.Output;
+                    cmd.Parameters.AddWithValue("@correo", objE.correo);
+                    cmd.Parameters.AddWithValue("@id_pais", objE.id_pais);
+                    cmd.Parameters.AddWithValue("@celular", objE.celular);
+                    cmd.Parameters.AddWithValue("@observacion", objE.observacion);
+                    cmd.Parameters.AddWithValue("@pasajeros", objE.vCliente);
+                    cmd.Parameters.AddWithValue("@precio_total", 0).Direction = ParameterDirection.Output;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cn.Open();
+                    cmd.ExecuteNonQuery();
+
+                    if (cmd.Parameters["@id_reserva"] != null)
+                    {
+                        objResult.id_reserva = Convert.ToDecimal(cmd.Parameters["@id_reserva"].Value);
+                        objResult.cod_reserva = (string)cmd.Parameters["@cod_reserva"].Value;
+                        objResult.total = Convert.ToDecimal(cmd.Parameters["@precio_total"].Value);
+                    }
+                }
+                return objResult;
+            }
+        }
         public static List<EReserva> ListarAsiento(EReserva objE)
         {
             List<EReserva> lista = new List<EReserva>();
@@ -74,6 +119,33 @@ namespace DATOS
             }
             return lista;
         }
-        
+        public static EReserva listarReservaxId(EReserva objE)
+        {
+            EReserva mItem = new EReserva();
+
+            using (SqlConnection cn = new SqlConnection(DConexion.Get_Connection(DConexion.DataBase.CnVelero)))
+            {
+                SqlCommand cmd = new SqlCommand("usp_mnt_solicitud", cn);
+                cmd.Parameters.AddWithValue("@id", objE.id_reserva);
+                cmd.Parameters.AddWithValue("@usuario", objE.USUARIO);
+                cmd.Parameters.AddWithValue("@opcion", objE.OPCION);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        mItem = new EReserva();
+                        //mItem.ID = dr.IsDBNull(dr.GetOrdinal("id")) ? 0 : dr.GetDecimal(dr.GetOrdinal("id"));
+                        mItem.ID_ENCRIP = EUtil.getEncriptar((dr.IsDBNull(dr.GetOrdinal("id_reserva")) ? 0 : dr.GetDecimal(dr.GetOrdinal("id_reserva"))).ToString());
+                        mItem.id_reserva = dr.IsDBNull(dr.GetOrdinal("id_reserva")) ? 0 : dr.GetDecimal(dr.GetOrdinal("id_reserva"));
+                        mItem.total = dr.IsDBNull(dr.GetOrdinal("total")) ? 0 : dr.GetDecimal(dr.GetOrdinal("total"));
+                        mItem.correo = dr.IsDBNull(dr.GetOrdinal("correo")) ? "" : dr.GetString(dr.GetOrdinal("correo"));
+                    }
+                }
+            }
+            return mItem;
+        }
     }
 }

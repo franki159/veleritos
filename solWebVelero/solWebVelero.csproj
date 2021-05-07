@@ -51,6 +51,9 @@
       <HintPath>..\packages\QrCode.Net.0.4.0.0\lib\net45\Gma.QrCodeNet.Encoding.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MercadoPago">
+      <HintPath>C:\Users\informatica3\Source\Repos\rump\packages\mercadopago-sdk.1.8.0\lib\net35\MercadoPago.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -65,6 +68,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
@@ -2533,8 +2537,9 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <Content Include="Scripts\Tour\SeleccionAsiento.js" />
-    <Content Include="Scripts\Tour\SeleccionViaje.js" />
+    <Content Include="Scripts\Tour\paymentGen.js" />
+    <Content Include="Scripts\Tour\seleccionAsiento.js" />
+    <Content Include="Scripts\Tour\seleccionViaje.js" />
     <Content Include="Scripts\Tour\index.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -2565,6 +2570,9 @@
     <Content Include="Views\Tour\Viaje.cshtml" />
     <Content Include="Views\Tour\SeleccionViaje.cshtml" />
     <Content Include="Views\Tour\SeleccionAsiento.cshtml" />
+    <Content Include="Views\Tour\paymentGen.cshtml" />
+    <Content Include="Views\Tour\pago_exitoso.cshtml" />
+    <Content Include="Views\Tour\pago_proceso.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1275,3 +1275,20 @@ a {
     border-radius: 6px;
     margin-bottom: 5px;
 }
+/*Estilo para carrito de compras mobile*/
+@media (max-width: 450px) {
+    .div-resumen-pay {
+        position: fixed;
+        bottom: 0;
+        padding: 0;
+        z-index: 3;
+    }
+
+    .hide-mobile {
+        display:none!important;
+    }
+
+    .show-mobile {
+        display:block;
+    }
+}

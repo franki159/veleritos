@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NCliente.cs" />
+    <Compile Include="NGeneral.cs" />
+    <Compile Include="NPago.cs" />
     <Compile Include="NPais.cs" />
     <Compile Include="NReserva.cs" />
     <Compile Include="NViaje.cs" />
