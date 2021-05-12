@@ -26,6 +26,10 @@ namespace NEGOCIOS
         {
             return DReserva.AtenderReserva(ent);
         }
+        public static int AnularReserva(EReserva ent)
+        {
+            return DReserva.AnularReserva(ent);
+        }
         public static EReserva listarReservaxId(EReserva ent)
         {
             return DReserva.listarReservaxId(ent);

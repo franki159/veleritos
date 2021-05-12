@@ -333,12 +333,11 @@ namespace solWebVelero.Controllers
 
         public PaymentStatus processPaymentResponse(dynamic payment, decimal numPedido, string p_email)
         {
+            EReserva objSol = new EReserva();
+            objSol.id_reserva = numPedido;
             PaymentStatus result_estado;
             try
             {
-                EReserva objSol = new EReserva();
-                objSol.id_reserva = numPedido;
-
                 if (payment.Status == MercadoPago.Common.PaymentStatus.approved || payment.Status == MercadoPago.Common.PaymentStatus.authorized)
                 {
                     //Actualiza el estado de la solicitud a APROBADO
@@ -348,7 +347,7 @@ namespace solWebVelero.Controllers
                     //Atendiendo solicitud
                     NReserva.AtenderReserva(objSol);
                     enviarMail(p_email, "aprobada", numPedido.ToString());
-
+                    
                     //Limpiando sesiones
                     Session["solicitudPedido"] = null;
                 }
@@ -358,7 +357,7 @@ namespace solWebVelero.Controllers
                     //Actualiza el estado de la solicitud a ANULADO
                     objSol.COMENTARIO = "cancelled::MercadoPago";
                     NGeneral.log_error("cancelled::" + JsonConvert.SerializeObject(payment), "pago");
-                    //NSolicitud.AnularSolicitud(objSol);
+                    NReserva.AnularReserva(objSol);
                      
                     //Limpiando sesiones
                     Session["solicitudPedido"] = null;
@@ -369,7 +368,7 @@ namespace solWebVelero.Controllers
                     //Actualiza el estado de la solicitud a ANULADO
                     objSol.COMENTARIO = "rejected::MercadoPago";
                     NGeneral.log_error("rejected::" + JsonConvert.SerializeObject(payment), "pago");
-                    //NSolicitud.AnularSolicitud(objSol);
+                    NReserva.AnularReserva(objSol);
 
                     //Limpiando sesiones
                     Session["solicitudPedido"] = null;
@@ -377,9 +376,12 @@ namespace solWebVelero.Controllers
                 else if (payment.Status == MercadoPago.Common.PaymentStatus.in_process)
                 {
                     //Caso particular de MercadoPago (pago pendiente de revision, se da hasta 6hrs para revision)
-                    savePayDatabase(payment.TransactionAmount, payment.Card.LastFourDigits, numPedido, 2, JsonConvert.SerializeObject(payment), 2, p_email, "in_process");
-                    enviarMail(p_email, "proceso", numPedido.ToString());
-
+                    //savePayDatabase(payment.TransactionAmount, payment.Card.LastFourDigits, numPedido, 2, JsonConvert.SerializeObject(payment), 2, p_email, "in_process");
+                    objSol.COMENTARIO = "rejected::MercadoPago";
+                    NGeneral.log_error("rejected::" + JsonConvert.SerializeObject(payment), "in_process");
+                    //Eliminando pago
+                    cancel_pay_mp(payment.Id);
+                    NReserva.AnularReserva(objSol);
                     //Limpiando sesiones
                     Session["solicitudPedido"] = null;
                 }
@@ -387,6 +389,7 @@ namespace solWebVelero.Controllers
                 {
                     //Error en la pasarela de pago. Intente nuevamente por favor
                     NGeneral.log_error("Estado no considerado::" + JsonConvert.SerializeObject(payment), "pago");
+                    NReserva.AnularReserva(objSol);
                     //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "Alerta", "alert('(E02) El pago no se realizó, volver a intentar.')", true);
                 }
 
@@ -395,11 +398,25 @@ namespace solWebVelero.Controllers
             catch (Exception ex)
             {
                 NGeneral.log_error("processPaymentResponse::" + (String.IsNullOrEmpty(ex.Message) ? ex.InnerException.Message : ex.Message), "pago");
+                NReserva.AnularReserva(objSol);
                 //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "Alerta", "alert('" + (String.IsNullOrEmpty(ex.Message) ? ex.InnerException.Message : ex.Message) + "')", true);
                 result_estado = 0;
             }
 
             return result_estado;
+        }
+        public void cancel_pay_mp(object id)
+        {
+            if (MercadoPago.SDK.AccessToken == null)
+                MercadoPago.SDK.AccessToken = ConfigurationManager.AppSettings.Get("ACCESS_TOKEN");
+            if (MercadoPago.SDK.ClientId == null)
+                MercadoPago.SDK.ClientId = ConfigurationManager.AppSettings.Get("CLIENT_ID");
+            if (MercadoPago.SDK.ClientSecret == null)
+                MercadoPago.SDK.ClientSecret = ConfigurationManager.AppSettings.Get("CLIENT_SECRET");
+
+            Payment payment = Payment.FindById((long)id);
+            payment.Status = MercadoPago.Common.PaymentStatus.cancelled;
+            payment.Update();
         }
         public static void enviarMail(string p_para, string p_tipo, string p_adicional)
         {

@@ -51,10 +51,27 @@ namespace DATOS
             using (SqlConnection cn = new SqlConnection(DConexion.Get_Connection(DConexion.DataBase.CnVelero)))
             {
                 EReserva objResult = new EReserva();
-                using (SqlCommand cmd = new SqlCommand("sp_reserva_activar", cn))
+                using (SqlCommand cmd = new SqlCommand("sp_reserva_estado", cn))
                 {
                     cmd.Parameters.AddWithValue("@id_reserva", objE.id_reserva);
                     cmd.Parameters.AddWithValue("@usuario", objE.USUARIO.ID_USUARIO);
+                    cmd.Parameters.AddWithValue("@estado", 1);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cn.Open();
+                    return cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        public static int AnularReserva(EReserva objE)
+        {
+            using (SqlConnection cn = new SqlConnection(DConexion.Get_Connection(DConexion.DataBase.CnVelero)))
+            {
+                EReserva objResult = new EReserva();
+                using (SqlCommand cmd = new SqlCommand("sp_reserva_estado", cn))
+                {
+                    cmd.Parameters.AddWithValue("@id_reserva", objE.id_reserva);
+                    cmd.Parameters.AddWithValue("@usuario", objE.USUARIO.ID_USUARIO);
+                    cmd.Parameters.AddWithValue("@estado", 0);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cn.Open();
                     return cmd.ExecuteNonQuery();

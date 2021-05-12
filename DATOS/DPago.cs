@@ -15,7 +15,7 @@ namespace DATOS
         {
             using (SqlConnection cn = new SqlConnection(DConexion.Get_Connection(DConexion.DataBase.CnVelero)))
             {
-                SqlCommand cmd = new SqlCommand("usp_mnt_pago", cn);
+                SqlCommand cmd = new SqlCommand("sp_mnt_pago", cn);
                 cmd.Parameters.AddWithValue("@id", objE.ID);
                 cmd.Parameters.AddWithValue("@num_card", objE.NUM_TARJETA);
                 cmd.Parameters.AddWithValue("@total", objE.TOTAL);
@@ -38,7 +38,7 @@ namespace DATOS
 
             using (SqlConnection cn = new SqlConnection(DConexion.Get_Connection(DConexion.DataBase.CnVelero)))
             {
-                SqlCommand cmd = new SqlCommand("usp_mnt_pago", cn);
+                SqlCommand cmd = new SqlCommand("sp_mnt_pago", cn);
                 cmd.Parameters.AddWithValue("@opcion", 3);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cn.Open();
