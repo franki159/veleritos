@@ -83,6 +83,14 @@ namespace solWebVelero.Controllers
             
             return View();
         }
+        public ActionResult pago_exitoso()
+        {
+            return View();
+        }
+        public ActionResult pago_error()
+        {
+            return View();
+        }
         public JsonResult ListaTour(ETour objE)
         {
             ERespuestaJson objRespuesta = new ERespuestaJson();
@@ -150,7 +158,7 @@ namespace solWebVelero.Controllers
 
                 objResult = NCliente.BuscarClientesxDocumento(objE);
 
-                if (objE.ID_CLIENTE != 0)
+                if (objResult.ID_CLIENTE != 0)
                 {
                     objRespuesta.Resultado = objResult;
                 }

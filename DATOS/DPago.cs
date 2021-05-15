@@ -20,7 +20,7 @@ namespace DATOS
                 cmd.Parameters.AddWithValue("@num_card", objE.NUM_TARJETA);
                 cmd.Parameters.AddWithValue("@total", objE.TOTAL);
                 cmd.Parameters.AddWithValue("@estado", objE.ESTADO);
-                cmd.Parameters.AddWithValue("@solicitud_id", objE.SOLICITUD_ID);
+                cmd.Parameters.AddWithValue("@id_reserva", objE.SOLICITUD_ID);
                 cmd.Parameters.AddWithValue("@observacion", objE.OBSERVACION);
                 cmd.Parameters.AddWithValue("@usuario", objE.USUARIO);
                 cmd.Parameters.AddWithValue("@email", objE.EMAIL);

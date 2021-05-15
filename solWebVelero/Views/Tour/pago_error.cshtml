@@ -20,11 +20,11 @@
     <!-- Custom fonts for this template-->
     <link href="~/Content/templateSoft/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
-    <link href="~/Content/css/stylePropio.css?v=<@DateTime.Now.ToString("yyyyMMddHHmm")>" rel="stylesheet" />
+    <link href="~/Content/css/stylePropio.css" rel="stylesheet" />
     <!-- Custom styles for this template-->
     <link href="~/Content/templateSoft/css/sb-admin-2.css" rel="stylesheet">
 </head>
-<body class="bg-gradient-primary" style="background-image: url(~/Content/img/fondo_rump.jpg); background-repeat: no-repeat; background-position: top center;">
+<body class="bg-gradient-primary" style="background-image: url(img/fondo_rump.jpg); background-repeat: no-repeat; background-position: top center;">
     <div style="padding-left: 1.5rem;padding-right: 1.5rem;">
 
         <!-- Outer Row -->
@@ -32,14 +32,25 @@
             <div class="col-xl-10 col-lg-12 col-md-9">
                 <div class="o-hidden border-0 my-5">
                     <div class="card-body p-0">
-                        <div class="wrapper text-center"><h1>¡FELICIDADES!</h1></div>
                         <p>&nbsp;</p>
-                        <div class="sub-wrapper">Su pedido N°: 
+                        <div class="sub-wrapper">
                             @{
-                                var objPedido = Request.QueryString["vtoken"];
-                                EUtil.getDesencriptar(objPedido);
+                                var objTipo = Request.QueryString["vTipo"];
+
+                                switch (EUtil.getDesencriptar(objTipo))
+                                {
+                                    case "cancelled":
+                                    case "rejected":
+                                        @:Lo setimos su pago no se realizó correctamente
+                                        break;
+                                    case "in_process":
+                                       @:Su pago está pendiente de verificación. Se le comunicará a través de correo cuando haya sido confirmado
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
-                            ha sido pagado exitosamente. De ser necesario nos comunicaremos con usted para coordinar detalles de la entrega
+
                         </div>
                         <p>&nbsp;</p>
                     </div>
@@ -47,6 +58,7 @@
             </div>
         </div>
     </div>
-    <script src="~/Content/templateSoft/vendor/jquery/jquery.min.js"></script>
+
+    <script src="~/Content/templatePage/js/jquery.min.js"></script>
 </body>
 </html>
