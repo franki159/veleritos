@@ -284,7 +284,7 @@ $("#btn_reservar").click(function () {
                      '                   <div class="form-group">' +
                      '                       <label>Documento de Cliente</label>' +
                      '                       <div class="input-group">' +
-                     '                           <input class="form-control input-sm integerFCP txt_nro_doc_asiento" type="text" />' +
+                     '                           <input style="height: auto!important;" class="form-control input-sm integerFCP txt_nro_doc_asiento" type="text" />' +
                      '                           <div class="input-group-append">' +
                      '                               <button class="btn btn-primary btn-buscar-cliente" attr-num-asiento="' + arrayNumAsiento[i] + '"><i class="fa fa-search"></i></button>' +
                      '                           </div>' +
@@ -294,25 +294,25 @@ $("#btn_reservar").click(function () {
                      '               <div class="col-md-4">' +
                      '                   <div class="form-group">' +
                      '                       <label>Fecha Nac.</label>' +
-                     '                       <input class="form-control txt_fec_nac_asiento" type="date">' +
+                     '                       <input style="height: auto!important;" class="form-control txt_fec_nac_asiento" type="date">' +
                      '                   </div>' +
                      '               </div>' +
                      '               <div class="col-md-4">' +
                      '                   <div class="form-group">' +
                      '                       <label>Nombres</label>' +
-                     '                       <input class="form-control input-sm txt_nom_asiento" type="text" />' +
+                     '                       <input style="height: auto!important;" class="form-control input-sm txt_nom_asiento" type="text" />' +
                      '                   </div>' +
                      '               </div>' +
                      '               <div class="col-md-3">' +
                      '                   <div class="form-group">' +
                      '                       <label>Ape. Paterno</label>' +
-                     '                       <input class="form-control input-sm txt_ape_pat_asiento" type="text" />' +
+                     '                       <input style="height: auto!important;" class="form-control input-sm txt_ape_pat_asiento" type="text" />' +
                      '                   </div>' +
                      '               </div>' +
                      '               <div class="col-md-3">' +
                      '                   <div class="form-group">' +
                      '                       <label>Ape. Materno</label>' +
-                     '                       <input class="form-control input-sm txt_ape_mat_asiento" type="text" />' +
+                     '                       <input style="height: auto!important;" class="form-control input-sm txt_ape_mat_asiento" type="text" />' +
                      '                   </div>' +
                      '               </div>' +
                      '               <div class="col-md-2">' +
