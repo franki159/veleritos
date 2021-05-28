@@ -15,6 +15,7 @@ $(function () {
 });
 function listar_viaje(p_sync) {
     openLoading();
+
     var objE = {
         ID_ENCRIP: getUrlParameter("fromViajeId")
     };
@@ -390,6 +391,22 @@ $("#btn_reservar").click(function () {
     });
 
     $("#pnl_reserva").modal("show");
+});
+$("#btn_siguiente").click(function () {
+    var arrayPasajero = [];
+    //Validando datos de los pasajeros
+    for (var i = 0; i < arrayNumAsiento.length; i++) {
+        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .sel_tipo_doc_asiento"), "tipo de documento") === false) return false;
+        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .txt_nro_doc_asiento"), "número de documento") === false) return false;
+        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .txt_fec_nac_asiento"), "fecha de nacimiento") === false) return false;
+        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .txt_nom_asiento"), "nombre") === false) return false;
+        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .txt_ape_pat_asiento"), "apellido paterno") === false) return false;
+        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .txt_ape_mat_asiento"), "apellido materno") === false) return false;
+        if (val_required_FCP($("#divAsiento_" + arrayNumAsiento[i] + " .sel_sexo_asiento"), "sexo") === false) return false;
+
+    }
+    if (val_required_FCP($("#txt_correo"), "correo de contacto") === false) return false;
+    if (val_required_FCP($("#txt_celular"), "celular de contacto") === false) return false;
 });
 $("#btn-continuar").click(function (e) {
     const eventTarget = e.target;

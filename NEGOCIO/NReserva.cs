@@ -34,5 +34,9 @@ namespace NEGOCIOS
         {
             return DReserva.listarReservaxId(ent);
         }
+        public static List<EReserva> ListarReservaDatos(EReserva ent)
+        {
+            return DReserva.ListarReservaDatos(ent);
+        }
     }
 }

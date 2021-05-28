@@ -2550,6 +2550,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Content Include="Scripts\Tour\paymentGen.js" />
+    <Content Include="Scripts\Tour\pago_exitoso.js" />
     <Content Include="Scripts\Tour\seleccionAsiento.js" />
     <Content Include="Scripts\Tour\seleccionViaje.js" />
     <Content Include="Scripts\Tour\index.js" />

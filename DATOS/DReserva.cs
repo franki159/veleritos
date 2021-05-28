@@ -134,6 +134,44 @@ namespace DATOS
             }
             return lista;
         }
+        public static List<EReserva> ListarReservaDatos(EReserva objE)
+        {
+            List<EReserva> lista = new List<EReserva>();
+
+            using (SqlConnection cn = new SqlConnection(DConexion.Get_Connection(DConexion.DataBase.CnVelero)))
+            {
+                SqlCommand cmd = new SqlCommand("sp_reserva_listarxId", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id_reserva", objE.id_reserva);
+                cn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        EReserva mItem = new EReserva();
+                        mItem.cod_reserva = dr.IsDBNull(dr.GetOrdinal("cod_reserva")) ? string.Empty : dr.GetString(dr.GetOrdinal("cod_reserva"));
+                        mItem.fecha_ini = dr.IsDBNull(dr.GetOrdinal("fecha_ini")) ? DateTime.MinValue : dr.GetDateTime(dr.GetOrdinal("fecha_ini"));
+                        mItem.fecha_fin = dr.IsDBNull(dr.GetOrdinal("fecha_fin")) ? DateTime.MinValue : dr.GetDateTime(dr.GetOrdinal("fecha_fin"));
+                        mItem.adelanto = dr.IsDBNull(dr.GetOrdinal("adelanto")) ? 0 : dr.GetDecimal(dr.GetOrdinal("adelanto"));
+                        mItem.correo = dr.IsDBNull(dr.GetOrdinal("correo")) ? string.Empty : dr.GetString(dr.GetOrdinal("correo"));
+                        mItem.nombre_tour = dr.IsDBNull(dr.GetOrdinal("nombre")) ? string.Empty : dr.GetString(dr.GetOrdinal("nombre"));
+                        mItem.DESCRIPCION = dr.IsDBNull(dr.GetOrdinal("descripcion")) ? string.Empty : dr.GetString(dr.GetOrdinal("descripcion"));
+                        mItem.observacion = dr.IsDBNull(dr.GetOrdinal("observacion")) ? string.Empty : dr.GetString(dr.GetOrdinal("observacion"));
+                        mItem.total = dr.IsDBNull(dr.GetOrdinal("total")) ? 0 : dr.GetDecimal(dr.GetOrdinal("total"));
+
+                        mItem.asiento = dr.IsDBNull(dr.GetOrdinal("asiento")) ? 0 : dr.GetInt32(dr.GetOrdinal("asiento"));
+                        mItem.precio = dr.IsDBNull(dr.GetOrdinal("precio")) ? 0 : dr.GetDecimal(dr.GetOrdinal("precio"));
+                        mItem.nom_cli = dr.IsDBNull(dr.GetOrdinal("cliente")) ? string.Empty : dr.GetString(dr.GetOrdinal("cliente"));
+                        mItem.ape_pat = dr.IsDBNull(dr.GetOrdinal("ape_pat")) ? string.Empty : dr.GetString(dr.GetOrdinal("ape_pat"));
+                        mItem.ape_mat = dr.IsDBNull(dr.GetOrdinal("ape_mat")) ? string.Empty : dr.GetString(dr.GetOrdinal("ape_mat"));
+                        mItem.vDocumento = dr.IsDBNull(dr.GetOrdinal("num_documento")) ? string.Empty : dr.GetString(dr.GetOrdinal("num_documento"));
+                        lista.Add(mItem);
+                    }
+                }
+            }
+            return lista;
+        }
         public static EReserva listarReservaxId(EReserva objE)
         {
             EReserva mItem = new EReserva();

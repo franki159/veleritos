@@ -44,6 +44,7 @@
     <Compile Include="DConexion.cs" />
     <Compile Include="DCliente.cs" />
     <Compile Include="DGeneral.cs" />
+    <Compile Include="SqlHelper.cs" />
     <Compile Include="DPago.cs" />
     <Compile Include="DPais.cs" />
     <Compile Include="DReserva.cs" />

@@ -21,6 +21,7 @@ namespace ENTIDAD
         public decimal adelanto { get; set; }
         public decimal total { get; set; }
         public int asiento { get; set; }
+        public decimal precio { get; set; }
         public int cant_asiento { get; set; }
         public string observacion { get; set; }
         public string correo { get; set; }
@@ -28,6 +29,9 @@ namespace ENTIDAD
         public string celular { get; set; }
         public List<ECliente> listaCliente { get; set; }
         public string vCliente { get; set; }
+        public string nom_cli { get; set; }
+        public string ape_pat { get; set; }
+        public string ape_mat { get; set; }
         public string vDocumento { get; set; }
         //PAra los pagos
         public string COMENTARIO { get; set; }

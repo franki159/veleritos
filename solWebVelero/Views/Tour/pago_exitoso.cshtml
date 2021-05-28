@@ -1,4 +1,11 @@
 ﻿@using ENTIDAD;
+@using NEGOCIOS;
+@using Gma.QrCodeNet.Encoding;
+@using Gma.QrCodeNet.Encoding.Windows.Render;
+@using System.Drawing;
+@using System.Drawing.Imaging;
+@using System.IO;
+
 @{
     Layout = null;
 }
@@ -24,22 +31,15 @@
     <!-- Custom styles for this template-->
     <link href="~/Content/templateSoft/css/sb-admin-2.css" rel="stylesheet">
 </head>
-<body class="bg-gradient-primary" style="background-image: url(~/Content/img/fondo_rump.jpg); background-repeat: no-repeat; background-position: top center;">
-    <div style="padding-left: 1.5rem;padding-right: 1.5rem;">
-
+<body>
+    <div>
         <!-- Outer Row -->
         <div class="row justify-content-center">
             <div class="col-xl-10 col-lg-12 col-md-9">
-                <div class="o-hidden border-0 my-5">
+                <div class="o-hidden border-0 my-4">
                     <div class="card-body p-0">
-                        <div class="wrapper text-center"><h1>¡FELICIDADES!</h1></div>
-                        <p>&nbsp;</p>
-                        <div class="sub-wrapper">Su pedido N°: 
-                            @{
-                                var objPedido = Request.QueryString["vtoken"];
-                                EUtil.getDesencriptar(objPedido);
-                            }
-                            ha sido pagado exitosamente. De ser necesario nos comunicaremos con usted para coordinar detalles de la entrega
+                        <div class="wrapper text-center" style="color: #27b546"><h3>¡Compra exitosa!</h3></div>
+                        <div id="body-content">
                         </div>
                         <p>&nbsp;</p>
                     </div>
@@ -48,5 +48,8 @@
         </div>
     </div>
     <script src="~/Content/templateSoft/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Scripts/Tour/pago_exitoso.js"></script>
+    <script src="~/Content/js/general.js"></script>
+    <script src="~/Content/js/all/bootstrap.min.js"></script>
 </body>
 </html>

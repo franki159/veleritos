@@ -417,3 +417,6 @@ $("#btn_guardar").click(function (evt) {
         }
     });
 });
+$("#sel_tour").on('change', function () {
+    $("#txt_nombre").val($("#sel_tour option:selected").text());
+})
