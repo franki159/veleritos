@@ -33,26 +33,17 @@
                 <div class="o-hidden border-0 my-5">
                     <div class="card-body p-0">
                         <p>&nbsp;</p>
-                        <div class="sub-wrapper">
-                            @{
-                                var objTipo = Request.QueryString["vTipo"];
-
-                                switch (EUtil.getDesencriptar(objTipo))
-                                {
-                                    case "cancelled":
-                                    case "rejected":
-                                        @:Lo setimos su pago no se realizó correctamente
-                                        break;
-                                    case "in_process":
-                                       @:Lo setimos su pago no se realizó correctamente
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
-
+                        <div style="text-align: center;">
+                            <p class="sub-wrapper">
+                                ( ˘︹˘ )
+                            </p>
+                            <p class="sub-wrapper">
+                                Lo sentimos
+                            </p>
+                            <span style="font-size: 20px;">su pago no se realizó correctamente</span>
+                            <p>&nbsp;</p>
+                            <a class="btn btn-outline-primary" href="./" style="border-width: 2px;font-weight: bold;">Regresar</a>
                         </div>
-                        <p>&nbsp;</p>
                     </div>
                 </div>
             </div>
