@@ -18,7 +18,7 @@ namespace solWebVelero.Controllers
             return View();
         }
 
-        public ActionResult CambiarClave()
+        public ActionResult CambioClave()
         {
             ViewBag.Title = "Cambiar Clave";
 
@@ -128,12 +128,12 @@ namespace solWebVelero.Controllers
                     objRespuesta.Error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
                     return Json(objRespuesta);
                 }
-                EUsuario eSession = (EUsuario)Session["UserData"];
+                EUsuario eSession = (EUsuario)Session["ssUserVelero"];
 
                 eSession.PASSWORD = clave;
                 NUsuario.CambiarClave(eSession);
 
-                objRespuesta.Resultado = "permiso.aspx";
+                objRespuesta.Resultado = "Permiso";
             }
             catch (Exception ex)
             {

@@ -32,15 +32,15 @@
                 $("#frmCambiar :input").attr("disabled", true);
             },
             success: function (data) {
-                if (!data.d.Activo) {
-                    msg_OpenDay("e", data.d.Mensaje);
+                if (!data.Activo) {
+                    msg_OpenDay("e", data.Mensaje);
                     $("#clave").val("");
                     $("#claveR").val("");
                     $("#frmCambiar :input").removeAttr("disabled");
                     return;
                 }
 
-                window.location = data.d.Resultado;
+                window.location = data.Resultado;
             },
             error: function (data) {
                 msg_OpenDay("e", "Inconveniente en la operación");

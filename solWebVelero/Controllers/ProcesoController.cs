@@ -2,15 +2,20 @@
 using Gma.QrCodeNet.Encoding;
 using Gma.QrCodeNet.Encoding.Windows.Render;
 using NEGOCIOS;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace solWebVelero.Controllers
 {
@@ -81,7 +86,7 @@ namespace solWebVelero.Controllers
                 }
                 else
                 {
-                    objRespuesta = BuscarPersonaPorDni(objE.NUM_DOCUMENTO);
+                    objRespuesta = getDatosPersona(objE.NUM_DOCUMENTO);
                 }
             }
             catch (Exception ex)
@@ -90,6 +95,50 @@ namespace solWebVelero.Controllers
             }
 
             return Json(objRespuesta);
+        }
+        public static ERespuestaJson getDatosPersona(string numDocumento)
+        {
+            ERespuestaJson objRespuesta = new ERespuestaJson();
+            HttpClient clientHttp = new HttpClient();
+            string tipoDoc = "";
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+            if (numDocumento.Length > 8)
+            {
+                clientHttp.BaseAddress = new Uri(ConfigurationManager.AppSettings.Get("servicioSunat"));
+                tipoDoc = "ruc";
+            }
+            else
+            {
+                clientHttp.BaseAddress = new Uri(ConfigurationManager.AppSettings.Get("servicioReniec"));
+                tipoDoc = "dni";
+            }
+
+            var request = clientHttp.GetAsync(tipoDoc + "?numero=" + numDocumento).Result;
+            //var request = clientHttp.GetAsync(numDocumento).Result;
+
+            if (request.IsSuccessStatusCode)
+            {
+                ECliente objE = new ECliente();
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                ECliente persons = js.Deserialize<ECliente>(request.Content.ReadAsStringAsync().Result);
+                objE.ID_CLIENTE = 0;
+                objE.APE_PAT = persons.apellidoPaterno;
+                objE.APE_MAT = persons.apellidoMaterno;
+                objE.NOMBRES = persons.nombre;
+                objE.TIPO_DOCUMENTO = persons.tipoDocumento;
+                objE.DIRECCION = persons.DIRECCION;
+                objE.NUM_DOCUMENTO = numDocumento;
+                objE.SEXO = "";
+                objE.FEC_NAC = DateTime.MinValue;
+                objRespuesta.Resultado = objE;
+            }
+            else
+            {
+                objRespuesta.Error("Error en el servicio consultado.");
+            }
+
+            return objRespuesta;
         }
         public static ERespuestaJson BuscarPersonaPorDni(string NumeroDocumento = "")
         {
@@ -199,11 +248,11 @@ namespace solWebVelero.Controllers
                     vPasajeros += item.APE_PAT + ",";
                     vPasajeros += item.APE_MAT + ",";
                     vPasajeros += item.SEXO + "|";
-                    
+
                     pasajeroHTML += "<tr style='font -size:16px;color:#05589e'>";
-                    pasajeroHTML += "<td style='text-align:left;width:50%'>"+ item.NOMBRES + " " + item.APE_PAT + " " + item.APE_MAT + "</td>";
-                    pasajeroHTML += "<td style='text-align:center;'>"+ item.NUM_DOCUMENTO + "</td>";
-                    pasajeroHTML += "<td style='text-align:right'>"+item.ASIENTO + "</td></tr>";
+                    pasajeroHTML += "<td style='text-align:left;width:50%'>" + item.NOMBRES + " " + item.APE_PAT + " " + item.APE_MAT + "</td>";
+                    pasajeroHTML += "<td style='text-align:center;'>" + item.NUM_DOCUMENTO + "</td>";
+                    pasajeroHTML += "<td style='text-align:right'>" + item.ASIENTO + "</td></tr>";
                 }
                 pasajeroHTML += "</tbody></table>";
 
@@ -245,7 +294,7 @@ namespace solWebVelero.Controllers
                     // Open the file to read from.
                     string readText = System.IO.File.ReadAllText(path);
 
-                    correo.Mensaje = String.Format(readText, "Tour de prueba", objReservaResultado.cod_reserva, objE.fecha_ini.ToString("dd/MM/yyyy"), objE.fecha_ini.ToString("hh:mm") + " - " + objReservaResultado.fecha_fin.ToString("hh:mm") , pasajeroHTML, String.Format("{0:n0}", objReservaResultado.total));
+                    correo.Mensaje = String.Format(readText, "Tour de prueba", objReservaResultado.cod_reserva, objE.fecha_ini.ToString("dd/MM/yyyy"), objE.fecha_ini.ToString("hh:mm") + " - " + objReservaResultado.fecha_fin.ToString("hh:mm"), pasajeroHTML, String.Format("{0:n0}", objReservaResultado.total));
                     //correo.EnviarImagen();
                 }
             }

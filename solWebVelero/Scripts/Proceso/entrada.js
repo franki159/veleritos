@@ -393,6 +393,7 @@ $("#btn_reservar").click(function () {
             }),
             async: true,
             success: function (data) {
+                debugger;
                 if (!data.Activo) {
                     msg_OpenDay("e", "No se encontró el número de documento. Deberá ingresar los datos");
                     return;

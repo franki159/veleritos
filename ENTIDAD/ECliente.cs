@@ -24,5 +24,14 @@ namespace ENTIDAD
         public DateTime FEC_NAC { get; set; }
         public string TIPO { get; set; }
         public int OPCION { get; set; }
+
+        /*Entidad para Servicio Web*/
+        public string nombre { get; set; }
+        public string tipoDocumento { get; set; }
+        public string numeroDocumento { get; set; }
+        public string estado { get; set; }
+        public string condicion { get; set; }
+        public string apellidoPaterno { get; set; }
+        public string apellidoMaterno { get; set; }
     }
 }

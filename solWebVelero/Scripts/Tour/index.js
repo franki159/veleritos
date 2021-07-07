@@ -33,6 +33,9 @@ function listar_tour(p_sync) {
                 return;
             }
             
+            //Link boton reservar ahora
+            $("#btn_reserva_ahora").attr("href", '/Tour/SeleccionViaje?fromTourId=' + encodeURIComponent(data.Resultado[0].ID_ENCRIP));
+
             var html = '';
             arrayTour_activ = [];
             for (var i = 0; i < data.Resultado.length; i++) {

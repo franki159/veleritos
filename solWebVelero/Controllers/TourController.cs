@@ -164,7 +164,7 @@ namespace solWebVelero.Controllers
                 }
                 else
                 {
-                    objRespuesta = ProcesoController.BuscarPersonaPorDni(objE.NUM_DOCUMENTO);
+                    objRespuesta = ProcesoController.getDatosPersona(objE.NUM_DOCUMENTO);
                 }
             }
             catch (Exception ex)
@@ -277,18 +277,21 @@ namespace solWebVelero.Controllers
                 var imgBase64 = "data:image/png;base64," + inputAsString;
                 //******************* Listado de los pasajeros ************************
                 var pasajeroHTML = "";
+                decimal ntotal = 0;
                 foreach (EReserva item in listadoReserva)
                 {
                     pasajeroHTML += "<tr style='font-size:12px;color:#333'>";
                     pasajeroHTML += "<td style='text-align:left;width:50%'>" + item.nom_cli + " " + item.ape_pat + " " + item.ape_mat + "</td>";
                     pasajeroHTML += "<td style='text-align:center;'>" + item.vDocumento + "</td>";
                     pasajeroHTML += "<td style='text-align:right'>" + item.asiento + "</td></tr>";
+
+                    ntotal += item.total;
                 }
 
                 string path = System.Web.HttpContext.Current.Server.MapPath("~/Controllers/PlantillaHTML/CorreoReserva.txt");
                 // Open the file to read from.
                 string readText = System.IO.File.ReadAllText(path);
-                objRespuesta.Resultado = String.Format(readText, listadoReserva[0].nombre_tour, listadoReserva[0].cod_reserva, "<img style='width:150px;' src='" + imgBase64 + "'>", listadoReserva[0].fecha_ini.ToString("dd/MM/yyyy"), listadoReserva[0].fecha_ini.ToString("hh:mm") + " - " + listadoReserva[0].fecha_fin.ToString("hh:mm"), pasajeroHTML, String.Format("{0:n0}", listadoReserva[0].total));
+                objRespuesta.Resultado = String.Format(readText, listadoReserva[0].nombre_tour, listadoReserva[0].cod_reserva, "<img style='width:150px;' src='" + imgBase64 + "'>", listadoReserva[0].fecha_ini.ToString("dd/MM/yyyy"), listadoReserva[0].fecha_ini.ToString("hh:mm") + " - " + listadoReserva[0].fecha_fin.ToString("hh:mm"), pasajeroHTML, String.Format("{0:n0}", ntotal));
 
             }
             catch (Exception ex)

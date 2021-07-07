@@ -2522,6 +2522,7 @@
     <Content Include="Content\templatePage\scss\bootstrap\_utilities.scss" />
     <Content Include="Content\templatePage\scss\bootstrap\_variables.scss" />
     <Content Include="Content\templatePage\scss\style.scss" />
+    <None Include="Properties\PublishProfiles\WebVelero.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -2539,7 +2540,7 @@
     <Content Include="Scripts\Proceso\entrada.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\Seguridad\cambiarclave.js" />
+    <Content Include="Scripts\Seguridad\cambioclave.js" />
     <Content Include="Scripts\Seguridad\login.js" />
     <Content Include="Scripts\Seguridad\permiso.js" />
     <None Include="Service References\wsConsultaDNI\serdni.disco" />
@@ -2570,7 +2571,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Seguridad\Login.cshtml" />
-    <Content Include="Views\Seguridad\CambiarClave.cshtml" />
+    <Content Include="Views\Seguridad\CambioClave.cshtml" />
     <Content Include="Views\Seguridad\Permiso.cshtml" />
     <Content Include="Views\Mantenimiento\Empleado.cshtml" />
     <Content Include="Views\Mantenimiento\Embarcacion.cshtml" />

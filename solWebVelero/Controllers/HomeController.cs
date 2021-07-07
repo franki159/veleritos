@@ -39,7 +39,7 @@ namespace solWebVelero.Controllers
             Session.Clear();
 
             ERespuestaJson objRespuesta = new ERespuestaJson();
-            objRespuesta.Resultado = "Login";
+            objRespuesta.Resultado = "Seguridad/Login";
             return Json(objRespuesta);
         }
         public JsonResult InfoSesion()
@@ -126,20 +126,21 @@ namespace solWebVelero.Controllers
         {
             ERespuestaJson objRespuesta = new ERespuestaJson();
             HttpClient clientHttp = new HttpClient();
-            string tipoDoc = "";
+            //string tipoDoc = "";
 
             if (objE.NUM_DOC.Length > 8)
             {
                 clientHttp.BaseAddress = new Uri(ConfigurationManager.AppSettings.Get("servicioSunat"));
-                tipoDoc = "ruc";
+                //tipoDoc = "ruc";
             }
             else
             {
                 clientHttp.BaseAddress = new Uri(ConfigurationManager.AppSettings.Get("servicioReniec"));
-                tipoDoc = "dni";
+                //tipoDoc = "dni";
             }
 
-            var request = clientHttp.GetAsync(tipoDoc + "/" + objE.NUM_DOC).Result;
+            //var request = clientHttp.GetAsync(tipoDoc + "/" + objE.NUM_DOC).Result;
+            var request = clientHttp.GetAsync(objE.NUM_DOC).Result;
             if (request.IsSuccessStatusCode)
             {
                 objRespuesta.Resultado = request.Content.ReadAsStringAsync().Result;
